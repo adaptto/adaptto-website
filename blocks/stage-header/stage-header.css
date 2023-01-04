@@ -1,0 +1,9 @@
+.stage-header p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+  
+.stage-header .button-container {
+  display: inline-block;
+  margin-right: 1rem;
+}

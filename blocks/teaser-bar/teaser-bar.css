@@ -1,0 +1,15 @@
+.teaser-bar > div {
+  display: inline-block;
+  vertical-align: top;
+  width: 24%;
+  margin: 0;
+  padding: 0;
+}
+
+.teaser-bar h2 {
+  font-size: 24px;
+}
+
+.teaser-bar > div > div {
+  padding: 1rem;
+}
