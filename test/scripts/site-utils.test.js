@@ -9,5 +9,6 @@ describe('site-utils', () => {
     expect(getSiteRoot('/')).to.equal('/');
     expect(getSiteRoot('/2021/')).to.equal('/2021/');
     expect(getSiteRoot('/2021/mypage')).to.equal('/2021/');
+    expect(getSiteRoot('/2021/mypage/mysubpage/')).to.equal('/2021/');
   });
 });
