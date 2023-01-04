@@ -1,0 +1,7 @@
+{
+  "project": "adaptTo()",
+  "outerHost": "adaptto-website--adaptto.hlx.live",
+  "host": "adapt.to",
+  "byocdn": true,
+  "pushDownSelector": "header"
+}
