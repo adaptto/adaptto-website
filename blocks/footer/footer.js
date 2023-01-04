@@ -1,4 +1,5 @@
 import { readBlockConfig, decorateIcons } from '../../scripts/lib-franklin.js';
+import { getSiteRoot } from '../../scripts/site-utils.js';
 
 /**
  * loads and decorates the footer
@@ -9,7 +10,7 @@ export default async function decorate(block) {
   const cfg = readBlockConfig(block);
   block.textContent = '';
 
-  const footerPath = cfg.footer || '/footer';
+  const footerPath = cfg.footer || getSiteRoot(document.location.pathname) + 'footer';
   const resp = await fetch(`${footerPath}.plain.html`);
   const html = await resp.text();
   const footer = document.createElement('div');
