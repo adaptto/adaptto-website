@@ -1,0 +1,32 @@
+version: 1
+
+indices:
+  speakers:
+    include:
+      - '/speakers/*'
+    target: /speakers/query-index
+    properties:
+      name:
+        select: head > meta[property="og:title"]
+        value: |
+          attribute(el, 'content')
+      image:
+        select: head > meta[property="og:image"]
+        value: |
+          match(attribute(el, 'content'), 'https:\/\/[^/]+(\/.*)')
+      affiliation:
+        select: head > meta[name="affiliation"]
+        value: |
+          attribute(el, 'content')
+      twitter:
+        select: head > meta[name="twitter"]
+        value: |
+          attribute(el, 'content')
+      speaker:
+        select: head > meta[name="speaker"]
+        value: |
+          attribute(el, 'content')
+      uptoyear:
+        select: head > meta[name="uptoyear"]
+        value: |
+          attribute(el, 'content')
