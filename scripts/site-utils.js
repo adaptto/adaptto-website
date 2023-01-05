@@ -7,7 +7,7 @@
  */
 // eslint-disable-next-line import/prefer-default-export
 export function getSiteRoot(pathname) {
-  const regex = /^(\/[^/]+\/)(.*)?$/;
+  const regex = /^(\/[^/]+\/)(.+)?$/;
   const result = pathname.match(regex);
   if (result) {
     return result[1];
