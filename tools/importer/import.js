@@ -1,10 +1,9 @@
 /* global */
 /* eslint-disable no-console, class-methods-use-this */
 
-const pageRegex = /^\/content\/adaptto(.+)\.helix\.html$/;
-const pageFragmentRegex = /^\/content\/adaptto(.+)\.helix-fragment-(.+)\.html$/;
-const pageSpecialRegex = /^\/content\/adaptto(.+)\.helix-(.+)\.html$/;
+const pageRegex = /^\/content\/adaptto(.+)\/en(.+)?\.helix(-(.+))?\.html$/;
 const speakerRegex = /^\/content\/dam\/adaptto\/production\/speaker\/(.+)\.helix(\.(.+))?\.html$/;
+const suffixFragmentRegex = /^fragment-(.+)$/;
 
 export default {
 
@@ -25,26 +24,29 @@ export default {
 
     const pageMatch = pathname.match(pageRegex);
     if (pageMatch) {
-      return pageMatch[1];
-    }
-
-    const pageFragmentMatch = pathname.match(pageFragmentRegex);
-    if (pageFragmentMatch) {
-      return `${pageFragmentMatch[1]}/fragments/${pageFragmentMatch[2]}`;
-    }
-
-    const pageSpecialMatch = pathname.match(pageSpecialRegex);
-    if (pageSpecialMatch) {
-      return `${pageSpecialMatch[1]}/${pageSpecialMatch[2]}`;
+      const year = pageMatch[1];
+      const localPath = pageMatch[2] ?? "/index";
+      const suffix = pageMatch[4];
+      if (suffix) {
+        const suffixFragmentMatch = suffix.match(suffixFragmentRegex)
+        if (suffixFragmentMatch) {
+          return `${year}/fragments/${suffixFragmentMatch[1]}`;
+        }
+        return `${year}/${suffix}`;
+      }
+      else {
+        return `${year}${localPath}`;
+      }
     }
 
     const speakerMatch = pathname.match(speakerRegex);
     if (speakerMatch) {
+      const speaker = speakerMatch[1]
       const variation = speakerMatch[3];
       if (variation) {
-        return `/speakers/${speakerMatch[1]}-${speakerMatch[3]}`;
+        return `/speakers/${speaker}-${variation}`;
       }
-      return `/speakers/${speakerMatch[1]}`;
+      return `/speakers/${speaker}`;
     }
 
     return pathname;
