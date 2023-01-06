@@ -25,23 +25,21 @@ export default {
     const pageMatch = pathname.match(pageRegex);
     if (pageMatch) {
       const year = pageMatch[1];
-      const localPath = pageMatch[2] ?? "/index";
+      const localPath = pageMatch[2] ?? '/index';
       const suffix = pageMatch[4];
       if (suffix) {
-        const suffixFragmentMatch = suffix.match(suffixFragmentRegex)
+        const suffixFragmentMatch = suffix.match(suffixFragmentRegex);
         if (suffixFragmentMatch) {
           return `${year}/fragments/${suffixFragmentMatch[1]}`;
         }
         return `${year}/${suffix}`;
       }
-      else {
-        return `${year}${localPath}`;
-      }
+      return `${year}${localPath}`;
     }
 
     const speakerMatch = pathname.match(speakerRegex);
     if (speakerMatch) {
-      const speaker = speakerMatch[1]
+      const speaker = speakerMatch[1];
       const variation = speakerMatch[3];
       if (variation) {
         return `/speakers/${speaker}-${variation}`;
