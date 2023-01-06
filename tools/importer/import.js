@@ -1,4 +1,4 @@
-/* global WebImporter */
+/* global */
 /* eslint-disable no-console, class-methods-use-this */
 
 const pageRegex = /^\/content\/adaptto(.+)\.helix\.html$/;
@@ -21,36 +21,33 @@ export default {
     // eslint-disable-next-line no-unused-vars
     document, url, html, params,
   }) => {
-    const pathname = new URL(url).pathname;
-    let result = pathname
+    const { pathname } = new URL(url);
 
-    const pageMatch = pathname.match(pageRegex)
+    const pageMatch = pathname.match(pageRegex);
     if (pageMatch) {
-      return pageMatch[1]
+      return pageMatch[1];
     }
 
-    const pageFragmentMatch = pathname.match(pageFragmentRegex)
+    const pageFragmentMatch = pathname.match(pageFragmentRegex);
     if (pageFragmentMatch) {
-      return `${pageFragmentMatch[1]}/fragments/${pageFragmentMatch[2]}`
+      return `${pageFragmentMatch[1]}/fragments/${pageFragmentMatch[2]}`;
     }
 
-    const pageSpecialMatch = pathname.match(pageSpecialRegex)
+    const pageSpecialMatch = pathname.match(pageSpecialRegex);
     if (pageSpecialMatch) {
-      return `${pageSpecialMatch[1]}/${pageSpecialMatch[2]}`
+      return `${pageSpecialMatch[1]}/${pageSpecialMatch[2]}`;
     }
 
-    const speakerMatch = pathname.match(speakerRegex)
+    const speakerMatch = pathname.match(speakerRegex);
     if (speakerMatch) {
-      const variation = speakerMatch[3]
+      const variation = speakerMatch[3];
       if (variation) {
-        return `/speakers/${speakerMatch[1]}-${speakerMatch[3]}`
+        return `/speakers/${speakerMatch[1]}-${speakerMatch[3]}`;
       }
-      else {
-        return `/speakers/${speakerMatch[1]}`
-      }
+      return `/speakers/${speakerMatch[1]}`;
     }
 
     return pathname;
-  }
+  },
 
 };
