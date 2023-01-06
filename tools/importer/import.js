@@ -53,16 +53,19 @@ function transformUrlToPath(url) {
     return `/speakers/${speaker}`;
   }
 
-  return pathname;
+  return url;
 }
 
 function rewriteLinks(document) {
   const links = document.querySelectorAll('a');
   if (links) {
     links.forEach((anchor) => {
-      let url = targetHostName + transformUrlToPath(anchor.href);
-      if (url.endsWith('/index')) {
-        url = url.replace(/\/index$/, '/');
+      let url = transformUrlToPath(anchor.href);
+      if (url.startsWith('/')) {
+        url = `${targetHostName}url`;
+        if (url.endsWith('/index')) {
+          url = url.replace(/\/index$/, '/');
+        }
       }
       anchor.href = url;
     });
