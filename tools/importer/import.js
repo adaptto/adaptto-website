@@ -17,11 +17,11 @@ const suffixFragmentRegex = /^fragment-(.+)$/;
 function sanitizeFilename(filename) {
   const extensionIndex = filename.lastIndexOf('.');
   if (extensionIndex >= 0) {
-    let name = filename.substring(0, extensionIndex).toLowerCase();
+    let name = filename.substring(0, extensionIndex);
     const extension = filename.substring(extensionIndex + 1);
     // replace dots in filename
     name = name.replaceAll(/(\.)/g, '-');
-    return `${name}.${extension}`;
+    return `${name}.${extension}`.toLowerCase();
   }
   return filename;
 }
