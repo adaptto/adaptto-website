@@ -10,6 +10,23 @@ const presentationRegex = /^\/content\/dam\/adaptto\/production\/presentations\/
 const suffixFragmentRegex = /^fragment-(.+)$/;
 
 /**
+ * Ensure presentation file name does not contain invalid chars and is used lowercase.
+ * @param {string} filename File name
+ * @returns Sanitized file name
+ */
+function sanitizeFilename(filename) {
+  const extensionIndex = filename.lastIndexOf('.');
+  if (extensionIndex >= 0) {
+    let name = filename.substring(0, extensionIndex).toLowerCase();
+    const extension = filename.substring(extensionIndex + 1);
+    // replace dots in filename
+    name = name.replaceAll(/(\.)/g, '-');
+    return `${name}.${extension}`;
+  }
+  return filename;
+}
+
+/**
  * Transforms AEM URLs to Helix URLs:
  * - Removes .helix selector and html extension
  * - Detects suffix after helix selector for nav, footer and fragments
@@ -58,7 +75,7 @@ function transformUrlToPath(url) {
   if (presentationMatch) {
     const year = presentationMatch[1];
     const file = presentationMatch[2];
-    return `/${year}/presentations/${file}`;
+    return `/${year}/presentations/${sanitizeFilename(file)}`;
   }
 
   return url;
@@ -69,7 +86,7 @@ function rewriteLinks(document) {
   if (links) {
     links.forEach((anchor) => {
       const originalUrl = anchor.href;
-      let url = transformUrlToPath(originalUrl).toLowerCase();
+      let url = transformUrlToPath(originalUrl);
       if (url.startsWith('/')) {
         url = `${targetHostName}${url}`;
         if (url.endsWith('/index')) {
@@ -115,6 +132,6 @@ export default {
   generateDocumentPath: ({
     // eslint-disable-next-line no-unused-vars
     document, url, html, params,
-  }) => transformUrlToPath(url).toLowerCase(),
+  }) => transformUrlToPath(url),
 
 };
