@@ -6,14 +6,15 @@ const targetHostName = 'https://main--adaptto-website--adaptto.hlx.page';
 const pageHelixRegex = /^\/content\/adaptto(.+)\/en(.+)?\.helix(-(.+))?\.html$/;
 const pageRegex = /^\/content\/adaptto(.+)\/en(.+)?\.html$/;
 const speakerRegex = /^\/content\/dam\/adaptto\/production\/speaker\/(.+)\.helix(\.(.+))?\.html$/;
+const presentationRegex = /^\/content\/dam\/adaptto\/production\/presentations\/([^/]+)\/(.+)\/_jcr_content\/renditions\/original\..+$/;
 const suffixFragmentRegex = /^fragment-(.+)$/;
 
 /**
  * Transforms AEM URLs to Helix URLs:
- * - Removes .helix selector and html extensions
+ * - Removes .helix selector and html extension
  * - Detects suffix after helix selector for nav, footer and fragments
  * - Removes "en" from hierarchy
- * - Special treatment for speaker pages
+ * - Special treatment for speaker pages and presentations
  */
 function transformUrlToPath(url) {
   let pathname = url;
@@ -53,6 +54,13 @@ function transformUrlToPath(url) {
     return `/speakers/${speaker}`;
   }
 
+  const presentationMatch = pathname.match(presentationRegex);
+  if (presentationMatch) {
+    const year = presentationMatch[1];
+    const file = presentationMatch[2];
+    return `/${year}/presentations/${file}`;
+  }
+
   return url;
 }
 
@@ -60,7 +68,8 @@ function rewriteLinks(document) {
   const links = document.querySelectorAll('a');
   if (links) {
     links.forEach((anchor) => {
-      let url = transformUrlToPath(anchor.href);
+      const originalUrl = anchor.href;
+      let url = transformUrlToPath(originalUrl).toLowerCase();
       if (url.startsWith('/')) {
         url = `${targetHostName}${url}`;
         if (url.endsWith('/index')) {
@@ -68,6 +77,9 @@ function rewriteLinks(document) {
         }
       }
       anchor.href = url;
+      if (anchor.textContent === originalUrl) {
+        anchor.textContent = url;
+      }
     });
   }
 }
@@ -103,6 +115,6 @@ export default {
   generateDocumentPath: ({
     // eslint-disable-next-line no-unused-vars
     document, url, html, params,
-  }) => transformUrlToPath(url),
+  }) => transformUrlToPath(url).toLowerCase(),
 
 };
