@@ -62,7 +62,7 @@ function rewriteLinks(document) {
     links.forEach((anchor) => {
       let url = transformUrlToPath(anchor.href);
       if (url.startsWith('/')) {
-        url = `${targetHostName}url`;
+        url = `${targetHostName}${url}`;
         if (url.endsWith('/index')) {
           url = url.replace(/\/index$/, '/');
         }
