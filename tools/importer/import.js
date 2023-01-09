@@ -42,7 +42,8 @@ function transformUrlToPath(url) {
   const pageHelixMatch = pathname.match(pageHelixRegex);
   if (pageHelixMatch) {
     const year = pageHelixMatch[1];
-    const localPath = pageHelixMatch[2] ?? '/index';
+    let localPath = pageHelixMatch[2] ?? '/index';
+    localPath = localPath.replaceAll('tools/navigation/footermetanav/', 'privacy/');
     const suffix = pageHelixMatch[4];
     if (suffix) {
       const suffixFragmentMatch = suffix.match(suffixFragmentRegex);
@@ -57,7 +58,8 @@ function transformUrlToPath(url) {
   const pageMatch = pathname.match(pageRegex);
   if (pageMatch) {
     const year = pageMatch[1];
-    const localPath = pageMatch[2] ?? '/index';
+    let localPath = pageMatch[2] ?? '/index';
+    localPath = localPath.replaceAll('tools/navigation/footermetanav/', 'privacy/');
     return `${year}${localPath}`;
   }
 
