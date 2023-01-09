@@ -16,6 +16,10 @@ const sectionLoaded = async (section) => new Promise((resolve) => {
 
 describe('Fragment block', () => {
   it('Replaces fragment block with fragment content', async () => {
+    document.head.innerHTML = `
+      <meta name="include-teaser-bar" content="false">
+      <meta name="include-aside-bar" content="false">
+    `;
     document.body.innerHTML = await readFile({ path: './block.html' });
     await import('../../../scripts/scripts.js');
     const section = document.querySelector('.section');

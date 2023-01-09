@@ -11,20 +11,61 @@ import {
   waitForLCP,
   loadBlocks,
   loadCSS,
+  getMetadata,
 } from './lib-franklin.js';
+import { getSiteRoot } from './site-utils.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
 
-function buildHeroBlock(main) {
-  const h1 = main.querySelector('h1');
-  const picture = main.querySelector('picture');
-  // eslint-disable-next-line no-bitwise
-  if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
+/**
+ * Builds a fragment block
+ * @param {string} fragmentRef Local path to fragment (without site root)
+ * @returns Fragment block element
+ */
+function buildFragmentBlock(fragmentRef) {
+  const siteRootPath = getSiteRoot(window.location.pathname);
+  const fragmentPath = `${siteRootPath}${fragmentRef}`;
+  const fragmentLink = document.createElement('a');
+  fragmentLink.setAttribute('href', fragmentPath);
+  fragmentLink.innerText = fragmentPath;
+  return buildBlock('fragment', fragmentLink);
+}
+
+/**
+ * Automatically inserts the aside bar fragment ref at the start of the main section,
+ * if it is not disabled for this page via metadata.
+ * @param {Element} main The container element
+ */
+function prependAsideBar(main) {
+  if (getMetadata('include-aside-bar') === 'false') {
+    return;
+  }
+  const fragment = buildFragmentBlock('fragments/aside-bar');
+  // insert after stage-header block if present - otherwise at the start of main section
+  const stageHeader = main.querySelector('.stage-header');
+  if (stageHeader) {
+    stageHeader.parentElement.insertBefore(fragment, stageHeader.nextSibling);
+  } else {
     const section = document.createElement('div');
-    section.append(buildBlock('hero', { elems: [picture, h1] }));
+    section.append(fragment);
     main.prepend(section);
   }
+}
+
+/**
+ * Automatically inserts the aside teaser fragment ref at the end of the main section,
+ * if it is not disabled for this page via metadata.
+ * @param {Element} main The container element
+ */
+function appendTeaserBar(main) {
+  if (getMetadata('include-teaser-bar') === 'false') {
+    return;
+  }
+  const fragment = buildFragmentBlock('fragments/teaser-bar');
+  const section = document.createElement('div');
+  section.append(fragment);
+  main.append(section);
 }
 
 /**
@@ -33,7 +74,8 @@ function buildHeroBlock(main) {
  */
 function buildAutoBlocks(main) {
   try {
-    buildHeroBlock(main);
+    prependAsideBar(main);
+    appendTeaserBar(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
@@ -43,13 +85,16 @@ function buildAutoBlocks(main) {
 /**
  * Decorates the main element.
  * @param {Element} main The main element
+ * @param {boolean} insideFragment Decorate main block inside a fragment
  */
 // eslint-disable-next-line import/prefer-default-export
-export function decorateMain(main) {
+export function decorateMain(main, insideFragment) {
   // hopefully forward compatible button decoration
   decorateButtons(main);
   decorateIcons(main);
-  buildAutoBlocks(main);
+  if (!insideFragment) {
+    buildAutoBlocks(main);
+  }
   decorateSections(main);
   decorateBlocks(main);
 }
