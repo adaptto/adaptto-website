@@ -90,7 +90,7 @@ a:active {
 
 
 /* --- grid --- */
-.row {
+.row, main .section {
   margin: 0 auto;
   max-width: 100%;
   width: 100%;
@@ -102,24 +102,24 @@ a:active {
   width: auto;
 }
 
-.row::before, .row::after {
+.row::before, .row::after, main .section::before, main .section::after {
   content: "";
   display: table;
 }
 
-.row::after {
+.row::after, main .section::after {
   clear: both;
 }
 
 @media screen and (min-width: 600px) and (max-width: 799px) {
-  .row {
+  .row, main .section {
     width: 100%;
     min-width: 0;
   }
 }
 
 @media screen and (min-width: 800px) {
-  .row {
+  .row, main .section {
     width: 1000px;
     min-width: 768px;
   }
