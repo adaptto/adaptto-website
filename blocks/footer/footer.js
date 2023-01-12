@@ -23,7 +23,7 @@ function decorateFooterNav(footerNav) {
       const h2 = document.createElement('h2');
       h2.classList.add('title', 'title-section', 'title-footer');
       h2.textContent = Array.from(column.childNodes)
-        .find((node) => node.nodeType === Node.TEXT_NODE)?.textContent;
+        .find((node) => node.nodeType === Node.TEXT_NODE)?.textContent.trim();
       boxPadding.append(h2);
 
       const navList = column.querySelector('ul');
@@ -57,7 +57,7 @@ export default async function decorate(block) {
 
   // fetch nav content
   const siteRoot = getSiteRoot(document.location.pathname);
-  const navPath = cfg.nav || `${siteRoot}footer`;
+  const navPath = cfg.footer || `${siteRoot}footer`;
   const resp = await fetch(`${navPath}.plain.html`);
   if (resp.ok) {
     const html = await resp.text();
