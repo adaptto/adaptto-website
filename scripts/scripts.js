@@ -3,7 +3,6 @@ import {
   buildBlock,
   loadHeader,
   loadFooter,
-  decorateButtons,
   decorateIcons,
   decorateSections,
   decorateBlocks,
@@ -89,8 +88,6 @@ function buildAutoBlocks(main) {
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main, insideFragment) {
-  // hopefully forward compatible button decoration
-  decorateButtons(main);
   decorateIcons(main);
   if (!insideFragment) {
     buildAutoBlocks(main);

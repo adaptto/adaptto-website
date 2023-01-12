@@ -71,6 +71,12 @@ h1 {
   margin: 0.67em 0;
 }
 
+img, picture {
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
 a:link {
   color: var(--color-cta);
   text-decoration: none;
