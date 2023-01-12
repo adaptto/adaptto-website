@@ -1,12 +1,9 @@
  :root {
+  /* dimensions */
   --base-unit: 0.625em; /* ^= 10px; */
-
-  /*
-  --break-small: 320px;
-  --break-medium: 600px;
-  --break-large: 799px;
-  */
+  --nav-height: 177px;
   
+  /* colors */
   --color-light: #fafafa;
   --color-dark: #333;
   --color-medium-dark-gray: #999;
@@ -22,6 +19,12 @@
   --font-semi: 'SignikaSemibold', helvetica, arial, sans-serif;
   --font-light: 'SignikaLight', helvetica, arial, sans-serif;
   --font-regular: 'SignikaRegular', helvetica, arial, sans-serif;
+
+  /*
+  --break-small: 320px;
+  --break-medium: 600px;
+  --break-large: 799px;
+  */
 }
 
 body {
@@ -42,6 +45,9 @@ main .section[data-section-status='initialized'] {
   display: none;
 }
 
+header {
+  height: var(--nav-height);
+}
 
 /* --- basic styling --- */
 * {
@@ -204,7 +210,7 @@ a:active {
     display: block;
     margin: 0.1em 0 0.1em 0.5em;
     width: 30px;
-    height: 30px;
+    height: 35px;
     overflow: hidden;
     word-wrap: nowrap;
   }
@@ -215,7 +221,7 @@ a:active {
     word-wrap: nowrap;
     width: 100%;
     height: 100%;
-    background: url('/resources/img/menu.png') 0 0 no-repeat transparent;
+    background: url('/resources/img/menu.png') 0 2px no-repeat transparent;
     text-indent: 100%;
   }
 }
