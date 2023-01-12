@@ -46,7 +46,7 @@ main .section[data-section-status='initialized'] {
 }
 
 header {
-  height: var(--nav-height);
+  min-height: var(--nav-height);
 }
 
 /* --- basic styling --- */
@@ -208,9 +208,9 @@ a:active {
 @media screen and (max-width: 600px) {
   .title.title-mainnav {
     display: block;
-    margin: 0.1em 0 0.1em 0.5em;
+    margin: 0 0 0 0.5em;
     width: 30px;
-    height: 35px;
+    height: 36px;
     overflow: hidden;
     word-wrap: nowrap;
   }
@@ -221,7 +221,7 @@ a:active {
     word-wrap: nowrap;
     width: 100%;
     height: 100%;
-    background: url('/resources/img/menu.png') 0 2px no-repeat transparent;
+    background: url('/resources/img/menu.png') 0 3px no-repeat transparent;
     text-indent: 100%;
   }
 }

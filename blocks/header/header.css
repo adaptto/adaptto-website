@@ -1,7 +1,6 @@
 .header {
   background: url('/resources/img/header_bg.jpg') 0 0 no-repeat #fff;
   width: 100%;
-  overflow: hidden;
 }
 
 @media screen and (max-width: 320px) {
@@ -12,6 +11,7 @@
 
 .header .nav-header {
   padding: 0 var(--base-unit) 0;
+  overflow: hidden;
 }
 
 /* logo */

@@ -6,8 +6,7 @@ import { getSiteRoot } from '../../scripts/site-utils.js';
  * @param {string} siteRoot
  */
 function decorateHeader(header, siteRoot) {
-  header.classList.add('nav-header');
-  header.classList.add('row');
+  header.classList.add('nav-header', 'row');
 
   // add logo with site root link
   const logoLink = document.createElement('a');
@@ -18,17 +17,8 @@ function decorateHeader(header, siteRoot) {
   header.prepend(logoLink);
 
   // header css classes
-  const h1 = header.querySelector('h1');
-  if (h1) {
-    h1.classList.add('title');
-    h1.classList.add('title-site');
-  }
-  const h2 = header.querySelector('h2');
-  if (h2) {
-    h2.classList.add('title');
-    h2.classList.add('title-site');
-    h2.classList.add('caption');
-  }
+  header.querySelector('h1')?.classList.add('title', 'title-site');
+  header.querySelector('h2')?.classList.add('title', 'title-site', 'caption');
 }
 
 /**
@@ -39,26 +29,21 @@ function decorateMainNav(mainNav) {
 
   // mobile navigation
   const h1 = document.createElement('h1');
-  h1.classList.add('title');
-  h1.classList.add('title-nav');
-  h1.classList.add('title-mainnav');
+  h1.classList.add('title', 'title-nav', 'title-mainnav');
   const anchor = document.createElement('a');
   anchor.href = '#';
   anchor.classList.add('menu-opener');
   anchor.text = 'Navigation';
+  anchor.addEventListener('click', (e) => {
+    e.preventDefault();
+    mainNav.querySelector('.navlist-main')?.classList.toggle('active');
+  });
   h1.append(anchor);
   mainNav.prepend(h1);
 
   // mainnav CSS classes
-  mainNav.querySelectorAll(':scope > ul').forEach((ul) => {
-    ul.classList.add('row');
-    ul.classList.add('navlist');
-    ul.classList.add('navlist-main');
-  });
-  mainNav.querySelectorAll('a').forEach((a) => {
-    a.classList.add('navlink');
-    a.classList.add('navlink-main');
-  });
+  mainNav.querySelectorAll(':scope > ul').forEach((ul) => ul.classList.add('row', 'navlist', 'navlist-main'));
+  mainNav.querySelectorAll('a').forEach((a) => a.classList.add('navlink', 'navlink-main'));
 }
 
 /**
