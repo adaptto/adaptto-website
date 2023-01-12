@@ -47,7 +47,7 @@ function decorateMainNav(mainNav) {
 }
 
 /**
- * decorates the header, mainly the nav
+ * Loads and decorates header and main navigation.
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {

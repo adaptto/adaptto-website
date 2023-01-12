@@ -1,1 +1,12 @@
-/* footer */
+footer .footer-site {
+  background-color: var(--color-dark);
+  min-height: calc(15 * var(--base-unit));
+  padding: var(--base-unit);
+}
+
+footer .footer-text {
+  color: var(--color-light);
+  font-size: 0.8em;
+  margin: 0.4em 0;
+  line-height: 1.2em;
+}

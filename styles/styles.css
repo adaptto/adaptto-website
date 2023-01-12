@@ -54,6 +54,10 @@ header {
   box-sizing: border-box;
 }
 
+.box-padding {
+  padding: 0 var(--base-unit);
+}
+
 p, li {
   line-height: 1.6em;
 }
@@ -98,6 +102,11 @@ a:active {
   width: auto;
 }
 
+.row::before, .row::after {
+  content: "";
+  display: table;
+}
+
 .row::after {
   clear: both;
 }
@@ -113,6 +122,37 @@ a:active {
   .row {
     width: 1000px;
     min-width: 768px;
+  }
+}
+
+.col-1-4, .col-2-4 {
+  float: left;
+  position: relative;
+}
+
+.col-1-4 {
+  width: 100%;
+}
+
+@media screen and (min-width: 600px) and (max-width: 799px) {
+  .col-1-4 {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 799px) {
+  .col-1-4 {
+    width: 25%;
+  }
+}
+
+.col-2-4 {
+  width: 100%;
+}
+
+@media screen and (min-width: 799px) {
+  .col-2-4 {
+    width: 50%;
   }
 }
 
