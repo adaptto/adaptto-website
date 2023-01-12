@@ -23,9 +23,25 @@ await loadBlock(footerBlock);
 await sleep();
 
 describe('Footer block', () => {
-  it('Displays footer content', async () => {
-    const a = document.querySelector('footer a');
+  it('Footer Nav', async () => {
+    const h2 = document.querySelector('footer section h2.title-footer');
+    expect(h2).to.exist;
+    expect(h2.textContent).to.eq('Conference');
+
+    const navlist = document.querySelector('footer section ul.navlist-footer');
+    expect(navlist).to.exist;
+
+    const a = navlist.querySelector('a.navlink-footer');
     expect(a).to.exist;
-    expect(a.href).to.equal('https://www.adobe.com/privacy.html');
+    expect(a.href).to.equal('http://localhost:2000/2021/conference');
+  });
+
+  it('Footer Text', async () => {
+    const p = document.querySelector('footer p.footer-text');
+    expect(p).to.exist;
+
+    const a = p.querySelector('a.navlink');
+    expect(a).to.exist;
+    expect(a.href).to.equal('http://localhost:2000/2021/imprint');
   });
 });

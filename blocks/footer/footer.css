@@ -1,14 +1,12 @@
-footer {
-  padding: 2rem;
-  background-color: var(--overlay-background-color);
-  font-size: var(--body-font-size-s);
+footer .footer-site {
+  background-color: var(--color-dark);
+  min-height: calc(15 * var(--base-unit));
+  padding: var(--base-unit);
 }
 
-footer .footer {
-  max-width: 1200px;
-  margin: auto;
-}
-
-footer .footer p {
-  margin: 0;
+footer .footer-text {
+  color: var(--color-light);
+  font-size: 0.8em;
+  margin: 0.4em 0;
+  line-height: 1.2em;
 }

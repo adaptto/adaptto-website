@@ -1,22 +1,55 @@
-import { readBlockConfig, decorateIcons } from '../../scripts/lib-franklin.js';
+import { readBlockConfig } from '../../scripts/lib-franklin.js';
 import { getSiteRoot } from '../../scripts/site-utils.js';
 
 /**
- * collapses all open nav sections
- * @param {Element} sections The container element
+ * @param {Element} header
+ * @param {string} siteRoot
  */
+function decorateHeader(header, siteRoot) {
+  header.classList.add('nav-header', 'row');
 
-function collapseAllNavSections(sections) {
-  sections.querySelectorAll('.nav-sections > ul > li').forEach((section) => {
-    section.setAttribute('aria-expanded', 'false');
-  });
+  // add logo with site root link
+  const logoLink = document.createElement('a');
+  logoLink.id = 'top';
+  logoLink.href = siteRoot;
+  logoLink.classList = 'logo';
+  logoLink.append(document.createElement('div'));
+  header.prepend(logoLink);
+
+  // header css classes
+  header.querySelector('h1')?.classList.add('title', 'title-site');
+  header.querySelector('h2')?.classList.add('title', 'title-site', 'caption');
 }
 
 /**
- * decorates the header, mainly the nav
+ * @param {Element} mainNav
+ */
+function decorateMainNav(mainNav) {
+  mainNav.classList.add('nav-main');
+
+  // mobile navigation
+  const h1 = document.createElement('h1');
+  h1.classList.add('title', 'title-nav', 'title-mainnav');
+  const anchor = document.createElement('a');
+  anchor.href = '#';
+  anchor.classList.add('menu-opener');
+  anchor.text = 'Navigation';
+  anchor.addEventListener('click', (e) => {
+    e.preventDefault();
+    mainNav.querySelector('.navlist-main')?.classList.toggle('active');
+  });
+  h1.append(anchor);
+  mainNav.prepend(h1);
+
+  // mainnav CSS classes
+  mainNav.querySelectorAll(':scope > ul').forEach((ul) => ul.classList.add('row', 'navlist', 'navlist-main'));
+  mainNav.querySelectorAll('a').forEach((a) => a.classList.add('navlink', 'navlink-main'));
+}
+
+/**
+ * Loads and decorates header and main navigation.
  * @param {Element} block The header block element
  */
-
 export default async function decorate(block) {
   const cfg = readBlockConfig(block);
   block.textContent = '';
@@ -27,42 +60,21 @@ export default async function decorate(block) {
   const resp = await fetch(`${navPath}.plain.html`);
   if (resp.ok) {
     const html = await resp.text();
-
-    // decorate nav DOM
     const nav = document.createElement('nav');
     nav.innerHTML = html;
-    decorateIcons(nav);
 
-    const classes = ['brand', 'sections', 'tools'];
-    classes.forEach((e, j) => {
-      const section = nav.children[j];
-      if (section) section.classList.add(`nav-${e}`);
-    });
-
-    const navSections = [...nav.children][1];
-    if (navSections) {
-      navSections.querySelectorAll(':scope > ul > li').forEach((navSection) => {
-        if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
-        navSection.addEventListener('click', () => {
-          const expanded = navSection.getAttribute('aria-expanded') === 'true';
-          collapseAllNavSections(navSections);
-          navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        });
-      });
+    // first section: header with title, slogan and logo
+    const header = nav.children[0];
+    if (header) {
+      decorateHeader(header, siteRoot);
     }
 
-    // hamburger for mobile
-    const hamburger = document.createElement('div');
-    hamburger.classList.add('nav-hamburger');
-    hamburger.innerHTML = '<div class="nav-hamburger-icon"></div>';
-    hamburger.addEventListener('click', () => {
-      const expanded = nav.getAttribute('aria-expanded') === 'true';
-      document.body.style.overflowY = expanded ? '' : 'hidden';
-      nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-    });
-    nav.prepend(hamburger);
-    nav.setAttribute('aria-expanded', 'false');
-    decorateIcons(nav);
+    // second section: main navigation
+    const mainNav = nav.children[1];
+    if (mainNav) {
+      decorateMainNav(mainNav);
+    }
+
     block.append(nav);
   }
 }

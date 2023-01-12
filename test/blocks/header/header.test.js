@@ -23,23 +23,35 @@ await loadBlock(headerBlock);
 await sleep();
 
 describe('Header block', () => {
-  it('Hamburger shows and hides nav', async () => {
-    const hamburger = document.querySelector('.header .nav-hamburger');
-    const nav = document.querySelector('.header nav');
-    expect(hamburger).to.exist;
-    expect(nav).to.exist;
-    hamburger.click();
-    expect(nav.getAttribute('aria-expanded')).to.equal('true');
-    hamburger.click();
-    expect(nav.getAttribute('aria-expanded')).to.equal('false');
+  it('Header', async () => {
+    const header = document.querySelector('header .nav-header');
+    expect(header).to.exist;
+
+    const logo = header.querySelector('a.logo');
+    expect(logo).to.exist;
+    expect(logo.href).to.eq('http://localhost:2000/');
+
+    const h1 = header.querySelector('h1.title.title-site');
+    expect(h1).to.exist;
+    expect(h1.textContent).to.eq('adaptTo()');
+
+    const h2 = header.querySelector('h2.title.title-site.caption');
+    expect(h2).to.exist;
+    expect(h2.textContent).to.eq('Slogan');
   });
 
-  it('Section title shows and hides section', async () => {
-    const sections = document.querySelector('.header .nav-sections');
-    const title = sections.querySelector(':scope li');
-    title.click();
-    expect(title.getAttribute('aria-expanded')).to.equal('true');
-    title.click();
-    expect(title.getAttribute('aria-expanded')).to.equal('false');
+  it('Main Navigation', async () => {
+    const mainNav = document.querySelector('header .nav-main');
+    expect(mainNav).to.exist;
+
+    const mobileNav = mainNav.querySelector('a.menu-opener');
+    expect(mobileNav).to.exist;
+
+    const navList = mainNav.querySelector('ul.navlist-main');
+    expect(navList).to.exist;
+
+    const a = navList.querySelector('a.navlink-main');
+    expect(a).to.exist;
+    expect(a.href).to.eq('http://localhost:2000/2021/');
   });
 });
