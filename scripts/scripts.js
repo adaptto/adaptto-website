@@ -18,6 +18,23 @@ const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
 
 /**
+ * Extracts the stage header block and prepends a new section for it.
+ * @param {Element} main
+ */
+function extractStageHeader(main) {
+  // insert stage-header section in any case for grid layout - even if there is no content for it
+  const section = document.createElement('div');
+  section.classList.add('stage-header-section');
+  main.prepend(section);
+
+  // move stage header to new section
+  const stageHeader = main.querySelector('.stage-header');
+  if (stageHeader) {
+    section.appendChild(stageHeader);
+  }
+}
+
+/**
  * Builds a fragment block
  * @param {string} fragmentRef Local path to fragment (without site root)
  * @returns Fragment block element
@@ -32,7 +49,7 @@ function buildFragmentBlock(fragmentRef) {
 }
 
 /**
- * Automatically appends the aside bar fragment at the end of the first section,
+ * Appends a new section with the aside bar fragment,
  * if it is not disabled for this page via metadata.
  * @param {Element} main The container element
  */
@@ -41,11 +58,14 @@ function appendAsideBar(main) {
     return;
   }
   const fragment = buildFragmentBlock('fragments/aside-bar');
-  main.querySelector(':scope > div')?.append(fragment);
+  const section = document.createElement('div');
+  section.classList.add('aside-bar-section');
+  section.appendChild(fragment);
+  main.append(section);
 }
 
 /**
- * Automatically appends the teaser bar fragment at the end of the first section,
+ * Appends a new section with the teaser bar fragment,
  * if it is not disabled for this page via metadata.
  * @param {Element} main The container element
  */
@@ -54,7 +74,10 @@ function appendTeaserBar(main) {
     return;
   }
   const fragment = buildFragmentBlock('fragments/teaser-bar');
-  main.querySelector(':scope > div')?.append(fragment);
+  const section = document.createElement('div');
+  section.classList.add('teaser-bar-section');
+  section.appendChild(fragment);
+  main.append(section);
 }
 
 /**
@@ -63,6 +86,7 @@ function appendTeaserBar(main) {
  */
 function buildAutoBlocks(main) {
   try {
+    extractStageHeader(main);
     appendAsideBar(main);
     appendTeaserBar(main);
   } catch (error) {

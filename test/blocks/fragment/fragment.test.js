@@ -22,7 +22,7 @@ describe('Fragment block', () => {
     `;
     document.body.innerHTML = await readFile({ path: './block.html' });
     await import('../../../scripts/scripts.js');
-    const section = document.querySelector('.section');
+    const section = document.querySelector('.section.fragment-container');
     await sectionLoaded(section);
     expect(section.textContent.trim()).to.equal('Hello world!');
     expect(section.classList.contains('example-container')).to.be.true;

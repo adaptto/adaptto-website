@@ -49,26 +49,36 @@ header {
   min-height: var(--nav-height);
 }
 
-main .section {
+
+/* --- grid layout for main area --- */
+main {
   display: grid;
-  grid-template-columns: repeat(4, 25%);
+  grid-template-columns: 1fr repeat(4, 250px) 1fr;
   grid-template-rows: auto;
 }
-main .section > * {
-  grid-column: 1 / 4;
+
+/* assign no row - there may be multiple "default content" sections, the aide bar flows parallel to all of them */
+main .section {
+  grid-column: 2 / 5;
+  padding: 0 var(--base-unit);
 }
-main .section > .stage-header-wrapper {
-  grid-column: 1 / 5;
+
+main .section.stage-header-section {
+  grid-column: 2 / 6;
   grid-row: 1;
+  padding: 0;
 }
-main .section > .aside-bar-wrapper {
-  grid-column: 4 / 5;
-  grid-row-start: 2;
-  grid-row-end: 999;
+
+main .section.aside-bar-section {
+  grid-column: 5 / 5;
+  grid-row: 2 / 999;
 }
-main .section > .teaser-bar-wrapper {
-  grid-column: 1 / 5;
+
+main .section.teaser-bar-section {
+  grid-column: 2 / 6;
+  padding: 0;
 }
+
 
 /* --- basic styling --- */
 * {
@@ -117,7 +127,7 @@ a:active {
 
 
 /* --- grid --- */
-.row, main .section {
+.row {
   margin: 0 auto;
   max-width: 100%;
   width: 100%;
@@ -129,24 +139,24 @@ a:active {
   width: auto;
 }
 
-.row::before, .row::after, main .section::before, main .section::after {
+.row::before, .row::after {
   content: "";
   display: table;
 }
 
-.row::after, main .section::after {
+.row::after {
   clear: both;
 }
 
 @media screen and (min-width: 600px) and (max-width: 799px) {
-  .row, main .section {
+  .row {
     width: 100%;
     min-width: 0;
   }
 }
 
 @media screen and (min-width: 800px) {
-  .row, main .section {
+  .row {
     width: 1000px;
     min-width: 768px;
   }
