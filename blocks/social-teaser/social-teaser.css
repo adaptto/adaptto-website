@@ -1,0 +1,11 @@
+.social-teaser p {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.social-teaser .icon svg {
+  width: 45px;
+  height: 45px;
+  margin-right: 3px;
+}

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="79.5" height="79.5" version="1.1">
-  <defs/>
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="79.5" height="79.5" viewbox="0 0 79.5 79.5" version="1.1">
   <g transform="translate(-413,-394)">
     <g transform="matrix(1.018827,0,0,-1.018827,170.5996,498.03288)">
       <path d="m 239.3298,95.036 c 0,2.96 2.4604,5.361 5.4956,5.361 l 63.376,0 c 3.0351,0 5.4956,-2.401 5.4956,-5.361 l 0,-64.117 c 0,-2.961 -2.4605,-5.361 -5.4956,-5.361 l -63.376,0 c -3.0352,0 -5.4956,2.4 -5.4956,5.361 l 0,64.117 z" style="fill:#006699;fill-opacity:1;fill-rule:nonzero;stroke:none"/>
