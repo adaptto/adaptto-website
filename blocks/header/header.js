@@ -1,3 +1,4 @@
+import { append, prepend } from '../../scripts/dom-utils.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
 import { getSiteRoot } from '../../scripts/site-utils.js';
 
@@ -9,12 +10,10 @@ function decorateHeader(header, siteRoot) {
   header.classList.add('nav-header', 'row');
 
   // add logo with site root link
-  const logoLink = document.createElement('a');
+  const logoLink = prepend(header, 'a', 'logo');
   logoLink.id = 'top';
   logoLink.href = siteRoot;
-  logoLink.classList = 'logo';
-  logoLink.append(document.createElement('div'));
-  header.prepend(logoLink);
+  append(logoLink, 'div');
 
   // header css classes
   header.querySelector('h1')?.classList.add('title', 'title-site');
@@ -28,18 +27,14 @@ function decorateMainNav(mainNav) {
   mainNav.classList.add('nav-main');
 
   // mobile navigation
-  const h1 = document.createElement('h1');
-  h1.classList.add('title', 'title-nav', 'title-mainnav');
-  const anchor = document.createElement('a');
+  const h1 = prepend(mainNav, 'h1', 'title', 'title-nav', 'title-mainnav');
+  const anchor = append(h1, 'a', 'menu-opener');
   anchor.href = '#';
-  anchor.classList.add('menu-opener');
   anchor.text = 'Navigation';
   anchor.addEventListener('click', (e) => {
     e.preventDefault();
     mainNav.querySelector('.navlist-main')?.classList.toggle('active');
   });
-  h1.append(anchor);
-  mainNav.prepend(h1);
 
   // mainnav CSS classes
   mainNav.querySelectorAll(':scope > ul').forEach((ul) => ul.classList.add('row', 'navlist', 'navlist-main'));

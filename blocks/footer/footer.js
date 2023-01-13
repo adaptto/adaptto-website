@@ -1,3 +1,4 @@
+import { append } from '../../scripts/dom-utils.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
 import { getSiteRoot } from '../../scripts/site-utils.js';
 
@@ -13,18 +14,12 @@ function decorateFooterNav(footerNav) {
   if (columns) {
     footerNav.removeChild(columns);
     Array.from(columns.children).forEach((column) => {
-      const section = document.createElement('section');
-      section.classList.add('col-1-4');
+      const section = append(footerNav, 'section', 'col-1-4');
+      const boxPadding = append(section, 'div', 'box-padding');
 
-      const boxPadding = document.createElement('div');
-      boxPadding.classList.add('box-padding');
-      section.append(boxPadding);
-
-      const h2 = document.createElement('h2');
-      h2.classList.add('title', 'title-section', 'title-footer');
+      const h2 = append(boxPadding, 'h2', 'title', 'title-section', 'title-footer');
       h2.textContent = Array.from(column.childNodes)
         .find((node) => node.nodeType === Node.TEXT_NODE)?.textContent.trim();
-      boxPadding.append(h2);
 
       const navList = column.querySelector('ul');
       if (navList) {
@@ -32,8 +27,6 @@ function decorateFooterNav(footerNav) {
         navList.querySelectorAll('a').forEach((a) => a.classList.add('navlink', 'navlink-footer'));
         boxPadding.append(navList);
       }
-
-      footerNav.append(section);
     });
   }
 }
@@ -61,8 +54,7 @@ export default async function decorate(block) {
   const resp = await fetch(`${navPath}.plain.html`);
   if (resp.ok) {
     const html = await resp.text();
-    const container = document.createElement('div');
-    container.classList.add('footer-site');
+    const container = append(block, 'div', 'footer-site');
     container.innerHTML = html;
 
     // first section: footer navigation
@@ -76,7 +68,5 @@ export default async function decorate(block) {
     if (footerText) {
       decorateFooterText(footerText);
     }
-
-    block.append(container);
   }
 }
