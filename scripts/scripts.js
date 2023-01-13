@@ -32,28 +32,20 @@ function buildFragmentBlock(fragmentRef) {
 }
 
 /**
- * Automatically inserts the aside bar fragment ref at the start of the main section,
+ * Automatically appends the aside bar fragment at the end of the first section,
  * if it is not disabled for this page via metadata.
  * @param {Element} main The container element
  */
-function prependAsideBar(main) {
+function appendAsideBar(main) {
   if (getMetadata('include-aside-bar') === 'false') {
     return;
   }
   const fragment = buildFragmentBlock('fragments/aside-bar');
-  // insert after stage-header block if present - otherwise at the start of main section
-  const stageHeader = main.querySelector('.stage-header');
-  if (stageHeader) {
-    stageHeader.parentElement.insertBefore(fragment, stageHeader.nextSibling);
-  } else {
-    const section = document.createElement('div');
-    section.append(fragment);
-    main.prepend(section);
-  }
+  main.querySelector(':scope > div')?.append(fragment);
 }
 
 /**
- * Automatically inserts the aside teaser fragment ref at the end of the main section,
+ * Automatically appends the teaser bar fragment at the end of the first section,
  * if it is not disabled for this page via metadata.
  * @param {Element} main The container element
  */
@@ -62,9 +54,7 @@ function appendTeaserBar(main) {
     return;
   }
   const fragment = buildFragmentBlock('fragments/teaser-bar');
-  const section = document.createElement('div');
-  section.append(fragment);
-  main.append(section);
+  main.querySelector(':scope > div')?.append(fragment);
 }
 
 /**
@@ -73,7 +63,7 @@ function appendTeaserBar(main) {
  */
 function buildAutoBlocks(main) {
   try {
-    prependAsideBar(main);
+    appendAsideBar(main);
     appendTeaserBar(main);
   } catch (error) {
     // eslint-disable-next-line no-console
