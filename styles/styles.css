@@ -66,9 +66,9 @@ ul {
   padding-left: calc(2 * var(--base-unit));
 }
 
-h1 {
-  font-size: 2em;
-  margin: 0.67em 0;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-semi);
+  font-weight: normal;
 }
 
 img, picture {

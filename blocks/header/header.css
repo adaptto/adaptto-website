@@ -3,6 +3,12 @@
   width: 100%;
 }
 
+.header h1 {
+  font-family: var(--font-light);
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
 @media screen and (max-width: 320px) {
   .header {
     padding: 0;
