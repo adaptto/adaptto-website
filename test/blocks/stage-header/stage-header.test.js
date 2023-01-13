@@ -5,11 +5,11 @@ import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 import decorate from '../../../blocks/stage-header/stage-header.js';
 
-document.body.innerHTML = await readFile({ path: './block.html' });
-decorate(document.querySelector('.stage-header'));
-
 describe('Stage Header Block', () => {
-  it('Stage', async () => {
+  it('block', async () => {
+    document.body.innerHTML = await readFile({ path: './block.html' });
+    decorate(document.querySelector('.stage-header'));
+
     const stage = document.body.querySelector('.stage-large');
     expect(stage).to.exist;
     expect(stage.querySelector(':scope > picture')).to.exist;
@@ -22,5 +22,13 @@ describe('Stage Header Block', () => {
     const ctaBox = stage.querySelector('.stage-cta-box');
     expect(ctaBox).to.exist;
     expect(ctaBox.querySelector('p a.stage-cta')).to.exist;
+  });
+
+  it('empty', async () => {
+    document.body.innerHTML = '<div class="stage-header"></div>';
+    decorate(document.querySelector('.stage-header'));
+
+    const stage = document.body.querySelector('.stage-large');
+    expect(stage).to.exist;
   });
 });
