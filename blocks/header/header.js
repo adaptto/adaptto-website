@@ -1,3 +1,4 @@
+import { append, prepend } from '../../scripts/dom-utils.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
 import { getSiteRoot } from '../../scripts/site-utils.js';
 
@@ -6,44 +7,47 @@ import { getSiteRoot } from '../../scripts/site-utils.js';
  * @param {string} siteRoot
  */
 function decorateHeader(header, siteRoot) {
-  header.classList.add('nav-header', 'row');
+  header.classList.add('section-header');
 
   // add logo with site root link
-  const logoLink = document.createElement('a');
+  const logoLink = prepend(header, 'a', 'logo');
   logoLink.id = 'top';
   logoLink.href = siteRoot;
-  logoLink.classList = 'logo';
-  logoLink.append(document.createElement('div'));
-  header.prepend(logoLink);
-
-  // header css classes
-  header.querySelector('h1')?.classList.add('title', 'title-site');
-  header.querySelector('h2')?.classList.add('title', 'title-site', 'caption');
+  append(logoLink, 'div');
 }
 
 /**
  * @param {Element} mainNav
  */
 function decorateMainNav(mainNav) {
-  mainNav.classList.add('nav-main');
+  mainNav.classList.add('section-mainnav');
 
   // mobile navigation
-  const h1 = document.createElement('h1');
-  h1.classList.add('title', 'title-nav', 'title-mainnav');
-  const anchor = document.createElement('a');
-  anchor.href = '#';
-  anchor.classList.add('menu-opener');
-  anchor.text = 'Navigation';
-  anchor.addEventListener('click', (e) => {
+  const mobileNavH1 = prepend(mainNav, 'h1', 'mobile-nav');
+  const mobileNavAnchor = append(mobileNavH1, 'a');
+  mobileNavAnchor.href = '#';
+  mobileNavAnchor.text = 'Navigation';
+  mobileNavAnchor.addEventListener('click', (e) => {
     e.preventDefault();
-    mainNav.querySelector('.navlist-main')?.classList.toggle('active');
+    mainNav.querySelector(':scope > ul')?.classList.toggle('active');
   });
-  h1.append(anchor);
-  mainNav.prepend(h1);
 
-  // mainnav CSS classes
-  mainNav.querySelectorAll(':scope > ul').forEach((ul) => ul.classList.add('row', 'navlist', 'navlist-main'));
-  mainNav.querySelectorAll('a').forEach((a) => a.classList.add('navlink', 'navlink-main'));
+  // mobile navigation support for mainnav items with sub menus
+  // ensure for those items the link is not followed, but the submenu is shown
+  // (if mobile nav is active)
+  mainNav.querySelectorAll('li > a').forEach((a) => {
+    const li = a.parentElement;
+    // nav item has sub menu
+    const submenu = li.querySelector(':scope > ul');
+    if (submenu) {
+      a.addEventListener('click', (e) => {
+        if (window.getComputedStyle(mobileNavH1).display !== 'none') {
+          e.preventDefault();
+          submenu.classList.toggle('active');
+        }
+      });
+    }
+  });
 }
 
 /**

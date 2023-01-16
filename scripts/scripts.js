@@ -3,7 +3,6 @@ import {
   buildBlock,
   loadHeader,
   loadFooter,
-  decorateButtons,
   decorateIcons,
   decorateSections,
   decorateBlocks,
@@ -17,6 +16,23 @@ import { getSiteRoot } from './site-utils.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
+
+/**
+ * Extracts the stage header block and prepends a new section for it.
+ * @param {Element} main
+ */
+function extractStageHeader(main) {
+  // insert stage-header section in any case for grid layout - even if there is no content for it
+  const section = document.createElement('div');
+  section.classList.add('stage-header-section');
+  main.prepend(section);
+
+  // move stage header to new section
+  const stageHeader = main.querySelector('.stage-header');
+  if (stageHeader) {
+    section.appendChild(stageHeader);
+  }
+}
 
 /**
  * Builds a fragment block
@@ -33,28 +49,23 @@ function buildFragmentBlock(fragmentRef) {
 }
 
 /**
- * Automatically inserts the aside bar fragment ref at the start of the main section,
+ * Appends a new section with the aside bar fragment,
  * if it is not disabled for this page via metadata.
  * @param {Element} main The container element
  */
-function prependAsideBar(main) {
+function appendAsideBar(main) {
   if (getMetadata('include-aside-bar') === 'false') {
     return;
   }
   const fragment = buildFragmentBlock('fragments/aside-bar');
-  // insert after stage-header block if present - otherwise at the start of main section
-  const stageHeader = main.querySelector('.stage-header');
-  if (stageHeader) {
-    stageHeader.parentElement.insertBefore(fragment, stageHeader.nextSibling);
-  } else {
-    const section = document.createElement('div');
-    section.append(fragment);
-    main.prepend(section);
-  }
+  const section = document.createElement('div');
+  section.classList.add('aside-bar-section');
+  section.appendChild(fragment);
+  main.append(section);
 }
 
 /**
- * Automatically inserts the aside teaser fragment ref at the end of the main section,
+ * Appends a new section with the teaser bar fragment,
  * if it is not disabled for this page via metadata.
  * @param {Element} main The container element
  */
@@ -64,7 +75,8 @@ function appendTeaserBar(main) {
   }
   const fragment = buildFragmentBlock('fragments/teaser-bar');
   const section = document.createElement('div');
-  section.append(fragment);
+  section.classList.add('teaser-bar-section');
+  section.appendChild(fragment);
   main.append(section);
 }
 
@@ -74,7 +86,8 @@ function appendTeaserBar(main) {
  */
 function buildAutoBlocks(main) {
   try {
-    prependAsideBar(main);
+    extractStageHeader(main);
+    appendAsideBar(main);
     appendTeaserBar(main);
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -89,8 +102,6 @@ function buildAutoBlocks(main) {
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main, insideFragment) {
-  // hopefully forward compatible button decoration
-  decorateButtons(main);
   decorateIcons(main);
   if (!insideFragment) {
     buildAutoBlocks(main);

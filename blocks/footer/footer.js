@@ -1,3 +1,4 @@
+import { append } from '../../scripts/dom-utils.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
 import { getSiteRoot } from '../../scripts/site-utils.js';
 
@@ -5,46 +6,14 @@ import { getSiteRoot } from '../../scripts/site-utils.js';
  * @param {Element} footerNav
  */
 function decorateFooterNav(footerNav) {
-  footerNav.classList.add('row');
-
-  // get first level of ul/li elements and rebuild them as section with h2 headline
-  // and the nested ul as actual navigation list
-  const columns = footerNav.querySelector(':scope > ul');
-  if (columns) {
-    footerNav.removeChild(columns);
-    Array.from(columns.children).forEach((column) => {
-      const section = document.createElement('section');
-      section.classList.add('col-1-4');
-
-      const boxPadding = document.createElement('div');
-      boxPadding.classList.add('box-padding');
-      section.append(boxPadding);
-
-      const h2 = document.createElement('h2');
-      h2.classList.add('title', 'title-section', 'title-footer');
-      h2.textContent = Array.from(column.childNodes)
-        .find((node) => node.nodeType === Node.TEXT_NODE)?.textContent.trim();
-      boxPadding.append(h2);
-
-      const navList = column.querySelector('ul');
-      if (navList) {
-        navList.classList.add('navlist', 'navlist-footer');
-        navList.querySelectorAll('a').forEach((a) => a.classList.add('navlink', 'navlink-footer'));
-        boxPadding.append(navList);
-      }
-
-      footerNav.append(section);
-    });
-  }
+  footerNav.classList.add('section-footernav');
 }
 
 /**
  * @param {Element} footerText
  */
 function decorateFooterText(footerText) {
-  footerText.classList.add('row');
-  footerText.querySelectorAll('p').forEach((p) => p.classList.add('footer-text', 'box-padding'));
-  footerText.querySelectorAll('a').forEach((a) => a.classList.add('navlink'));
+  footerText.classList.add('section-footertext');
 }
 
 /**
@@ -61,8 +30,7 @@ export default async function decorate(block) {
   const resp = await fetch(`${navPath}.plain.html`);
   if (resp.ok) {
     const html = await resp.text();
-    const container = document.createElement('div');
-    container.classList.add('footer-site');
+    const container = append(block, 'div');
     container.innerHTML = html;
 
     // first section: footer navigation
@@ -76,7 +44,5 @@ export default async function decorate(block) {
     if (footerText) {
       decorateFooterText(footerText);
     }
-
-    block.append(container);
   }
 }
