@@ -1,13 +1,20 @@
 .teaser-bar {
-  display: flex;
   margin-top: 1em;
   border-top: none;
   padding: 0 var(--base-unit);
   gap: calc(2 * var(--base-unit));
 }
 
+@media screen and (min-width: 600px) and (max-width: 799px) {
+  .teaser-bar {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
 @media screen and (min-width: 799px) {
   .teaser-bar {
+    display: flex;
     border-top: 1px solid var(--color-medium-dark-gray);
   }
 }
@@ -20,18 +27,31 @@
 
 @media screen and (min-width: 600px) and (max-width: 799px) {
   .teaser-bar > div {
-    border-top: 1px solid var(--color-medium-dark-gray);
+    flex: 0 calc(50% - var(--base-unit));
     padding: 0 0 var(--base-unit);
   }
 }
 
 @media screen and (min-width: 799px) {
   .teaser-bar > div {
+    flex: 1 0;
     border-top: none;
     padding: 0 0 var(--base-unit);
   }
 }
 
-.teaser-bar h1 {
+.teaser-bar > div h1 {
   font-size: 1.3em;
+}
+
+@media screen and (min-width: 799px)  {
+  .teaser-bar > div p:nth-last-child(2) {
+    min-height: 128px;
+  }
+}
+
+.teaser-bar > div p:last-child a {
+  background: url('/resources/img/link_icon.png') 0 0.15em no-repeat transparent;
+  background-size: 0.8em 0.8em;
+  padding-left: 1em;
 }
