@@ -14,10 +14,6 @@ function decorateHeader(header, siteRoot) {
   logoLink.id = 'top';
   logoLink.href = siteRoot;
   append(logoLink, 'div');
-
-  // header css classes
-  header.querySelector('h1')?.classList.add('title', 'title-site');
-  header.querySelector('h2')?.classList.add('title', 'title-site', 'caption');
 }
 
 /**
@@ -27,7 +23,7 @@ function decorateMainNav(mainNav) {
   mainNav.classList.add('nav-main');
 
   // mobile navigation
-  const h1 = prepend(mainNav, 'h1', 'title', 'title-nav', 'title-mainnav');
+  const h1 = prepend(mainNav, 'h1', 'mobile-nav');
   const anchor = append(h1, 'a', 'menu-opener');
   anchor.href = '#';
   anchor.text = 'Navigation';

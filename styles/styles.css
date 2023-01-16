@@ -87,8 +87,12 @@ main .section.teaser-bar-section {
 
 
 /* --- basic styling --- */
-* {
+html {
   box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
 .box-padding {
@@ -282,59 +286,6 @@ a:active {
 .title {
   font-family: var(--font-semi);
   font-weight: normal;
-}
-
-.title.title-nav {
-  display: none;
-}
-
-@media screen and (max-width: 600px) {
-  .title.title-mainnav {
-    display: block;
-    margin: 0 0 0 0.5em;
-    width: 30px;
-    height: 36px;
-    overflow: hidden;
-    word-wrap: nowrap;
-  }
-
-  .title.title-mainnav a {
-    display: block;
-    overflow: hidden;
-    word-wrap: nowrap;
-    width: 100%;
-    height: 100%;
-    background: url('/resources/img/menu.png') 0 3px no-repeat transparent;
-    text-indent: 100%;
-  }
-}
-
-.title.title-site {
-  text-transform: none;
-  font-family: var(--font-light);
-  margin: 0 0 0.5em;
-  padding: 0.5em 0 0;
-}
-
-@media screen and (max-width: 320px) {
-  .title.title-site {
-    display: none;
-  }
-}
-
-.title.title-site.caption {
-  display: block;
-  font-family: var(--font-semi);
-  margin: 0.3em 0.2em 0;
-  padding: 0;
-  font-size: 1.2em;
-}
-
-@media screen and (max-width: 320px) {
-  .title.title-site.caption {
-    padding: 0.625em 0;
-    text-align: center;
-  }
 }
 
 .title.title-footer {

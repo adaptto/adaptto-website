@@ -31,11 +31,11 @@ describe('Header block', () => {
     expect(logo).to.exist;
     expect(logo.href).to.eq('http://localhost:2000/');
 
-    const h1 = header.querySelector('h1.title.title-site');
+    const h1 = header.querySelector('h1');
     expect(h1).to.exist;
     expect(h1.textContent).to.eq('adaptTo()');
 
-    const h2 = header.querySelector('h2.title.title-site.caption');
+    const h2 = header.querySelector('h2');
     expect(h2).to.exist;
     expect(h2.textContent).to.eq('Slogan');
   });
@@ -44,7 +44,7 @@ describe('Header block', () => {
     const mainNav = document.querySelector('header .nav-main');
     expect(mainNav).to.exist;
 
-    const mobileNav = mainNav.querySelector('a.menu-opener');
+    const mobileNav = mainNav.querySelector('h1.mobile-nav a.menu-opener');
     expect(mobileNav).to.exist;
 
     const navList = mainNav.querySelector('ul.navlist-main');
