@@ -203,50 +203,10 @@ a:active {
   }
 }
 
-/* --- navigation --- */
-.navlist {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.navlist-footer {
-  min-height: 6.25em;
-}
-
-@media screen and (max-width: 600px) {
-  .navlist-footer {
-    min-height: 0;
-    margin: 0 0 1.25em;
-  }
-}
-
-.navlink:link {
-  color: var(--color-light);
-}
-
-.navlink:visited {
-  color: var(--color-light);
-}
-
-.navlink:hover, .navlink:active {
-  color: var(--color-light);
-  text-decoration: underline;
-}
-
 /* --- titles --- */
 .title {
   font-family: var(--font-semi);
   font-weight: normal;
-}
-
-.title.title-footer {
-  font-family: var(--font-semi);
-  font-weight: normal;
-  font-size: 1.0em;
-  margin: 0.5em 0 0.2em;
-  color: #fafafa;
-  text-transform: uppercase;
 }
 
 .title.title-teaser {
