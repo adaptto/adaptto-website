@@ -24,7 +24,7 @@ await sleep();
 
 describe('Header block', () => {
   it('Header', async () => {
-    const header = document.querySelector('header .nav-header');
+    const header = document.querySelector('header .section-header');
     expect(header).to.exist;
 
     const logo = header.querySelector('a.logo');
@@ -41,16 +41,16 @@ describe('Header block', () => {
   });
 
   it('Main Navigation', async () => {
-    const mainNav = document.querySelector('header .nav-main');
+    const mainNav = document.querySelector('header .section-mainnav');
     expect(mainNav).to.exist;
 
-    const mobileNav = mainNav.querySelector('h1.mobile-nav a.menu-opener');
+    const mobileNav = mainNav.querySelector('h1.mobile-nav a');
     expect(mobileNav).to.exist;
 
-    const navList = mainNav.querySelector('ul.navlist-main');
+    const navList = mainNav.querySelector(':scope > ul');
     expect(navList).to.exist;
 
-    const a = navList.querySelector('a.navlink-main');
+    const a = navList.querySelector(':scope > li > a');
     expect(a).to.exist;
     expect(a.href).to.eq('http://localhost:2000/2021/');
   });

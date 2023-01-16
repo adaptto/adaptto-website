@@ -203,59 +203,11 @@ a:active {
   }
 }
 
-
 /* --- navigation --- */
 .navlist {
   list-style-type: none;
   margin: 0;
   padding: 0;
-}
-
-.navlist-main {
-  margin: 0 auto;
-  list-style: none;
-}
-
-.navlist-main li {
-  display: inline-block;
-  position: relative;
-  margin: 0.3em 1em;
-}
-
-@media screen and (min-width: 600px) {
-  .navlist-main li:hover ul {
-    display: block;
-  }
-}
-
-.navlist-main ul {
-  display: none;
-  position: absolute;
-  left: -1em;
-  background-color: var(--color-highlight-1);
-  z-index: 1000;
-  padding-left: 0;
-}
-
-.navlist-main ul li {
-  display: block;
-  white-space: nowrap;
-}
-
-@media screen and (max-width: 600px) {
-  .navlist-main {
-    display: none;
-  }
-
-  .navlist-main.active {
-    display: block;
-    padding-bottom: 0.5em;
-  }
-
-  .navlist-main li {
-    display: block;
-    margin: 0.5em 1em;
-  }
 }
 
 .navlist-footer {
