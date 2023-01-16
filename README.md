@@ -22,15 +22,12 @@ npm tst
 
 ## Cloud development
 
-1. Click "Use this template" and create a new repository based on the `helix-project-boilerplate` template and add a mountpoint in the `fstab.yaml`
-2. Click "Code" and create a new codespace from your new repository
-3. Start Franklin Proxy: `hlx up` (opens your browser at `http://localhost:3000` or a proxied version)
-4. Start coding, your browser is your IDE now.
+1. Click "Code" and create a new codespace from your repository
+2. Start Franklin Proxy: `hlx up` (opens your browser at `http://localhost:3000` or a proxied version)
+3. Start coding, your browser is your IDE now.
 
 ## Local development
 
-1. Create a new repository based on the `helix-project-boilerplate` template and add a mountpoint in the `fstab.yaml`
-2. Add the [helix-bot](https://github.com/apps/helix-bot) to the repository
-3. Install the [Helix CLI](https://github.com/adobe/helix-cli): `npm install -g @adobe/helix-cli`
-4. Start Franklin Proxy: `hlx up` (opens your browser at `http://localhost:3000`)
-5. Open the `adaptto-website` directory in your favorite IDE and start coding :)
+1. Install the [Helix CLI](https://github.com/adobe/helix-cli): `npm install -g @adobe/helix-cli`
+2. Start Franklin Proxy: `hlx up` (opens your browser at `http://localhost:3000`)
+3. Open the `adaptto-website` directory in your favorite IDE and start coding :)
