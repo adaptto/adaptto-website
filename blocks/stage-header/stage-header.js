@@ -21,18 +21,16 @@ export default function decorate(block) {
   }
 
   const overlay = append(stage, 'div', 'stage-overlay');
-  const boxPadding = append(overlay, 'div', 'box-padding');
 
   // title and text
-  const title = append(boxPadding, 'div', 'stage-title');
+  const title = append(overlay, 'div', 'stage-title');
   if (h2) {
-    h2.classList.add('title', 'title-section');
     title.append(h2);
   }
   content.forEach((p) => title.append(p));
 
   // cta links
-  const ctaBox = append(boxPadding, 'div', 'stage-cta-box');
+  const ctaBox = append(overlay, 'div', 'stage-cta-box');
   links.forEach((link) => {
     const ctaP = append(ctaBox, 'p');
     link.classList.add('stage-cta');

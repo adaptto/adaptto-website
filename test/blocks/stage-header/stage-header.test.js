@@ -16,7 +16,7 @@ describe('Stage Header Block', () => {
 
     const title = stage.querySelector('.stage-overlay .stage-title');
     expect(title).to.exist;
-    expect(title.querySelector('h2.title.title-section')).to.exist;
+    expect(title.querySelector('h2')).to.exist;
     expect(title.querySelector('p')).to.exist;
 
     const ctaBox = stage.querySelector('.stage-cta-box');
