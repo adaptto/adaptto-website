@@ -6,14 +6,14 @@ import { getSiteRoot } from '../../scripts/site-utils.js';
  * @param {Element} footerNav
  */
 function decorateFooterNav(footerNav) {
-  footerNav.classList.add('section-footernav', 'row');
+  footerNav.classList.add('section-footernav');
 }
 
 /**
  * @param {Element} footerText
  */
 function decorateFooterText(footerText) {
-  footerText.classList.add('section-footertext', 'row');
+  footerText.classList.add('section-footertext');
 }
 
 /**

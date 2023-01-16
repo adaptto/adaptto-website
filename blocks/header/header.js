@@ -7,7 +7,7 @@ import { getSiteRoot } from '../../scripts/site-utils.js';
  * @param {string} siteRoot
  */
 function decorateHeader(header, siteRoot) {
-  header.classList.add('section-header', 'row');
+  header.classList.add('section-header');
 
   // add logo with site root link
   const logoLink = prepend(header, 'a', 'logo');
@@ -48,9 +48,6 @@ function decorateMainNav(mainNav) {
       });
     }
   });
-
-  // grid layout
-  mainNav.querySelectorAll(':scope > ul').forEach((ul) => ul.classList.add('row'));
 }
 
 /**

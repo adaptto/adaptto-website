@@ -9,6 +9,18 @@
   }
 }
 
+.header .section-header, .header .section-mainnav ul {
+  margin: 0 auto;
+  max-width: 100%;
+  width: 100%;
+}
+
+@media screen and (min-width: 799px) {
+  .header .section-header, .header .section-mainnav ul {
+    width: var(--content-width);
+  }
+}
+
 /* --- Headlines --- */
 .header h1 {
   font-family: var(--font-light);
