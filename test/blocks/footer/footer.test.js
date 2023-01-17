@@ -16,7 +16,8 @@ const sleep = async (time = 1000) => new Promise((resolve) => {
   }, time);
 });
 
-const footerBlock = buildBlock('footer', [['Footer', '/test/blocks/footer/footer']]);
+const footerBlock = buildBlock('footer', [['footer', '/test/blocks/footer/footer'],
+  ['queryindexurl', '/test/scripts/query-index-sample.json']]);
 document.querySelector('footer').append(footerBlock);
 decorateBlock(footerBlock);
 await loadBlock(footerBlock);
@@ -24,12 +25,22 @@ await sleep();
 
 describe('Footer block', () => {
   it('Footer Nav', async () => {
-    const ul = document.querySelector('.footer .section-footernav > ul > li > ul');
-    expect(ul, 'ul').to.exist;
+    const footerNavItems = document.querySelectorAll('.footer .section-footernav > ul > li');
+    expect(footerNavItems.length).to.eq(2);
 
-    const a = ul.querySelector(':scope > li > a');
-    expect(a, 'a').to.exist;
-    expect(a.href).to.equal('http://localhost:2000/2021/conference');
+    const conferenceLinks = footerNavItems[0].querySelectorAll(':scope > ul > li > a');
+    expect(conferenceLinks.length, 'conferenceLinks').to.eq(2);
+    expect(conferenceLinks[0].href).to.equal('http://localhost:2000/2021/conference');
+    expect(conferenceLinks[1].href).to.equal('http://localhost:2000/2021/schedule');
+
+    // archive links dynamically added
+    const archiveLinks = footerNavItems[1].querySelectorAll(':scope > ul > li > a');
+    expect(archiveLinks.length, 'archiveLinks').to.eq(3);
+    expect(archiveLinks[0].href).to.equal('http://localhost:2000/2021/archive');
+    expect(archiveLinks[1].href).to.equal('http://localhost:2000/2021/');
+    expect(archiveLinks[1].textContent).to.equal('adaptTo() 2021');
+    expect(archiveLinks[2].href).to.equal('http://localhost:2000/2020/');
+    expect(archiveLinks[2].textContent).to.equal('adaptTo() 2020');
   });
 
   it('Footer Text', async () => {

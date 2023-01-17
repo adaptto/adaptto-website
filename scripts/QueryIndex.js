@@ -25,7 +25,6 @@ export class QueryIndex {
 
 /**
  * @param {string} href Url to query-index.json
- * @return {QueryIndex}
  */
 export async function getQueryIndex(href) {
   let data;

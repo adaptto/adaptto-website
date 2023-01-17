@@ -4,12 +4,13 @@ import { addArchiveLinks, getSiteRoot } from '../../scripts/site-utils.js';
 
 /**
  * @param {Element} footerNav
+ * @param {object} cfg
  */
-function decorateFooterNav(footerNav) {
+function decorateFooterNav(footerNav, cfg) {
   footerNav.classList.add('section-footernav');
 
-  // add archive links to last mainnav item
-  addArchiveLinks(footerNav);
+  // add archive links to last footernav item
+  addArchiveLinks(footerNav, cfg.queryindexurl || '/query-index.json');
 }
 
 /**
@@ -62,7 +63,7 @@ export default async function decorate(block) {
     // first section: footer navigation
     const footerNav = container.children[0];
     if (footerNav) {
-      decorateFooterNav(footerNav);
+      decorateFooterNav(footerNav, cfg);
     }
 
     // second section: footer text

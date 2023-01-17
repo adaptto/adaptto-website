@@ -18,8 +18,9 @@ function decorateHeader(header, siteRoot) {
 
 /**
  * @param {Element} mainNav
+ * @param {object} cfg
  */
-function decorateMainNav(mainNav) {
+function decorateMainNav(mainNav, cfg) {
   mainNav.classList.add('section-mainnav');
 
   // mobile navigation
@@ -50,7 +51,7 @@ function decorateMainNav(mainNav) {
   });
 
   // add archive links to last mainnav item
-  addArchiveLinks(mainNav);
+  addArchiveLinks(mainNav, cfg.queryindexurl || '/query-index.json');
 }
 
 /**
@@ -79,7 +80,7 @@ export default async function decorate(block) {
     // second section: main navigation
     const mainNav = nav.children[1];
     if (mainNav) {
-      decorateMainNav(mainNav);
+      decorateMainNav(mainNav, cfg);
     }
 
     block.append(nav);

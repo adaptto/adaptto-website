@@ -24,9 +24,9 @@ export function getSiteRoot(pathname) {
  * Adds archive links pointing to other yearly edition websites.
  * The links are added to the ul of the last li item.
  * @param {Element} nav Navigation element
- * @param {string?} queryIndexUrl URL pointing to query-index json
+ * @param {string} queryIndexUrl URL pointing to query-index json
  */
-export async function addArchiveLinks(nav, queryIndexUrl = '/query-index.json') {
+export async function addArchiveLinks(nav, queryIndexUrl) {
   const navItems = nav.querySelectorAll(':scope > ul > li');
   const lastNavItem = navItems[navItems.length - 1];
   if (lastNavItem) {
