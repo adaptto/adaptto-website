@@ -16,7 +16,8 @@ const sleep = async (time = 1000) => new Promise((resolve) => {
   }, time);
 });
 
-const headerBlock = buildBlock('header', [['Nav', '/test/blocks/header/nav']]);
+const headerBlock = buildBlock('header', [['nav', '/test/blocks/header/nav'],
+  ['queryindexurl', '/test/scripts/query-index-sample.json']]);
 document.querySelector('header').append(headerBlock);
 decorateBlock(headerBlock);
 await loadBlock(headerBlock);
@@ -47,11 +48,20 @@ describe('Header block', () => {
     const mobileNav = mainNav.querySelector('h1.mobile-nav a');
     expect(mobileNav).to.exist;
 
-    const navList = mainNav.querySelector(':scope > ul');
-    expect(navList).to.exist;
+    const navItems = mainNav.querySelectorAll(':scope > ul > li');
+    expect(navItems.length).to.eq(4);
 
-    const a = navList.querySelector(':scope > li > a');
-    expect(a).to.exist;
-    expect(a.href).to.eq('http://localhost:2000/2021/');
+    const homeLink = navItems[0].querySelector(':scope > a');
+    expect(homeLink).to.exist;
+    expect(homeLink.href).to.eq('http://localhost:2000/2021/');
+
+    // archive links dynamically added
+    const archiveLinks = navItems[3].querySelectorAll(':scope > ul > li > a');
+    expect(archiveLinks.length, 'archiveLinks').to.eq(3);
+    expect(archiveLinks[0].href).to.equal('http://localhost:2000/2021/archive');
+    expect(archiveLinks[1].href).to.equal('http://localhost:2000/2021/');
+    expect(archiveLinks[1].textContent).to.equal('adaptTo() 2021');
+    expect(archiveLinks[2].href).to.equal('http://localhost:2000/2020/');
+    expect(archiveLinks[2].textContent).to.equal('adaptTo() 2020');
   });
 });

@@ -111,11 +111,32 @@ export function decorateMain(main, insideFragment) {
 }
 
 /**
+ * Applies template and theme as defined in document's metadata. Additionally,
+ * if no template is set, a default template is derived based on "include-aside-bar" status.
+ * Supported templates are:
+ * - content-3col (default)
+ * - content-4col (default with include-aside-bar=false)
+ * - content-2col
+ */
+function decorateTemplateAndThemeWithAutoDetection() {
+  decorateTemplateAndTheme();
+  let template = getMetadata('template');
+  if (!template) {
+    if (getMetadata('include-aside-bar') === 'false') {
+      template = 'content-4col';
+    } else {
+      template = 'content-3col';
+    }
+    document.body.classList.add(template);
+  }
+}
+
+/**
  * loads everything needed to get to LCP.
  */
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
-  decorateTemplateAndTheme();
+  decorateTemplateAndThemeWithAutoDetection();
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
@@ -155,7 +176,7 @@ async function loadLazy(doc) {
   loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
-  addFavIcon(`${window.hlx.codeBasePath}/resources/img/favicon.ico`);
+  addFavIcon(`${window.hlx.codeBasePath}/resources/img/adaptto-favicon.svg`);
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));

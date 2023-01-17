@@ -1,0 +1,38 @@
+{
+  "data": [
+    {
+      "path": "/2020/",
+      "title": "adaptTo() 2020"
+    },
+    {
+      "path": "/2021/",
+      "title": "adaptTo() 2021"
+    },
+    {
+      "path": "/speakers/speaker1",
+      "robots": "noindex, nofollow",
+      "title": "Speaker #1",
+      "image": "/speakers/media_1.jpg",
+      "affiliation": "Company 1",
+      "twitter": "@speaker1"
+    },
+    {
+      "path": "/speakers/speaker2",
+      "robots": "noindex, nofollow",
+      "title": "Speaker #2",
+      "image": "/speakers/media_2a.jpg",
+      "affiliation": "Company 2b",
+      "twitter": "@speaker-2"
+    },
+    {
+      "path": "/speakers/speaker2-2020",
+      "robots": "noindex, nofollow",
+      "title": "Speaker #2",
+      "image": "/speakers/media_2b.jpg",
+      "affiliation": "Company 2a",
+      "twitter": "@speaker2",
+      "speaker-alias": "speaker2",
+      "uptoyear": "2020"
+    }
+  ]
+}

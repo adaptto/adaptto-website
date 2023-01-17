@@ -1,12 +1,36 @@
 import { append } from '../../scripts/dom-utils.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
-import { getSiteRoot } from '../../scripts/site-utils.js';
+import { addArchiveLinks, getSiteRoot } from '../../scripts/site-utils.js';
 
 /**
  * @param {Element} footerNav
+ * @param {object} cfg
  */
-function decorateFooterNav(footerNav) {
+function decorateFooterNav(footerNav, cfg) {
   footerNav.classList.add('section-footernav');
+
+  // add archive links to last footernav item
+  addArchiveLinks(footerNav, cfg.queryindexurl || '/query-index.json');
+}
+
+/**
+ * Replace text in text nodes.
+ * @param {Element} element
+ * @param {RegExp} pattern
+ * @param {string} replacement
+ */
+function replaceInText(element, pattern, replacement) {
+  Array.from(element.childNodes).forEach((node) => {
+    switch (node.nodeType) {
+      case Node.ELEMENT_NODE:
+        replaceInText(node, pattern, replacement);
+        break;
+      case Node.TEXT_NODE:
+        node.textContent = node.textContent.replace(pattern, replacement);
+        break;
+      default:
+    }
+  });
 }
 
 /**
@@ -14,6 +38,9 @@ function decorateFooterNav(footerNav) {
  */
 function decorateFooterText(footerText) {
   footerText.classList.add('section-footertext');
+
+  // replace placeholder for current year
+  replaceInText(footerText, /\$currentYear\$/g, new Date().getFullYear());
 }
 
 /**
@@ -36,7 +63,7 @@ export default async function decorate(block) {
     // first section: footer navigation
     const footerNav = container.children[0];
     if (footerNav) {
-      decorateFooterNav(footerNav);
+      decorateFooterNav(footerNav, cfg);
     }
 
     // second section: footer text

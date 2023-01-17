@@ -1,6 +1,6 @@
 import { append, prepend } from '../../scripts/dom-utils.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
-import { getSiteRoot } from '../../scripts/site-utils.js';
+import { addArchiveLinks, getSiteRoot } from '../../scripts/site-utils.js';
 
 /**
  * @param {Element} header
@@ -18,8 +18,9 @@ function decorateHeader(header, siteRoot) {
 
 /**
  * @param {Element} mainNav
+ * @param {object} cfg
  */
-function decorateMainNav(mainNav) {
+function decorateMainNav(mainNav, cfg) {
   mainNav.classList.add('section-mainnav');
 
   // mobile navigation
@@ -48,6 +49,9 @@ function decorateMainNav(mainNav) {
       });
     }
   });
+
+  // add archive links to last mainnav item
+  addArchiveLinks(mainNav, cfg.queryindexurl || '/query-index.json');
 }
 
 /**
@@ -76,7 +80,7 @@ export default async function decorate(block) {
     // second section: main navigation
     const mainNav = nav.children[1];
     if (mainNav) {
-      decorateMainNav(mainNav);
+      decorateMainNav(mainNav, cfg);
     }
 
     block.append(nav);

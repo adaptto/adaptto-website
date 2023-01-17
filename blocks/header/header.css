@@ -96,7 +96,7 @@
 .header .section-mainnav > ul li {
   display: inline-block;
   position: relative;
-  margin: 0.3em 1em;
+  margin: 0.3em 0.75em;
 }
 
 @media screen and (min-width: 600px) {
@@ -112,6 +112,7 @@
   background-color: var(--color-highlight-1);
   z-index: 1000;
   padding-left: 0;
+  min-width: 200px;
 }
 
 .header .section-mainnav > ul ul li {
