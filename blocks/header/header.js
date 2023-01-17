@@ -1,6 +1,6 @@
 import { append, prepend } from '../../scripts/dom-utils.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
-import { getSiteRoot } from '../../scripts/site-utils.js';
+import { addArchiveLinks, getSiteRoot } from '../../scripts/site-utils.js';
 
 /**
  * @param {Element} header
@@ -48,6 +48,9 @@ function decorateMainNav(mainNav) {
       });
     }
   });
+
+  // add archive links to last mainnav item
+  addArchiveLinks(mainNav);
 }
 
 /**

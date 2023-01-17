@@ -1,3 +1,6 @@
+import { append } from './dom-utils.js';
+import { getQueryIndex } from './QueryIndex.js';
+
 const siteRootRegex = /^(\/[^/]+\/)(.+)?$/;
 
 /**
@@ -9,11 +12,33 @@ const siteRootRegex = /^(\/[^/]+\/)(.+)?$/;
  * @param {string} pathname Path name
  * @returns Site root path
  */
-// eslint-disable-next-line import/prefer-default-export
 export function getSiteRoot(pathname) {
   const result = pathname.match(siteRootRegex);
   if (result) {
     return result[1];
   }
   return '/';
+}
+
+/**
+ * Adds archive links pointing to other yearly edition websites.
+ * The links are added to the ul of the last li item.
+ * @param {Element} nav Navigation element
+ * @param {string?} queryIndexUrl URL pointing to query-index json
+ */
+export async function addArchiveLinks(nav, queryIndexUrl = '/query-index.json') {
+  const navItems = nav.querySelectorAll(':scope > ul > li');
+  const lastNavItem = navItems[navItems.length - 1];
+  if (lastNavItem) {
+    const ul = lastNavItem.querySelector(':scope > ul');
+    if (ul) {
+      const queryIndex = await getQueryIndex(queryIndexUrl);
+      queryIndex.getAllSiteRoots().forEach((siteRoot) => {
+        const listItem = append(ul, 'li');
+        const link = append(listItem, 'a');
+        link.href = siteRoot.path;
+        link.textContent = siteRoot.title;
+      });
+    }
+  }
 }

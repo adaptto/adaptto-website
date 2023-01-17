@@ -1,12 +1,15 @@
 import { append } from '../../scripts/dom-utils.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
-import { getSiteRoot } from '../../scripts/site-utils.js';
+import { addArchiveLinks, getSiteRoot } from '../../scripts/site-utils.js';
 
 /**
  * @param {Element} footerNav
  */
 function decorateFooterNav(footerNav) {
   footerNav.classList.add('section-footernav');
+
+  // add archive links to last mainnav item
+  addArchiveLinks(footerNav);
 }
 
 /**
