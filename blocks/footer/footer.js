@@ -10,10 +10,33 @@ function decorateFooterNav(footerNav) {
 }
 
 /**
+ * Replace text in text nodes.
+ * @param {Element} element
+ * @param {RegExp} pattern
+ * @param {string} replacement
+ */
+function replaceInText(element, pattern, replacement) {
+  Array.from(element.childNodes).forEach((node) => {
+    switch (node.nodeType) {
+      case Node.ELEMENT_NODE:
+        replaceInText(node, pattern, replacement);
+        break;
+      case Node.TEXT_NODE:
+        node.textContent = node.textContent.replace(pattern, replacement);
+        break;
+      default:
+    }
+  });
+}
+
+/**
  * @param {Element} footerText
  */
 function decorateFooterText(footerText) {
   footerText.classList.add('section-footertext');
+
+  // replace placeholder for current year
+  replaceInText(footerText, /\$currentYear\$/g, new Date().getFullYear());
 }
 
 /**

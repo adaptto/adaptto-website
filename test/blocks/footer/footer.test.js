@@ -35,6 +35,7 @@ describe('Footer block', () => {
   it('Footer Text', async () => {
     const p = document.querySelector('.footer .section-footertext p');
     expect(p, 'p').to.exist;
+    expect(p.textContent).to.eq(`Copyright ${new Date().getFullYear()} Imprint`);
 
     const a = p.querySelector('.footer .section-footertext a');
     expect(a, 'a').to.exist;
