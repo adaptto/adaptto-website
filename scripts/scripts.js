@@ -141,21 +141,6 @@ export function addFavIcon(href) {
 }
 
 /**
- * Add Apple Touch Icon (iOS)
- * @param {string} href
- * @param {string?} size
- */
-function addAppleTouchIcon(href, size) {
-  const link = document.createElement('link');
-  link.rel = 'apple-touch-icon';
-  link.href = href;
-  if (size) {
-    link.setAttribute('size', size);
-  }
-  document.getElementsByTagName('head')[0].appendChild(link);
-}
-
-/**
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
@@ -170,12 +155,7 @@ async function loadLazy(doc) {
   loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
-
   addFavIcon(`${window.hlx.codeBasePath}/resources/img/adaptto-favicon.svg`);
-  addAppleTouchIcon(`${window.hlx.codeBasePath}/resources/img/apple-touch-icon-57-57.png`);
-  addAppleTouchIcon(`${window.hlx.codeBasePath}/resources/img/apple-touch-icon-72x72.png`, '72x72');
-  addAppleTouchIcon(`${window.hlx.codeBasePath}/resources/img/apple-touch-icon-114x114.png`, '114x114');
-
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));
