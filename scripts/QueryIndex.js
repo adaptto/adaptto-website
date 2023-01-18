@@ -1,42 +1,55 @@
+import QueryIndexItem from './QueryIndexItem.js';
+
 const siteRootRegex = /^\/\d\d\d\d\/$/;
 
 let queryIndexInstance;
 
 /**
- * Helper class for getting relevant information from helix query index.
+ * Helper for getting information about published pages and metadata.
  */
-export class QueryIndex {
-  data;
+export default class QueryIndex {
+  /** @type {QueryIndexItem[]} */
+  items;
 
   /**
-   * @param {object[]} data data array from query-index.json
+   * @param {QueryIndexItem[]} items data array from query-index.json
    */
-  constructor(data) {
-    this.data = data;
+  constructor(items) {
+    this.items = items;
   }
 
   /**
-   * @returns {object[]} All web site root pages (for each yearly edition), newest first.
+   * @param {string} path Item path
+   * @returns {QueryIndexItem?} Item
+   */
+  getItem(path) {
+    return this.items.find((item) => item.path === path);
+  }
+
+  /**
+   * @returns {QueryIndexItem[]} All web site root pages (for each yearly edition), newest first.
    */
   getAllSiteRoots() {
-    return this.data
+    return this.items
       .filter((item) => item.path && item.path.match(siteRootRegex))
       .sort((item1, item2) => item1.path && item2.path && item2.path.localeCompare(item1.path));
   }
 }
 
 /**
- * @param {string} href Url to query-index.json
+ * @param {string} url Url to query-index.json
  */
-export async function getQueryIndex(href) {
+export async function getQueryIndex(url) {
   if (!queryIndexInstance) {
     let data;
-    const resp = await fetch(href);
+    const resp = await fetch(url);
     if (resp.ok) {
       const json = await resp.json();
       data = json.data;
     }
-    queryIndexInstance = new QueryIndex(data || []);
+    data = data || [];
+    const items = data.map((item) => Object.assign(new QueryIndexItem(), item));
+    queryIndexInstance = new QueryIndex(items);
   }
   return queryIndexInstance;
 }

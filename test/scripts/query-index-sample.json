@@ -1,6 +1,25 @@
 {
   "data": [
     {
+      "path": "/sample-all-properties",
+      "title": "Sample Title",
+      "robots": "no-index, no-follow",
+      "image": "/sample-image.jpg",
+      "tags": "[\"Tag1\",\"Tag2\"]",
+      "affiliation": "Company 1",
+      "twitter": "@twitter1",
+      "speaker-alias": "speaker-1",
+      "uptoyear": "2020",
+      "speakers": "Speaker 1, Speaker 2"
+    },
+    {
+      "path": "/sample-missing-properties"
+    },
+    {
+      "path": "/sample-tags-csv-fallback",
+      "tags": "Tag1, Tag2"
+    },
+    {
       "path": "/2020/",
       "title": "adaptTo() 2020"
     },
