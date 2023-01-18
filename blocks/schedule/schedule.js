@@ -16,6 +16,9 @@ function buildTabNavigation(parent, days) {
     link.href = `#day-${day.day}`;
     link.rel = `day-${day.day}`;
     link.textContent = `Day ${day.day}`;
+    if (day.day === 1) {
+      link.classList.add('active');
+    }
   });
 }
 
@@ -27,8 +30,15 @@ function buildTabNavigation(parent, days) {
  */
 function buildDayEntryRow(tbody, entry) {
   const tr = append(tbody, 'tr', entry.type);
+
+  // time
+  const tdTime = append(tr, 'td');
   const timeOptions = { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' };
-  append(tr, 'td').textContent = `${entry.start.toLocaleTimeString('en-GB', timeOptions)} - ${entry.end.toLocaleTimeString('en-GB', timeOptions)}`;
+  append(tdTime, 'time').textContent = entry.start.toLocaleTimeString('en-GB', timeOptions);
+  tdTime.append(' - ');
+  append(tdTime, 'time').textContent = entry.start.toLocaleTimeString('en-GB', timeOptions);
+
+  // title & link
   const tdTitle = append(tr, 'td');
   if (entry.talkPath) {
     const link = append(tdTitle, 'a');
@@ -37,6 +47,8 @@ function buildDayEntryRow(tbody, entry) {
   } else {
     tdTitle.textContent = entry.title;
   }
+
+  // speaker
   append(tr, 'td').textContent = entry.speakers.join(', ');
 }
 
@@ -48,12 +60,17 @@ function buildDayEntryRow(tbody, entry) {
  */
 function buildDaySchedule(parent, day) {
   const tabContent = append(parent, 'div', 'tab-content');
+  tabContent.id = `day-${day.day}`;
+  if (day.day === 1) {
+    tabContent.classList.add('active');
+  }
 
   // show date
+  const dateOptions = { dateStyle: 'full' };
   const h4 = append(tabContent, 'h4');
   const date = append(h4, 'date');
   date.setAttribute('datetime', day.start.toISOString().substring(0, 10));
-  date.textContent = day.start.toLocaleDateString('en-GB', { dateStyle: 'full' });
+  date.textContent = day.start.toLocaleDateString('en-GB', dateOptions);
 
   // table header
   const table = append(tabContent, 'table');
