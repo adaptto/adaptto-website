@@ -8,6 +8,7 @@ const pageRegex = /^\/content\/adaptto(.+)\/en(.+)?\.html$/;
 const speakerRegex = /^\/content\/dam\/adaptto\/production\/speaker\/(.+)\.helix(\.(.+))?\.html$/;
 const presentationRegex = /^\/content\/dam\/adaptto\/production\/presentations\/([^/]+)\/(.+)\/_jcr_content\/renditions\/original\..+$/;
 const suffixFragmentRegex = /^fragment-(.+)$/;
+const multipleDashes = /-{2,}/g;
 
 /**
  * Ensure presentation file name does not contain invalid chars and is used lowercase.
@@ -38,6 +39,9 @@ function transformUrlToPath(url) {
   if (url.includes('://')) {
     pathname = new URL(url).pathname;
   }
+
+  // replace multiple "-" by a single "-"
+  pathname = pathname.replaceAll(multipleDashes, '-');
 
   const pageHelixMatch = pathname.match(pageHelixRegex);
   if (pageHelixMatch) {
