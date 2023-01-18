@@ -124,8 +124,10 @@ function buildDaySchedule(parent, day, activeDay) {
  * @param {Element} block
  */
 export default async function decorate(block) {
-  // load schedule data
   const cfg = readBlockConfig(block);
+  block.textContent = '';
+
+  // load schedule data
   const siteRoot = getSiteRoot(document.location.pathname);
   const scheduleDataUrl = cfg.scheduledataurl || `${siteRoot}schedule-data.json`;
   const queryIndexUrl = cfg.queryindexurl || '/query-index.json';
@@ -148,6 +150,8 @@ export default async function decorate(block) {
 
   // render schedule
   const days = scheduleData.getDays();
-  buildTabNavigation(block, days, activeDay);
-  days.forEach((day) => buildDaySchedule(block, day, activeDay));
+  if (days.length > 0) {
+    buildTabNavigation(block, days, activeDay);
+    days.forEach((day) => buildDaySchedule(block, day, activeDay));
+  }
 }
