@@ -15,6 +15,7 @@ describe('import', () => {
     expect(path('/content/adaptto/2021/en.html')).to.eq('/2021/index');
     expect(path('/content/adaptto/2021/en/schedule.helix.html')).to.eq('/2021/schedule');
     expect(path('/content/adaptto/2021/en/schedule/meet-the-experts-session-2.helix.html')).to.eq('/2021/schedule/meet-the-experts-session-2');
+    expect(path('/content/adaptto/2020/en/schedule/aem-ai---aem-as-a-content-science-platform.helix.html')).to.eq('/2020/schedule/aem-ai-aem-as-a-content-science-platform');
     expect(path('/content/adaptto/2021/en.helix-nav.html')).to.eq('/2021/nav');
     expect(path('/content/adaptto/2021/en.helix-fragment-teaser-bar.html')).to.eq('/2021/fragments/teaser-bar');
     expect(path('/content/dam/adaptto/production/speaker/name1-name2.helix.html')).to.eq('/speakers/name1-name2');
