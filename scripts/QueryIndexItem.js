@@ -5,7 +5,9 @@
  */
 function splitCSV(value) {
   if (value) {
-    return value.split(',').map((item) => item.trim());
+    return value.split(',')
+      .map((item) => item.trim())
+      .filter((item) => item !== '');
   }
   return [];
 }

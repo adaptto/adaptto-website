@@ -17,7 +17,7 @@ const sleep = async (time = 1000) => new Promise((resolve) => {
 });
 
 const headerBlock = buildBlock('header', [['nav', '/test/blocks/header/nav'],
-  ['queryindexurl', '/test/scripts/query-index-sample.json']]);
+  ['queryindexurl', '/test/test-data/query-index-sample.json']]);
 document.querySelector('header').append(headerBlock);
 decorateBlock(headerBlock);
 await loadBlock(headerBlock);

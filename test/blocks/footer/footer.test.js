@@ -17,7 +17,7 @@ const sleep = async (time = 1000) => new Promise((resolve) => {
 });
 
 const footerBlock = buildBlock('footer', [['footer', '/test/blocks/footer/footer'],
-  ['queryindexurl', '/test/scripts/query-index-sample.json']]);
+  ['queryindexurl', '/test/test-data/query-index-sample.json']]);
 document.querySelector('footer').append(footerBlock);
 decorateBlock(footerBlock);
 await loadBlock(footerBlock);

@@ -7,7 +7,7 @@ import QueryIndex, { getQueryIndex } from '../../scripts/QueryIndex.js';
 import QueryIndexItem from '../../scripts/QueryIndexItem.js';
 
 /** @type {QueryIndex} */
-const queryIndex = await getQueryIndex('/test/scripts/query-index-sample.json');
+const queryIndex = await getQueryIndex('/test/test-data/query-index-sample.json');
 
 describe('QueryIndex', () => {
   it('getItem-all-properties', () => {
