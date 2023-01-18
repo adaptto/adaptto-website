@@ -146,6 +146,7 @@ export default async function decorate(block) {
     }
   });
 
+  // render schedule
   const days = scheduleData.getDays();
   buildTabNavigation(block, days, activeDay);
   days.forEach((day) => buildDaySchedule(block, day, activeDay));

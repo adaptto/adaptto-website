@@ -4,8 +4,6 @@
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 
-document.body.innerHTML = await readFile({ path: '../../scripts/dummy.html' });
-
 const { buildBlock, decorateBlock, loadBlock } = await import('../../../scripts/lib-franklin.js');
 
 document.body.innerHTML = await readFile({ path: '../../scripts/body.html' });
