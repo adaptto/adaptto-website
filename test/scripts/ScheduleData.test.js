@@ -1,12 +1,9 @@
 /* eslint-disable no-unused-expressions */
-/* eslint-disable no-unused-vars */
 /* global describe it */
 
 import { expect } from '@esm-bundle/chai';
-import ScheduleData, { getScheduleData } from '../../scripts/ScheduleData.js';
-import ScheduleDay from '../../scripts/ScheduleDay.js';
+import { getScheduleData } from '../../scripts/ScheduleData.js';
 
-/** @type {ScheduleData} */
 const scheduleData = await getScheduleData(
   '/test/test-data/schedule-data-sample.json',
   '/test/test-data/query-index-schedule-2020.json',
@@ -14,7 +11,6 @@ const scheduleData = await getScheduleData(
 
 describe('ScheduleData', () => {
   it('getDays', () => {
-    /** @type {ScheduleDay[]} */
     const days = scheduleData.getDays();
     expect(days.length, 'days').to.eq(3);
 
@@ -68,13 +64,11 @@ describe('ScheduleData', () => {
   });
 
   it('getTalkEntry', () => {
-    /** @type {ScheduleEntry} */
     const entry = scheduleData.getTalkEntry('/2020/schedule/filevault-validation');
     expect(entry).to.exist;
   });
 
   it('getTalkEntry-invalid', () => {
-    /** @type {ScheduleEntry} */
     const entry = scheduleData.getTalkEntry('/2020/schedule/invalid-entry');
     expect(entry).to.not.exist;
   });

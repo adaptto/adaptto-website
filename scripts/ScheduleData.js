@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import QueryIndex, { getQueryIndex } from './QueryIndex.js';
+import { getQueryIndex } from './QueryIndex.js';
 import ScheduleDay from './ScheduleDay.js';
 import ScheduleEntry from './ScheduleEntry.js';
 
@@ -39,7 +38,7 @@ export default class ScheduleData {
 }
 
 /**
- * Converts a number counting days since 1/1/1900 to a date value.
+ * Converts a number counting days since 1/1/1900 as used in excel/google sheets to a date value.
  * @param {float} value Float date value
  */
 function toDate(value) {
@@ -50,6 +49,7 @@ function toDate(value) {
 
 /**
  * Transforms schedule data item to schedule entry.
+ * @typedef {import('./QueryIndex').default} QueryIndex
  * @param {object} item
  * @param {QueryIndex} queryIndex
  */
@@ -106,6 +106,7 @@ function toEntry(item, queryIndex) {
 
 /**
  * Transforms schedule data to days and entries.
+ * @typedef {import('./QueryIndex').default} QueryIndex
  * @param {object[]} scheduleData
  * @param {QueryIndex} queryIndex
  */

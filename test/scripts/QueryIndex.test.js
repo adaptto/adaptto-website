@@ -1,17 +1,13 @@
 /* eslint-disable no-unused-expressions */
-/* eslint-disable no-unused-vars */
 /* global describe it */
 
 import { expect } from '@esm-bundle/chai';
-import QueryIndex, { getQueryIndex } from '../../scripts/QueryIndex.js';
-import QueryIndexItem from '../../scripts/QueryIndexItem.js';
+import { getQueryIndex } from '../../scripts/QueryIndex.js';
 
-/** @type {QueryIndex} */
 const queryIndex = await getQueryIndex('/test/test-data/query-index-sample.json');
 
 describe('QueryIndex', () => {
   it('getItem-all-properties', () => {
-    /** @type {QueryIndexItem} */
     const item = queryIndex.getItem('/sample-all-properties');
     expect(item).to.exist;
     expect({
@@ -32,7 +28,6 @@ describe('QueryIndex', () => {
   });
 
   it('getItem-missing-properties', () => {
-    /** @type {QueryIndexItem} */
     const item = queryIndex.getItem('/sample-missing-properties');
     expect(item).to.exist;
     expect(item.getRobots()).to.eql([]);
@@ -40,20 +35,17 @@ describe('QueryIndex', () => {
   });
 
   it('getItem-tags-csv-fallback', () => {
-    /** @type {QueryIndexItem} */
     const item = queryIndex.getItem('/sample-tags-csv-fallback');
     expect(item).to.exist;
     expect(item.getTags()).to.eql(['Tag1', 'Tag2']);
   });
 
   it('getItem-invalid-path', () => {
-    /** @type {QueryIndexItem} */
     const item = queryIndex.getItem('/invalid-path');
     expect(item).to.not.exist;
   });
 
   it('getAllSiteRoots', () => {
-    /** @type {QueryIndexItem[]} */
     const result = queryIndex.getAllSiteRoots();
     expect(result.map((item) => item.path)).to.eql(['/2021/', '/2020/']);
   });

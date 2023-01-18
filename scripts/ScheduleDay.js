@@ -1,6 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-import ScheduleEntry from './ScheduleEntry.js';
-
 /**
  * Describes a schedule day.
  */
@@ -14,6 +11,9 @@ export default class ScheduleDay {
   /** @type {Date} End time */
   end;
 
-  /** @type {ScheduleEntry} Schedule entries */
+  /**
+   * @typedef {import('./ScheduleEntry').default} ScheduleEntry
+   * @type {ScheduleEntry[]} Schedule entries
+   */
   entries;
 }
