@@ -1,0 +1,4 @@
+.schedule .tab-content {
+  border: 1px solid gray;
+  padding: var(--base-unit);
+}
