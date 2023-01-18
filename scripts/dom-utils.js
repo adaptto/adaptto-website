@@ -3,7 +3,7 @@
  * @param {Document} document
  * @param {string} tagName
  * @param {string[]} classNames
- * @return {Element} Created element
+ * @returns {Element} Created element
  */
 function create(document, tagName, ...classNames) {
   const el = document.createElement(tagName);
@@ -18,7 +18,7 @@ function create(document, tagName, ...classNames) {
  * @param {Element} parentElement
  * @param {string} tagName
  * @param {string[]} classNames
- * @return {Element} Created element
+ * @returns {Element} Created element
  */
 export function append(parentElement, tagName, ...classNames) {
   const el = create(parentElement.ownerDocument, tagName, ...classNames);
@@ -31,7 +31,7 @@ export function append(parentElement, tagName, ...classNames) {
  * @param {Element} parentElement
  * @param {string} tagName
  * @param {string[]} classNames
- * @return {Element} Created element
+ * @returns {Element} Created element
  */
 export function prepend(parentElement, tagName, ...classNames) {
   const el = create(parentElement.ownerDocument, tagName, ...classNames);
