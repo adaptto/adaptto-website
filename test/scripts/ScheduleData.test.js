@@ -5,7 +5,7 @@ import { expect } from '@esm-bundle/chai';
 import { getScheduleData } from '../../scripts/ScheduleData.js';
 
 const scheduleData = await getScheduleData(
-  '/test/test-data/schedule-data-sample.json',
+  '/test/test-data/schedule-data-2020.json',
   '/test/test-data/query-index-schedule-2020.json',
 );
 
