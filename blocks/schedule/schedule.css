@@ -66,13 +66,11 @@
   background-color: var(--color-light);
 }
 
-.schedule th:first-child, .schedule td:first-child {
-  width: 7em;
+.schedule td:first-child {
   border-left: none;
 }
 
-.schedule th:last-child, .schedule td:last-child {
-  width: 10em;
+.schedule td:last-child {
   border-right: none;
 }
 
@@ -87,12 +85,30 @@
     border-right: none;
   }
 
-  .schedule th:last-child, .schedule td:last-child {
-    display:none;
+  .schedule .speaker {
+    display: none;
   }
+}
+
+@media screen and (min-width: 600px) {
+  .schedule td.time {
+    white-space: nowrap;
+  }
+
+  .schedule td.speaker {
+    max-width: 10em;;
+  }
+}
+
+.schedule td.title {
+  width: auto;
 }
 
 .schedule tr.break td {
   background-color: #eee;
   font-style: italic;
+}
+
+.schedule td > div.speaker {
+  font-size: 80%;
 }

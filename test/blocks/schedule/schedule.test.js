@@ -35,6 +35,6 @@ describe('Schedule Block', () => {
 
     const day1 = schedule.querySelector('#id-day-1');
     expect(day1.querySelector('h4 > date')).to.exist;
-    expect(day1.querySelectorAll('table > tbody > tr').length).to.eq(21);
+    expect(day1.querySelectorAll('table > tbody > tr').length).to.eq(19);
   });
 });

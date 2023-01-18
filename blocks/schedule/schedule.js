@@ -56,23 +56,26 @@ function buildTabNavigation(parent, days, activeDay) {
 }
 
 /**
- * Build schedule entry row markup.
+ * Build schedule entry cells markup.
  * @typedef {import('../../scripts/ScheduleEntry').default} ScheduleEntry
- * @param {Element} tbody
+ * @param {Element} tr
  * @param {ScheduleEntry} entry
+ * @param {number} colSpan
+ * @param {boolean} speakerColumn
  */
-function buildDayEntryRow(tbody, entry) {
-  const tr = append(tbody, 'tr', entry.type);
-
+function buildDayEntryCells(tr, entry, colSpan, speakerColumn) {
   // time
-  const tdTime = append(tr, 'td');
+  const tdTime = append(tr, 'td', 'time');
   const timeOptions = { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' };
   append(tdTime, 'time').textContent = entry.start.toLocaleTimeString('en-GB', timeOptions);
   tdTime.append(' - ');
-  append(tdTime, 'time').textContent = entry.start.toLocaleTimeString('en-GB', timeOptions);
+  append(tdTime, 'time').textContent = entry.end.toLocaleTimeString('en-GB', timeOptions);
 
   // title & link
-  const tdTitle = append(tr, 'td');
+  const tdTitle = append(tr, 'td', 'title');
+  if (colSpan > 1) {
+    tdTitle.setAttribute('colspan', colSpan);
+  }
   if (entry.talkPath) {
     const link = append(tdTitle, 'a');
     link.href = entry.talkPath;
@@ -82,7 +85,27 @@ function buildDayEntryRow(tbody, entry) {
   }
 
   // speaker
-  append(tr, 'td').textContent = entry.speakers.join(', ');
+  if (speakerColumn) {
+    append(tr, 'td', 'speaker').textContent = entry.speakers.join(', ');
+  } else {
+    append(tdTitle, 'div', 'speaker').textContent = entry.speakers.join(', ');
+  }
+}
+
+/**
+ * Build schedule entry row markup.
+ * @typedef {import('../../scripts/ScheduleEntry').default} ScheduleEntry
+ * @param {Element} tbody
+ * @param {ScheduleEntry[]} entries Entries, possible multiple parallel
+ * @param {number} trackCount Max. number of parallel tracks this day
+ */
+function buildDayEntryRow(tbody, entries, trackCount) {
+  const tr = append(tbody, 'tr', entries[0].type);
+
+  entries.forEach((entry) => {
+    const colSpan = (trackCount - entries.length) * 2 + 1;
+    buildDayEntryCells(tr, entry, colSpan, trackCount === 1);
+  });
 }
 
 /**
@@ -99,6 +122,24 @@ function buildDaySchedule(parent, day, activeDay) {
     tabContent.classList.add('active');
   }
 
+  // parallelize entries with multiple tracks
+  let trackCount = 1;
+  const groupedEntries = [];
+  day.entries.forEach((entry) => {
+    if (entry.track > 0) {
+      if (entry.track === 1) {
+        const parallelEntries = [entry,
+          ...day.entries.filter((e) => e.start.getTime() === entry.start.getTime() && e.track > 1)];
+        if (parallelEntries.length > trackCount) {
+          trackCount = parallelEntries.length;
+        }
+        groupedEntries.push(parallelEntries);
+      }
+    } else {
+      groupedEntries.push([entry]);
+    }
+  });
+
   // show date
   const dateOptions = { dateStyle: 'full' };
   const h4 = append(tabContent, 'h4');
@@ -110,13 +151,15 @@ function buildDaySchedule(parent, day, activeDay) {
   const table = append(tabContent, 'table');
   const thead = append(table, 'thead');
   const tr = append(thead, 'tr');
-  append(tr, 'th').textContent = 'Time';
-  append(tr, 'th').textContent = 'Topic';
-  append(tr, 'th').textContent = 'Speaker';
+  append(tr, 'th', 'time').textContent = 'Time';
+  append(tr, 'th', 'title').textContent = 'Topic';
+  if (trackCount === 1) {
+    append(tr, 'th', 'speaker').textContent = 'Speaker';
+  }
 
   // table content
   const tbody = append(table, 'tbody');
-  day.entries.forEach((entry) => buildDayEntryRow(tbody, entry));
+  groupedEntries.forEach((entries) => buildDayEntryRow(tbody, entries, trackCount));
 }
 
 /**
