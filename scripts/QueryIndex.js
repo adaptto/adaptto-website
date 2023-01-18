@@ -1,5 +1,7 @@
 const siteRootRegex = /^\/\d\d\d\d\/$/;
 
+let queryIndexInstance;
+
 /**
  * Helper class for getting relevant information from helix query index.
  */
@@ -27,11 +29,14 @@ export class QueryIndex {
  * @param {string} href Url to query-index.json
  */
 export async function getQueryIndex(href) {
-  let data;
-  const resp = await fetch(href);
-  if (resp.ok) {
-    const json = await resp.json();
-    data = json.data;
+  if (!queryIndexInstance) {
+    let data;
+    const resp = await fetch(href);
+    if (resp.ok) {
+      const json = await resp.json();
+      data = json.data;
+    }
+    queryIndexInstance = new QueryIndex(data || []);
   }
-  return new QueryIndex(data || []);
+  return queryIndexInstance;
 }
