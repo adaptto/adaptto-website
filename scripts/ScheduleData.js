@@ -4,8 +4,6 @@ import ScheduleEntry from './ScheduleEntry.js';
 
 const validEntryTypes = ['day', 'talk', 'break', 'other'];
 
-let scheduleDataInstance;
-
 /**
  * Calculate scheduling data bases on yearly schedule-data.json and query-index.json.
  */
@@ -29,7 +27,7 @@ export default class ScheduleData {
 
   /**
    * @param {string} path Path to talk detail page
-   * @return {ScheduleEntry}
+   * @returns {ScheduleEntry}
    */
   getTalkEntry(path) {
     return this.days.flatMap((day) => day.entries)
@@ -40,6 +38,7 @@ export default class ScheduleData {
 /**
  * Converts a number counting days since 1/1/1900 as used in excel/google sheets to a date value.
  * @param {float} value Float date value
+ * @returns {Date}
  */
 function toDate(value) {
   const date = new Date(0);
@@ -52,6 +51,7 @@ function toDate(value) {
  * @typedef {import('./QueryIndex').default} QueryIndex
  * @param {object} item
  * @param {QueryIndex} queryIndex
+ * @returns {ScheduleEntry}
  */
 function toEntry(item, queryIndex) {
   const day = parseInt(item.Day, 10) || 0;
@@ -109,6 +109,7 @@ function toEntry(item, queryIndex) {
  * @typedef {import('./QueryIndex').default} QueryIndex
  * @param {object[]} scheduleData
  * @param {QueryIndex} queryIndex
+ * @returns {ScheduleDay[]}
  */
 function toDays(scheduleData, queryIndex) {
   // transform and collect entries per day (ignore 'day' entries)
@@ -140,16 +141,13 @@ function toDays(scheduleData, queryIndex) {
  * @param {string} queryIndexUrl Url to query-index.json
  */
 export async function getScheduleData(scheduleDataUrl, queryIndexUrl) {
-  if (!scheduleDataInstance) {
-    let scheduleData;
-    const resp = await fetch(scheduleDataUrl);
-    if (resp.ok) {
-      const json = await resp.json();
-      scheduleData = json.data;
-    }
-    const queryIndex = await getQueryIndex(queryIndexUrl);
-    const days = toDays(scheduleData || [], queryIndex);
-    scheduleDataInstance = new ScheduleData(days);
+  let scheduleData;
+  const resp = await fetch(scheduleDataUrl);
+  if (resp.ok) {
+    const json = await resp.json();
+    scheduleData = json.data;
   }
-  return scheduleDataInstance;
+  const queryIndex = await getQueryIndex(queryIndexUrl);
+  const days = toDays(scheduleData || [], queryIndex);
+  return new ScheduleData(days);
 }

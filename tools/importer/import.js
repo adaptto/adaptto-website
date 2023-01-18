@@ -133,7 +133,7 @@ export default {
    * @param {string} url The url of the page imported
    * @param {string} html The raw html (the document is cleaned up during preprocessing)
    * @param {object} params Object containing some parameters given by the import process.
-   * @return {string} The path
+   * @returns {string} The path
    */
   generateDocumentPath: ({
     // eslint-disable-next-line no-unused-vars

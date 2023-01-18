@@ -1,8 +1,7 @@
 import QueryIndexItem from './QueryIndexItem.js';
 
 const siteRootRegex = /^\/\d\d\d\d\/$/;
-
-let queryIndexInstance;
+const queryIndexCache = new Set();
 
 /**
  * Helper for getting information about published pages and metadata.
@@ -40,6 +39,7 @@ export default class QueryIndex {
  * @param {string} url Url to query-index.json
  */
 export async function getQueryIndex(url) {
+  let queryIndexInstance = queryIndexCache[url];
   if (!queryIndexInstance) {
     let data;
     const resp = await fetch(url);
@@ -50,6 +50,7 @@ export async function getQueryIndex(url) {
     data = data || [];
     const items = data.map((item) => Object.assign(new QueryIndexItem(), item));
     queryIndexInstance = new QueryIndex(items);
+    queryIndexCache[url] = queryIndexInstance;
   }
   return queryIndexInstance;
 }

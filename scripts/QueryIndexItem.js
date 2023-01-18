@@ -1,7 +1,7 @@
 /**
  * Splits a comma-separated value to array (trimming the values).
  * @param {string} value Comma-separated value
- * @return {string[]} Value array
+ * @returns {string[]} Value array
  */
 function splitCSV(value) {
   if (value) {
@@ -16,7 +16,7 @@ function splitCSV(value) {
  * Parses Splits a comma-separated value to array (trimming the values).
  * Falls back to splitCSV if string is not valid JSON.
  * @param {string} value JSON array as string
- * @return {string[]} Value array
+ * @returns {string[]} Value array
  */
 function parseJsonArray(value) {
   if (value) {
@@ -65,21 +65,21 @@ export default class QueryIndexItem {
   speakers;
 
   /**
-   * @return {string[]} Robot values as array
+   * @returns {string[]} Robot values as array
    */
   getRobots() {
     return splitCSV(this.robots);
   }
 
   /**
-   * @return {string[]} Tag value as array
+   * @returns {string[]} Tag value as array
    */
   getTags() {
     return parseJsonArray(this.tags);
   }
 
   /**
-   * @return {string[]} Speaker names as array
+   * @returns {string[]} Speaker names as array
    */
   getSpeakers() {
     return splitCSV(this.speakers);
