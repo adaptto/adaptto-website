@@ -1,34 +1,4 @@
-/**
- * Splits a comma-separated value to array (trimming the values).
- * @param {string} value Comma-separated value
- * @returns {string[]} Value array
- */
-function splitCSV(value) {
-  if (value) {
-    return value.split(',')
-      .map((item) => item.trim())
-      .filter((item) => item !== '');
-  }
-  return [];
-}
-
-/**
- * Parses Splits a comma-separated value to array (trimming the values).
- * Falls back to splitCSV if string is not valid JSON.
- * @param {string} value JSON array as string
- * @returns {string[]} Value array
- */
-function parseJsonArray(value) {
-  if (value) {
-    try {
-      return JSON.parse(value);
-    } catch (e) {
-      // fallback
-      return splitCSV(value);
-    }
-  }
-  return [];
-}
+import { parseCSVArray, parseJsonArray } from '../utils/metadata.js';
 
 /**
  * Describes data returned by query index and adds helper methods.
@@ -68,7 +38,7 @@ export default class QueryIndexItem {
    * @returns {string[]} Robot values as array
    */
   getRobots() {
-    return splitCSV(this.robots);
+    return parseCSVArray(this.robots);
   }
 
   /**
@@ -82,6 +52,6 @@ export default class QueryIndexItem {
    * @returns {string[]} Speaker names as array
    */
   getSpeakers() {
-    return splitCSV(this.speakers);
+    return parseCSVArray(this.speakers);
   }
 }

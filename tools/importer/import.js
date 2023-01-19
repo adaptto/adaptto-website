@@ -1,7 +1,7 @@
 /* global */
 /* eslint-disable no-console, class-methods-use-this */
 
-import { getPathName } from '../../scripts/path-utils.js';
+import { getPathName } from '../../scripts/utils/path.js';
 
 const targetHostName = 'https://main--adaptto-website--adaptto.hlx.page';
 

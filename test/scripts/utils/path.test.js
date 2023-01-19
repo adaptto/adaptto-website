@@ -8,9 +8,9 @@ import {
   isPath,
   isUrl,
   isUrlOrPath,
-} from '../../scripts/path-utils.js';
+} from '../../../scripts/utils/path.js';
 
-describe('path-utils', () => {
+describe('utils/path', () => {
   it('isPath', () => {
     expect(isPath('/')).to.true;
     expect(isPath('/path1')).to.true;

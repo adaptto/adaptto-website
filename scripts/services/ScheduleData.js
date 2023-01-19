@@ -1,4 +1,5 @@
-import { getPathName, isUrlOrPath } from '../path-utils.js';
+import { parseCSVArray } from '../utils/metadata.js';
+import { getPathName, isUrlOrPath } from '../utils/path.js';
 import { getQueryIndex } from './QueryIndex.js';
 import ScheduleDay from './ScheduleDay.js';
 import ScheduleEntry from './ScheduleEntry.js';
@@ -83,9 +84,7 @@ function toEntry(item, queryIndex) {
   const duration = parseInt(item.Duration, 10) || 0;
   const durationFAQ = parseInt(item.FAQ, 10) || 0;
   const type = item.Type;
-  let speakers = (item.Speakers || '').split(',')
-    .map((value) => value.trim())
-    .filter((value) => value !== '');
+  let speakers = parseCSVArray(item.Speakers);
 
   // validate entry
   if (day === 0 || startTime === 0 || endTime === 0 || !title || duration === 0

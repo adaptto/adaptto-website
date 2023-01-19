@@ -81,11 +81,43 @@ function appendTeaserBar(main) {
 }
 
 /**
+ * Inserts new section with talk detail components.
+ * @param {Element} main The container element
+ */
+function decorateTalkDetailPage(main) {
+  if (getMetadata('theme') === 'talk-detail') {
+    const firstSection = main.querySelector(':scope > div');
+    if (firstSection) {
+      // add block after headline before outline
+      const h1 = firstSection.querySelector(':scope > h1');
+      const talkDetailBeforeOutline = document.createElement('div');
+      talkDetailBeforeOutline.classList.add('talk-detail-before-outline');
+      if (h1.nextSibling) {
+        firstSection.insertBefore(talkDetailBeforeOutline, h1.nextSibling);
+      } else {
+        firstSection.append(talkDetailBeforeOutline);
+      }
+      // add block after outline
+      const talkDetailAfterOutline = document.createElement('div');
+      talkDetailAfterOutline.classList.add('talk-detail-after-outline');
+      firstSection.append(talkDetailAfterOutline);
+    }
+    // add new section with footer block
+    const footerSection = document.createElement('div');
+    main.append(footerSection);
+    const talkDetailFooter = document.createElement('div');
+    talkDetailFooter.classList.add('talk-detail-footer');
+    footerSection.append(talkDetailFooter);
+  }
+}
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
 function buildAutoBlocks(main) {
   try {
+    decorateTalkDetailPage(main);
     extractStageHeader(main);
     appendAsideBar(main);
     appendTeaserBar(main);
