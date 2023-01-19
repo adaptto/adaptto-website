@@ -1,4 +1,4 @@
-const urlPathPattern = /^(https?:\/\/.+)?(\/.*)$/;
+const urlPathPattern = /^(https?:\/\/.+)?\/(.+)?$/;
 
 /**
  * Checks if the given value is a path.
