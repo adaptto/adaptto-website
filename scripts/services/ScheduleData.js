@@ -1,3 +1,4 @@
+import { convertSheetDateValue } from '../utils/datetime.js';
 import { parseCSVArray } from '../utils/metadata.js';
 import { getPathName, isUrlOrPath } from '../utils/path.js';
 import { getQueryIndex } from './QueryIndex.js';
@@ -35,17 +36,6 @@ export default class ScheduleData {
     return this.days.flatMap((day) => day.entries)
       .find((entry) => entry.talkPath === path);
   }
-}
-
-/**
- * Converts a number counting days since 1/1/1900 as used in excel/google sheets to a date value.
- * @param {float} value Float date value
- * @returns {Date}
- */
-function toDate(value) {
-  const date = new Date(0);
-  date.setUTCMilliseconds(Math.round((value - 25569) * 86400 * 1000));
-  return date;
 }
 
 /**
@@ -93,8 +83,8 @@ function toEntry(item, queryIndex) {
   }
 
   // convert dates
-  const start = toDate(startTime);
-  const end = toDate(endTime);
+  const start = convertSheetDateValue(startTime);
+  const end = convertSheetDateValue(endTime);
 
   // resolve talk path and title, speakers from query index
   let talkPath;

@@ -2,6 +2,7 @@ import { append } from '../../scripts/utils/dom.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
 import { getScheduleData } from '../../scripts/services/ScheduleData.js';
 import { getSiteRoot } from '../../scripts/utils/site.js';
+import { formatDateFull, formatTime } from '../../scripts/utils/datetime.js';
 
 const dayIdPattern = /^#day-(\d)$/;
 
@@ -66,10 +67,9 @@ function buildTabNavigation(parent, days, activeDay) {
 function buildDayEntryCells(tr, entry, colSpan, speakerColumn) {
   // time
   const tdTime = append(tr, 'td', 'time');
-  const timeOptions = { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' };
-  append(tdTime, 'time').textContent = entry.start.toLocaleTimeString('en-GB', timeOptions);
+  append(tdTime, 'time').textContent = formatTime(entry.start);
   tdTime.append(' - ');
-  append(tdTime, 'time').textContent = entry.end.toLocaleTimeString('en-GB', timeOptions);
+  append(tdTime, 'time').textContent = formatTime(entry.end);
 
   // title & link
   const tdTitle = append(tr, 'td', 'title');
@@ -141,11 +141,10 @@ function buildDaySchedule(parent, day, activeDay) {
   });
 
   // show date
-  const dateOptions = { dateStyle: 'full' };
   const h4 = append(tabContent, 'h4');
   const date = append(h4, 'date');
   date.setAttribute('datetime', day.start.toISOString().substring(0, 10));
-  date.textContent = day.start.toLocaleDateString('en-GB', dateOptions);
+  date.textContent = formatDateFull(day.start);
 
   // table header
   const table = append(tabContent, 'table');

@@ -38,7 +38,7 @@ function buildLinks(parent) {
 }
 
 /**
- * Talk Detail footer with back to schedule link.
+ * Talk detail after outline: speakers and links.
  * @param {Element} block
  */
 export default async function decorate(block) {
