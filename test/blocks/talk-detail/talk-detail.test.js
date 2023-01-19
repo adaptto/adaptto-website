@@ -3,7 +3,14 @@
 
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
-import { blockLoaded } from '../../scripts/test-utils.js';
+import { blockLoaded, setWindowLocationHref, stubFetchUrlMap } from '../../scripts/test-utils.js';
+
+// simulate current talk and redirect some fetch calls to mock data
+setWindowLocationHref('/2020/schedule/graphql-services-in-the-aem-world');
+stubFetchUrlMap({
+  '/2020/schedule-data.json': '/test/test-data/schedule-data-2020.json',
+  '/query-index.json': '/test/test-data/query-index-schedule-2020.json',
+});
 
 document.head.innerHTML = await readFile({ path: './head.html' });
 document.body.innerHTML = await readFile({ path: './body.html' });
@@ -44,19 +51,58 @@ describe('blocks/talk-detail-*', () => {
     await blockLoaded(block);
 
     // talk tags
-    expect(Array.from(block.querySelectorAll('ul.talk-tags a')).map((a) => a.textContent))
-      .to.eql(['Tag1', 'Tag2']);
-    expect(Array.from(block.querySelectorAll('ul.talk-tags a')).map((a) => a.href))
-      .to.eql(['http://localhost:2000/archive#Tag1', 'http://localhost:2000/archive#Tag2']);
+    const tagLinks = Array.from(block.querySelectorAll('ul.talk-tags a'));
+    expect(tagLinks.map((a) => a.textContent)).to.eql([
+      'Tag1',
+      'Tag2',
+    ]);
+    expect(tagLinks.map((a) => a.href)).to.eql([
+      'http://localhost:2000/2020/archive#2020/Tag1',
+      'http://localhost:2000/2020/archive#2020/Tag2',
+    ]);
+
+    // time info
+    expect(block.querySelector('p').textContent).to.eq('Monday, 28 September 2020 11:45 - 12:15 (30 min)');
+
+    // video embed
+    const embed = block.querySelector('.embed');
+    expect(embed).to.exist;
+    await blockLoaded(embed);
   });
 
   it('talk-detail-after-outline', async () => {
     const block = document.body.querySelector('.talk-detail-after-outline');
     expect(block).to.exist;
+    await blockLoaded(block);
+
+    // speakers
+    const speakerLinks = Array.from(block.querySelectorAll('ul.speakers a'));
+    expect(speakerLinks.map((a) => a.href)).to.eql([
+      'http://localhost:2000/2020/conference/speaker#mark-becker',
+      'http://localhost:2000/2020/conference/speaker#mark-becker',
+      'http://localhost:2000/2020/conference/speaker#markus-haack',
+      'http://localhost:2000/2020/conference/speaker#markus-haack',
+    ]);
+    const speakerImages = Array.from(block.querySelectorAll('ul.speakers img'));
+    expect(speakerImages.map((img) => img.src)).to.eql([
+      'http://localhost:2000/speakers/mark-becker.jpeg?width=150&format=jpeg&optimize=medium',
+      'http://localhost:2000/speakers/markus-haack.jpeg?width=150&format=jpeg&optimize=medium',
+    ]);
+
+    // talk links
+    expect(block.querySelector('ul.talk-links li.download a')?.href)
+      .to.eq('http://localhost:2000/2021/presentations/file1.pdf');
+    expect(block.querySelector('ul.talk-links li.code a')?.href)
+      .to.eq('http://localhost:2000/2021/presentations/file1.zip');
+    expect(block.querySelector('ul.talk-links li.video a')?.href)
+      .to.eq('https://myhost/video');
   });
 
   it('talk-detail-footer', async () => {
     const block = document.body.querySelector('.talk-detail-footer');
     expect(block).to.exist;
+    await blockLoaded(block);
+
+    expect(block.querySelector('a')?.href).to.eq('http://localhost:2000/2020/schedule');
   });
 });

@@ -863,6 +863,42 @@
       "speaker": "",
       "article:tag": "",
       "tag": ""
+    },
+    {
+      "path": "/speakers/mark-becker",
+      "robots": "noindex, nofollow",
+      "title": "Mark J. Becker",
+      "image": "/speakers/mark-becker.jpeg?width=1200&format=pjpg&optimize=medium",
+      "affiliation": "Adobe",
+      "twitter": "@markjbecker",
+      "speaker-alias": "",
+      "uptoyear": "",
+      "speakers": "",
+      "duration-talk": "",
+      "duration-faq": "",
+      "tags": "[]",
+      "lastModified": "1673276150",
+      "speaker": "",
+      "article:tag": "",
+      "tag": ""
+    },
+    {
+      "path": "/speakers/markus-haack",
+      "robots": "noindex, nofollow",
+      "title": "Markus Haack",
+      "image": "/speakers/markus-haack.jpeg?width=1200&format=pjpg&optimize=medium",
+      "affiliation": "Adobe",
+      "twitter": "@mhaack",
+      "speaker-alias": "",
+      "uptoyear": "",
+      "speakers": "",
+      "duration-talk": "",
+      "duration-faq": "",
+      "tags": "[]",
+      "lastModified": "1673275976",
+      "speaker": "",
+      "article:tag": "",
+      "tag": ""
     }
    ]
 }
