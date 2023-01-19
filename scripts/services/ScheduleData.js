@@ -47,6 +47,26 @@ function toDate(value) {
 }
 
 /**
+ * Resolve talk detail reference to query index item.
+ * @typedef {import('./QueryIndex').default} QueryIndex
+ * @typedef {import('./QueryIndexItem').default} QueryIndexItem
+ * @param {string} talkDetailRef Title from schedule sheet which should point to a talk detail page.
+ *   This may be only a document name
+ * @param {Date} start start time
+ * @param {QueryIndex} queryIndex
+ * @returns {QueryIndexItem} Query index item or undefined
+ */
+function getTalkQueryIndexItem(talkDetailRef, start, queryIndex) {
+  let path;
+  if (talkDetailRef.indexOf('/') === 0) {
+    path = talkDetailRef;
+  } else {
+    path = `/${start.getFullYear()}/schedule/${talkDetailRef}`;
+  }
+  return queryIndex.getItem(path);
+}
+
+/**
  * Transforms schedule data item to schedule entry.
  * @typedef {import('./QueryIndex').default} QueryIndex
  * @param {object} item
@@ -79,15 +99,11 @@ function toEntry(item, queryIndex) {
   // resolve talk path and title, speakers from query index
   let talkPath;
   if (type === 'talk') {
-    if (title.indexOf('/') === 0) {
-      talkPath = title;
-    } else {
-      talkPath = `/${start.getFullYear()}/schedule/${title}`;
-    }
-    const indexItem = queryIndex.getItem(talkPath);
+    const indexItem = getTalkQueryIndexItem(title, start, queryIndex);
     if (!indexItem) {
       return undefined;
     }
+    talkPath = indexItem.path;
     title = indexItem.title;
     if (speakers.length === 0) {
       speakers = indexItem.getSpeakers();
