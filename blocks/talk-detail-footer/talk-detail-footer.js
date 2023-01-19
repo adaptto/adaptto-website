@@ -1,5 +1,5 @@
 import { append } from '../../scripts/utils/dom.js';
-import { getSiteRoot } from '../../scripts/utils/site.js';
+import { getSchedulePage } from '../../scripts/utils/site.js';
 
 /**
  * Talk Detail footer with back to schedule link.
@@ -8,8 +8,7 @@ import { getSiteRoot } from '../../scripts/utils/site.js';
 export default async function decorate(block) {
   const p = append(block, 'p');
 
-  const siteRoot = getSiteRoot(document.location.pathname);
   const backLink = append(p, 'a');
-  backLink.href = `${siteRoot}schedule`;
+  backLink.href = getSchedulePage(document.location.pathname);
   backLink.textContent = 'Back to schedule';
 }

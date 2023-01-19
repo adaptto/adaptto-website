@@ -18,3 +18,9 @@
   color: var(--color-light);
   text-decoration: none;
 }
+
+/* --- Talk Video --- */
+.talk-detail-before-outline .embed {
+  margin-top: 0;
+  margin-bottom: 0;
+}

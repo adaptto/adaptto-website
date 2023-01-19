@@ -1,9 +1,14 @@
-import { getMetadata, readBlockConfig } from '../../scripts/lib-franklin.js';
+import {
+  decorateBlock,
+  getMetadata,
+  loadBlocks,
+  readBlockConfig,
+} from '../../scripts/lib-franklin.js';
 import { getScheduleData } from '../../scripts/services/ScheduleData.js';
 import { formatDateFull, formatTime } from '../../scripts/utils/datetime.js';
 import { append } from '../../scripts/utils/dom.js';
 import { parseCSVArray } from '../../scripts/utils/metadata.js';
-import { getSiteRoot } from '../../scripts/utils/site.js';
+import { getArchivePage, getSiteRoot } from '../../scripts/utils/site.js';
 
 /**
  * Build talk tags (with link to talk archive).
@@ -20,7 +25,7 @@ function buildTalkTags(parent, siteRoot) {
   tags.forEach((tag) => {
     const li = append(ul, 'li');
     const a = append(li, 'a');
-    a.href = `${siteRoot}archive#${siteRoot.substring(1)}${tag}`;
+    a.href = `${getArchivePage(document.location.pathname)}#${siteRoot.substring(1)}${tag}`;
     a.textContent = tag;
   });
 }
@@ -42,7 +47,7 @@ function buildTimeInfo(parent, entry) {
 }
 
 /**
- * Build talk video.
+ * Build talk video (via embed block).
  * @param {Element} parent
  */
 function buildVideo(parent) {
@@ -50,11 +55,13 @@ function buildVideo(parent) {
   if (!video) {
     return;
   }
-  const p = append(parent, 'p');
-  // TODO: use embed block
-  const a = append(p, 'a');
+
+  const block = append(parent, 'div', 'embed');
+  const a = append(block, 'a');
   a.href = video;
   a.textContent = video;
+  decorateBlock(block);
+  loadBlocks(parent);
 }
 
 /**
