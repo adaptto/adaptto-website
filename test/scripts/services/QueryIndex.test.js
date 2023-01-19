@@ -6,7 +6,7 @@ import { getQueryIndex } from '../../../scripts/services/QueryIndex.js';
 
 const queryIndex = await getQueryIndex('/test/test-data/query-index-sample.json');
 
-describe('QueryIndex', () => {
+describe('services/QueryIndex', () => {
   it('getItem-all-properties', () => {
     const item = queryIndex.getItem('/sample-all-properties');
     expect(item).to.exist;

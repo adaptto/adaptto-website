@@ -8,7 +8,7 @@ function path(url) {
   return _import.generateDocumentPath({ url });
 }
 
-describe('import', () => {
+describe('tools/importer/import', () => {
   it('generateDocumentPath', () => {
     expect(path('http://localhost:45031/content/adaptto/2021/en.helix.html')).to.eq('/2021/index');
     expect(path('/content/adaptto/2021/en.helix.html')).to.eq('/2021/index');

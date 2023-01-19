@@ -21,7 +21,7 @@ decorateBlock(headerBlock);
 await loadBlock(headerBlock);
 await sleep();
 
-describe('Header block', () => {
+describe('blocks/header', () => {
   it('Header', async () => {
     const header = document.querySelector('header .section-header');
     expect(header).to.exist;

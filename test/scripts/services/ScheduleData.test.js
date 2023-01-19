@@ -9,7 +9,7 @@ const scheduleData = await getScheduleData(
   '/test/test-data/query-index-schedule-2020.json',
 );
 
-describe('ScheduleData', () => {
+describe('services/ScheduleData', () => {
   it('getDays', () => {
     const days = scheduleData.getDays();
     expect(days.length, 'days').to.eq(3);

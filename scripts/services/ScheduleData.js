@@ -79,7 +79,11 @@ function toEntry(item, queryIndex) {
   // resolve talk path and title, speakers from query index
   let talkPath;
   if (type === 'talk') {
-    talkPath = `/${start.getFullYear()}/schedule/${title}`;
+    if (title.indexOf('/') === 0) {
+      talkPath = title;
+    } else {
+      talkPath = `/${start.getFullYear()}/schedule/${title}`;
+    }
     const indexItem = queryIndex.getItem(talkPath);
     if (!indexItem) {
       return undefined;

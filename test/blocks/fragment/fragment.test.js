@@ -14,7 +14,7 @@ const sectionLoaded = async (section) => new Promise((resolve) => {
   }, 100);
 });
 
-describe('Fragment block', () => {
+describe('blocks/fragment', () => {
   it('Replaces fragment block with fragment content', async () => {
     document.head.innerHTML = `
       <meta name="include-teaser-bar" content="false">
