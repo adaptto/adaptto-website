@@ -1,6 +1,6 @@
-import { append, prepend } from '../../scripts/dom-utils.js';
+import { append, prepend } from '../../scripts/utils/dom.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
-import { addArchiveLinks, getSiteRoot } from '../../scripts/site-utils.js';
+import { addArchiveLinks, getSiteRoot } from '../../scripts/utils/site.js';
 
 /**
  * @param {Element} header

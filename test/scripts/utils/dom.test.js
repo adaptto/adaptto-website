@@ -2,9 +2,9 @@
 /* global describe it */
 
 import { expect } from '@esm-bundle/chai';
-import { append, prepend } from '../../scripts/dom-utils.js';
+import { append, prepend } from '../../../scripts/utils/dom.js';
 
-describe('dom-utils', () => {
+describe('utils/dom', () => {
   it('append-simple', () => {
     const section = document.createElement('section');
     section.append(document.createElement('p'));

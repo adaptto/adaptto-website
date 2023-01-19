@@ -1,4 +1,4 @@
-import { append } from '../../scripts/dom-utils.js';
+import { append } from '../../scripts/utils/dom.js';
 import { getMetadata, readBlockConfig } from '../../scripts/lib-franklin.js';
 import { getQueryIndex } from '../../scripts/services/QueryIndex.js';
 import { parseCSVArray } from '../../scripts/utils/metadata.js';

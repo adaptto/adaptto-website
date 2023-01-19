@@ -1,4 +1,4 @@
-import { append } from '../../scripts/dom-utils.js';
+import { append } from '../../scripts/utils/dom.js';
 
 /**
  * @param {Element} block

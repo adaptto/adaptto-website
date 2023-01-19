@@ -2,9 +2,9 @@
 /* global describe it */
 
 import { expect } from '@esm-bundle/chai';
-import { getSiteRoot } from '../../scripts/site-utils.js';
+import { getSiteRoot } from '../../../scripts/utils/site.js';
 
-describe('site-utils', () => {
+describe('utils/site', () => {
   it('getSiteRoot', () => {
     expect(getSiteRoot('/')).to.equal('/');
     expect(getSiteRoot('/2021/')).to.equal('/2021/');

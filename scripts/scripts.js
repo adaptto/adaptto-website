@@ -12,7 +12,7 @@ import {
   loadCSS,
   getMetadata,
 } from './lib-franklin.js';
-import { getSiteRoot } from './site-utils.js';
+import { getSiteRoot } from './utils/site.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here

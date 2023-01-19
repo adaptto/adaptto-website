@@ -1,5 +1,5 @@
-import { append } from '../../scripts/dom-utils.js';
-import { getSiteRoot } from '../../scripts/site-utils.js';
+import { append } from '../../scripts/utils/dom.js';
+import { getSiteRoot } from '../../scripts/utils/site.js';
 
 /**
  * Talk Detail footer with back to schedule link.
