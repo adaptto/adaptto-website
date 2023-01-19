@@ -49,4 +49,34 @@ describe('services/QueryIndex', () => {
     const result = queryIndex.getAllSiteRoots();
     expect(result.map((item) => item.path)).to.eql(['/2021/', '/2020/']);
   });
+
+  it('getSpeaker-by-name', () => {
+    const item = queryIndex.getSpeaker('Speaker #1');
+    expect(item?.path).to.eq('/speakers/speaker1');
+  });
+
+  it('getSpeaker-by-document-name', () => {
+    const item = queryIndex.getSpeaker('speaker1');
+    expect(item?.path).to.eq('/speakers/speaker1');
+  });
+
+  it('getSpeaker-by-pathname', () => {
+    const item = queryIndex.getSpeaker('/speakers/speaker1');
+    expect(item?.path).to.eq('/speakers/speaker1');
+  });
+
+  it('getSpeaker-by-url', () => {
+    const item = queryIndex.getSpeaker('https://my.host.com/speakers/speaker1');
+    expect(item?.path).to.eq('/speakers/speaker1');
+  });
+
+  it('getSpeaker-invalid-name', () => {
+    const item = queryIndex.getSpeaker('Speaker XYZ');
+    expect(item).to.not.exist;
+  });
+
+  it('getSpeaker-valid-path-invalid-speaker', () => {
+    const item = queryIndex.getSpeaker('/sample-all-properties');
+    expect(item).to.not.exist;
+  });
 });

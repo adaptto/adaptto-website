@@ -1,4 +1,4 @@
-const urlPathPattern = /^(https?:\/\/[^/]+)?\/.*$/;
+const urlPathRegex = /^(https?:\/\/[^/]+)?\/.*$/;
 
 /**
  * Checks if the given value is a path.
@@ -7,7 +7,7 @@ const urlPathPattern = /^(https?:\/\/[^/]+)?\/.*$/;
  */
 export function isPath(value) {
   if (value) {
-    const urlPathMatch = value.match(urlPathPattern);
+    const urlPathMatch = value.match(urlPathRegex);
     if (urlPathMatch) {
       return urlPathMatch[1] === undefined;
     }
@@ -22,7 +22,7 @@ export function isPath(value) {
  */
 export function isUrl(value) {
   if (value) {
-    const urlPathMatch = value.match(urlPathPattern);
+    const urlPathMatch = value.match(urlPathRegex);
     if (urlPathMatch) {
       return urlPathMatch[1] !== undefined;
     }
@@ -37,7 +37,7 @@ export function isUrl(value) {
  */
 export function isUrlOrPath(value) {
   if (value) {
-    return value.match(urlPathPattern) != null;
+    return value.match(urlPathRegex) != null;
   }
   return false;
 }
