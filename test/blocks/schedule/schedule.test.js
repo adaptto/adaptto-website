@@ -17,7 +17,7 @@ async function buildScheduleBlock(year) {
   return block;
 }
 
-describe('Schedule Block', () => {
+describe('blocks/schedule', () => {
   it('2020', async () => {
     const schedule = await buildScheduleBlock('2020');
 

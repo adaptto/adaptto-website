@@ -2,14 +2,14 @@
 /* global describe it */
 
 import { expect } from '@esm-bundle/chai';
-import { getScheduleData } from '../../scripts/ScheduleData.js';
+import { getScheduleData } from '../../../scripts/services/ScheduleData.js';
 
 const scheduleData = await getScheduleData(
   '/test/test-data/schedule-data-2020.json',
   '/test/test-data/query-index-schedule-2020.json',
 );
 
-describe('ScheduleData', () => {
+describe('services/ScheduleData', () => {
   it('getDays', () => {
     const days = scheduleData.getDays();
     expect(days.length, 'days').to.eq(3);

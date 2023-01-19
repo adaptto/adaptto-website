@@ -1,3 +1,6 @@
+import { convertSheetDateValue } from '../utils/datetime.js';
+import { parseCSVArray } from '../utils/metadata.js';
+import { getPathName, isUrlOrPath } from '../utils/path.js';
 import { getQueryIndex } from './QueryIndex.js';
 import ScheduleDay from './ScheduleDay.js';
 import ScheduleEntry from './ScheduleEntry.js';
@@ -36,14 +39,23 @@ export default class ScheduleData {
 }
 
 /**
- * Converts a number counting days since 1/1/1900 as used in excel/google sheets to a date value.
- * @param {float} value Float date value
- * @returns {Date}
+ * Resolve talk detail reference to query index item.
+ * @typedef {import('./QueryIndex').default} QueryIndex
+ * @typedef {import('./QueryIndexItem').default} QueryIndexItem
+ * @param {string} talkDetailRef Title from schedule sheet which should point to a talk detail page.
+ *   This may be only a document name
+ * @param {number} year Current year
+ * @param {QueryIndex} queryIndex
+ * @returns {QueryIndexItem} Query index item or undefined
  */
-function toDate(value) {
-  const date = new Date(0);
-  date.setUTCMilliseconds(Math.round((value - 25569) * 86400 * 1000));
-  return date;
+function getTalkQueryIndexItem(talkDetailRef, year, queryIndex) {
+  let path;
+  if (isUrlOrPath(talkDetailRef)) {
+    path = getPathName(talkDetailRef);
+  } else {
+    path = `/${year}/schedule/${talkDetailRef}`;
+  }
+  return queryIndex.getItem(path);
 }
 
 /**
@@ -62,9 +74,7 @@ function toEntry(item, queryIndex) {
   const duration = parseInt(item.Duration, 10) || 0;
   const durationFAQ = parseInt(item.FAQ, 10) || 0;
   const type = item.Type;
-  let speakers = (item.Speakers || '').split(',')
-    .map((value) => value.trim())
-    .filter((value) => value !== '');
+  let speakers = parseCSVArray(item.Speakers);
 
   // validate entry
   if (day === 0 || startTime === 0 || endTime === 0 || !title || duration === 0
@@ -73,17 +83,17 @@ function toEntry(item, queryIndex) {
   }
 
   // convert dates
-  const start = toDate(startTime);
-  const end = toDate(endTime);
+  const start = convertSheetDateValue(startTime);
+  const end = convertSheetDateValue(endTime);
 
   // resolve talk path and title, speakers from query index
   let talkPath;
   if (type === 'talk') {
-    talkPath = `/${start.getFullYear()}/schedule/${title}`;
-    const indexItem = queryIndex.getItem(talkPath);
+    const indexItem = getTalkQueryIndexItem(title, start.getFullYear(), queryIndex);
     if (!indexItem) {
       return undefined;
     }
+    talkPath = indexItem.path;
     title = indexItem.title;
     if (speakers.length === 0) {
       speakers = indexItem.getSpeakers();

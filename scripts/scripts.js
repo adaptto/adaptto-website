@@ -12,7 +12,8 @@ import {
   loadCSS,
   getMetadata,
 } from './lib-franklin.js';
-import { getSiteRoot } from './site-utils.js';
+import { getHostName } from './utils/path.js';
+import { getSiteRoot } from './utils/site.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -31,6 +32,51 @@ function extractStageHeader(main) {
   const stageHeader = main.querySelector('.stage-header');
   if (stageHeader) {
     section.appendChild(stageHeader);
+  }
+}
+
+/**
+ * Add target='_blank' to all external links.
+ * @param {Element} container The container element
+ */
+export function decorateExternalLinks(container) {
+  const locationHost = getHostName(window.location.href);
+  container.querySelectorAll('a').forEach((a) => {
+    const host = getHostName(a.href);
+    if (host && host !== locationHost) {
+      a.target = '_blank';
+    }
+  });
+}
+
+/**
+ * Inserts new section with talk detail components.
+ * @param {Element} main The container element
+ */
+function decorateTalkDetailPage(main) {
+  if (getMetadata('theme') === 'talk-detail') {
+    const firstSection = main.querySelector(':scope > div');
+    if (firstSection) {
+      // add block after headline before outline
+      const h1 = firstSection.querySelector(':scope > h1');
+      const talkDetailBeforeOutline = document.createElement('div');
+      talkDetailBeforeOutline.classList.add('talk-detail-before-outline');
+      if (h1.nextSibling) {
+        firstSection.insertBefore(talkDetailBeforeOutline, h1.nextSibling);
+      } else {
+        firstSection.append(talkDetailBeforeOutline);
+      }
+      // add block after outline
+      const talkDetailAfterOutline = document.createElement('div');
+      talkDetailAfterOutline.classList.add('talk-detail-after-outline');
+      firstSection.append(talkDetailAfterOutline);
+    }
+    // add new section with footer block
+    const footerSection = document.createElement('div');
+    main.append(footerSection);
+    const talkDetailFooter = document.createElement('div');
+    talkDetailFooter.classList.add('talk-detail-footer');
+    footerSection.append(talkDetailFooter);
   }
 }
 
@@ -86,6 +132,7 @@ function appendTeaserBar(main) {
  */
 function buildAutoBlocks(main) {
   try {
+    decorateTalkDetailPage(main);
     extractStageHeader(main);
     appendAsideBar(main);
     appendTeaserBar(main);
@@ -100,9 +147,9 @@ function buildAutoBlocks(main) {
  * @param {Element} main The main element
  * @param {boolean} insideFragment Decorate main block inside a fragment
  */
-// eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main, insideFragment) {
   decorateIcons(main);
+  decorateExternalLinks(main);
   if (!insideFragment) {
     buildAutoBlocks(main);
   }
@@ -169,7 +216,14 @@ async function loadLazy(doc) {
   await loadBlocks(main);
 
   const { hash } = window.location;
-  const element = hash ? main.querySelector(hash) : false;
+  let element;
+  if (hash) {
+    try {
+      element = main.querySelector(hash);
+    } catch (e) {
+      // ignore hash that is not a valid selector
+    }
+  }
   if (hash && element) element.scrollIntoView();
 
   loadHeader(doc.querySelector('header'));

@@ -1,0 +1,48 @@
+/* --- Speakers --- */
+.talk-detail-after-outline ul.speakers {
+  list-style-type: none;
+  padding: 0;
+  margin-top: -15px;
+  margin-bottom: 0;
+}
+
+.talk-detail-after-outline ul.speakers li {
+  display: flex;
+  align-items: center;
+  line-height: 0;
+  margin-bottom: 2px;
+}
+
+.talk-detail-after-outline ul.speakers img {
+  width: 40px;
+  margin-right: 5px;
+}
+
+/* --- Talk Links --- */
+.talk-detail-after-outline .talk-links {
+  background-color: var(--color-cta);
+  color: var(--color-light);
+  list-style-type: none;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  padding: 15px;
+}
+
+.talk-detail-after-outline ul.talk-links li {
+  display: inline;
+  margin-right: 20px;
+}
+
+.talk-detail-after-outline ul.talk-links a {
+  color: var(--color-light);
+}
+
+.talk-detail-after-outline ul.talk-links .download a {
+  background: url('/resources/img/download.svg') no-repeat left center;
+  padding-left: 30px;
+}
+
+.talk-detail-after-outline ul.talk-links .code a {
+  background: url('/resources/img/code.svg') no-repeat left center;
+  padding-left: 30px;
+}

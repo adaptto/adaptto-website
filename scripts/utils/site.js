@@ -1,5 +1,5 @@
-import { append } from './dom-utils.js';
-import { getQueryIndex } from './QueryIndex.js';
+import { append } from './dom.js';
+import { getQueryIndex } from '../services/QueryIndex.js';
 
 const siteRootRegex = /^(\/[^/]+\/)(.+)?$/;
 
@@ -18,6 +18,44 @@ export function getSiteRoot(pathname) {
     return result[1];
   }
   return '/';
+}
+
+/**
+ * Build page path in current site.
+ * @param {string} pathname location.pathname
+ * @param {string} path relative path inside site (without leading slash)
+ * @returns {string} Path
+ */
+function getRelativePage(pathname, path) {
+  const siteRoot = getSiteRoot(pathname);
+  return `${siteRoot}${path}`;
+}
+
+/**
+ * Build path to schedule page in current site.
+ * @param {string} pathname location.pathname
+ * @returns {string} Path
+ */
+export function getSchedulePage(pathname) {
+  return getRelativePage(pathname, 'schedule');
+}
+
+/**
+ * Build path to archive page in current site.
+ * @param {string} pathname location.pathname
+ * @returns {string} Path
+ */
+export function getArchivePage(pathname) {
+  return getRelativePage(pathname, 'archive');
+}
+
+/**
+ * Build path to speaker overview page in current site.
+ * @param {string} pathname location.pathname
+ * @returns {string} Path
+ */
+export function getSpeakerOverviewPage(pathname) {
+  return getRelativePage(pathname, 'conference/speaker');
 }
 
 /**

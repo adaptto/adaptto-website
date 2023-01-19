@@ -3,18 +3,9 @@
 
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
+import { sectionLoaded } from '../../scripts/test-utils.js';
 
-const sectionLoaded = async (section) => new Promise((resolve) => {
-  // wait for section to finish loading
-  const check = setInterval(() => {
-    if (section.dataset.sectionStatus === 'loaded') {
-      clearInterval(check);
-      resolve();
-    }
-  }, 100);
-});
-
-describe('Fragment block', () => {
+describe('blocks/fragment', () => {
   it('Replaces fragment block with fragment content', async () => {
     document.head.innerHTML = `
       <meta name="include-teaser-bar" content="false">

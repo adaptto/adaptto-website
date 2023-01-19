@@ -21,7 +21,7 @@ decorateBlock(footerBlock);
 await loadBlock(footerBlock);
 await sleep();
 
-describe('Footer block', () => {
+describe('blocks/footer', () => {
   it('Footer Nav', async () => {
     const footerNavItems = document.querySelectorAll('.footer .section-footernav > ul > li');
     expect(footerNavItems.length).to.eq(2);

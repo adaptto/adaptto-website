@@ -2,11 +2,11 @@
 /* global describe it */
 
 import { expect } from '@esm-bundle/chai';
-import { getQueryIndex } from '../../scripts/QueryIndex.js';
+import { getQueryIndex } from '../../../scripts/services/QueryIndex.js';
 
 const queryIndex = await getQueryIndex('/test/test-data/query-index-sample.json');
 
-describe('QueryIndex', () => {
+describe('services/QueryIndex', () => {
   it('getItem-all-properties', () => {
     const item = queryIndex.getItem('/sample-all-properties');
     expect(item).to.exist;
@@ -48,5 +48,35 @@ describe('QueryIndex', () => {
   it('getAllSiteRoots', () => {
     const result = queryIndex.getAllSiteRoots();
     expect(result.map((item) => item.path)).to.eql(['/2021/', '/2020/']);
+  });
+
+  it('getSpeaker-by-name', () => {
+    const item = queryIndex.getSpeaker('Speaker #1');
+    expect(item?.path).to.eq('/speakers/speaker1');
+  });
+
+  it('getSpeaker-by-document-name', () => {
+    const item = queryIndex.getSpeaker('speaker1');
+    expect(item?.path).to.eq('/speakers/speaker1');
+  });
+
+  it('getSpeaker-by-pathname', () => {
+    const item = queryIndex.getSpeaker('/speakers/speaker1');
+    expect(item?.path).to.eq('/speakers/speaker1');
+  });
+
+  it('getSpeaker-by-url', () => {
+    const item = queryIndex.getSpeaker('https://my.host.com/speakers/speaker1');
+    expect(item?.path).to.eq('/speakers/speaker1');
+  });
+
+  it('getSpeaker-invalid-name', () => {
+    const item = queryIndex.getSpeaker('Speaker XYZ');
+    expect(item).to.not.exist;
+  });
+
+  it('getSpeaker-valid-path-invalid-speaker', () => {
+    const item = queryIndex.getSpeaker('/sample-all-properties');
+    expect(item).to.not.exist;
   });
 });

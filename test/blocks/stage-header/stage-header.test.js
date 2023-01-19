@@ -5,7 +5,7 @@ import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 import decorate from '../../../blocks/stage-header/stage-header.js';
 
-describe('Stage Header Block', () => {
+describe('blocks/stage-header', () => {
   it('block', async () => {
     document.body.innerHTML = await readFile({ path: './block.html' });
     decorate(document.querySelector('.stage-header'));
