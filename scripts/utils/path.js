@@ -73,3 +73,19 @@ export function getDocumentName(value) {
   }
   return undefined;
 }
+
+/**
+ * Gets hostname from URL.
+ * @param {string} url
+ * @returns {boolean} true if link points to an external target
+ */
+export function getHostName(url) {
+  if (url) {
+    try {
+      return new URL(url).hostname;
+    } catch (e) {
+      // ignore invalid urls
+    }
+  }
+  return undefined;
+}

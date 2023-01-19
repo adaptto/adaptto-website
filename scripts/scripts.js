@@ -12,6 +12,7 @@ import {
   loadCSS,
   getMetadata,
 } from './lib-franklin.js';
+import { getHostName } from './utils/path.js';
 import { getSiteRoot } from './utils/site.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
@@ -31,6 +32,51 @@ function extractStageHeader(main) {
   const stageHeader = main.querySelector('.stage-header');
   if (stageHeader) {
     section.appendChild(stageHeader);
+  }
+}
+
+/**
+ * Add target='_blank' to all external links.
+ * @param {Element} container The container element
+ */
+export function decorateExternalLinks(container) {
+  const locationHost = getHostName(window.location.href);
+  container.querySelectorAll('a').forEach((a) => {
+    const host = getHostName(a.href);
+    if (host && host !== locationHost) {
+      a.target = '_blank';
+    }
+  });
+}
+
+/**
+ * Inserts new section with talk detail components.
+ * @param {Element} main The container element
+ */
+function decorateTalkDetailPage(main) {
+  if (getMetadata('theme') === 'talk-detail') {
+    const firstSection = main.querySelector(':scope > div');
+    if (firstSection) {
+      // add block after headline before outline
+      const h1 = firstSection.querySelector(':scope > h1');
+      const talkDetailBeforeOutline = document.createElement('div');
+      talkDetailBeforeOutline.classList.add('talk-detail-before-outline');
+      if (h1.nextSibling) {
+        firstSection.insertBefore(talkDetailBeforeOutline, h1.nextSibling);
+      } else {
+        firstSection.append(talkDetailBeforeOutline);
+      }
+      // add block after outline
+      const talkDetailAfterOutline = document.createElement('div');
+      talkDetailAfterOutline.classList.add('talk-detail-after-outline');
+      firstSection.append(talkDetailAfterOutline);
+    }
+    // add new section with footer block
+    const footerSection = document.createElement('div');
+    main.append(footerSection);
+    const talkDetailFooter = document.createElement('div');
+    talkDetailFooter.classList.add('talk-detail-footer');
+    footerSection.append(talkDetailFooter);
   }
 }
 
@@ -81,37 +127,6 @@ function appendTeaserBar(main) {
 }
 
 /**
- * Inserts new section with talk detail components.
- * @param {Element} main The container element
- */
-function decorateTalkDetailPage(main) {
-  if (getMetadata('theme') === 'talk-detail') {
-    const firstSection = main.querySelector(':scope > div');
-    if (firstSection) {
-      // add block after headline before outline
-      const h1 = firstSection.querySelector(':scope > h1');
-      const talkDetailBeforeOutline = document.createElement('div');
-      talkDetailBeforeOutline.classList.add('talk-detail-before-outline');
-      if (h1.nextSibling) {
-        firstSection.insertBefore(talkDetailBeforeOutline, h1.nextSibling);
-      } else {
-        firstSection.append(talkDetailBeforeOutline);
-      }
-      // add block after outline
-      const talkDetailAfterOutline = document.createElement('div');
-      talkDetailAfterOutline.classList.add('talk-detail-after-outline');
-      firstSection.append(talkDetailAfterOutline);
-    }
-    // add new section with footer block
-    const footerSection = document.createElement('div');
-    main.append(footerSection);
-    const talkDetailFooter = document.createElement('div');
-    talkDetailFooter.classList.add('talk-detail-footer');
-    footerSection.append(talkDetailFooter);
-  }
-}
-
-/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
@@ -132,9 +147,9 @@ function buildAutoBlocks(main) {
  * @param {Element} main The main element
  * @param {boolean} insideFragment Decorate main block inside a fragment
  */
-// eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main, insideFragment) {
   decorateIcons(main);
+  decorateExternalLinks(main);
   if (!insideFragment) {
     buildAutoBlocks(main);
   }

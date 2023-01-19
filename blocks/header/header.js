@@ -1,6 +1,7 @@
 import { append, prepend } from '../../scripts/utils/dom.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
 import { addArchiveLinks, getSiteRoot } from '../../scripts/utils/site.js';
+import { decorateExternalLinks } from '../../scripts/scripts.js';
 
 /**
  * @param {Element} header
@@ -70,6 +71,7 @@ export default async function decorate(block) {
     const html = await resp.text();
     const nav = document.createElement('nav');
     nav.innerHTML = html;
+    decorateExternalLinks(nav);
 
     // first section: header with title, slogan and logo
     const header = nav.children[0];
