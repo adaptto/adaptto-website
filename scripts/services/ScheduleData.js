@@ -1,3 +1,4 @@
+import { getPathName, isUrlOrPath } from '../path-utils.js';
 import { getQueryIndex } from './QueryIndex.js';
 import ScheduleDay from './ScheduleDay.js';
 import ScheduleEntry from './ScheduleEntry.js';
@@ -52,16 +53,16 @@ function toDate(value) {
  * @typedef {import('./QueryIndexItem').default} QueryIndexItem
  * @param {string} talkDetailRef Title from schedule sheet which should point to a talk detail page.
  *   This may be only a document name
- * @param {Date} start start time
+ * @param {number} year Current year
  * @param {QueryIndex} queryIndex
  * @returns {QueryIndexItem} Query index item or undefined
  */
-function getTalkQueryIndexItem(talkDetailRef, start, queryIndex) {
+function getTalkQueryIndexItem(talkDetailRef, year, queryIndex) {
   let path;
-  if (talkDetailRef.indexOf('/') === 0) {
-    path = talkDetailRef;
+  if (isUrlOrPath(talkDetailRef)) {
+    path = getPathName(talkDetailRef);
   } else {
-    path = `/${start.getFullYear()}/schedule/${talkDetailRef}`;
+    path = `/${year}/schedule/${talkDetailRef}`;
   }
   return queryIndex.getItem(path);
 }
@@ -99,7 +100,7 @@ function toEntry(item, queryIndex) {
   // resolve talk path and title, speakers from query index
   let talkPath;
   if (type === 'talk') {
-    const indexItem = getTalkQueryIndexItem(title, start, queryIndex);
+    const indexItem = getTalkQueryIndexItem(title, start.getFullYear(), queryIndex);
     if (!indexItem) {
       return undefined;
     }
