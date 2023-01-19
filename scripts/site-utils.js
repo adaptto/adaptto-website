@@ -1,5 +1,5 @@
 import { append } from './dom-utils.js';
-import { getQueryIndex } from './QueryIndex.js';
+import { getQueryIndex } from './services/QueryIndex.js';
 
 const siteRootRegex = /^(\/[^/]+\/)(.+)?$/;
 

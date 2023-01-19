@@ -1,6 +1,6 @@
 import { append } from '../../scripts/dom-utils.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
-import { getScheduleData } from '../../scripts/ScheduleData.js';
+import { getScheduleData } from '../../scripts/services/ScheduleData.js';
 import { getSiteRoot } from '../../scripts/site-utils.js';
 
 const dayIdPattern = /^#day-(\d)$/;
@@ -31,7 +31,7 @@ function displayDay(block, day) {
 
 /**
  * Build tab navigation links.
- * @typedef {import('../../scripts/ScheduleDay').default} ScheduleDay
+ * @typedef {import('../../scripts/services/ScheduleDay').default} ScheduleDay
  * @param {Element} element
  * @param {ScheduleDay[]} days
  * @param {number} activeDay
@@ -57,7 +57,7 @@ function buildTabNavigation(parent, days, activeDay) {
 
 /**
  * Build schedule entry cells markup.
- * @typedef {import('../../scripts/ScheduleEntry').default} ScheduleEntry
+ * @typedef {import('../../scripts/services/ScheduleEntry').default} ScheduleEntry
  * @param {Element} tr
  * @param {ScheduleEntry} entry
  * @param {number} colSpan
@@ -94,7 +94,7 @@ function buildDayEntryCells(tr, entry, colSpan, speakerColumn) {
 
 /**
  * Build schedule entry row markup.
- * @typedef {import('../../scripts/ScheduleEntry').default} ScheduleEntry
+ * @typedef {import('../../scripts/services/ScheduleEntry').default} ScheduleEntry
  * @param {Element} tbody
  * @param {ScheduleEntry[]} entries Entries, possible multiple parallel
  * @param {number} trackCount Max. number of parallel tracks this day
@@ -110,7 +110,7 @@ function buildDayEntryRow(tbody, entries, trackCount) {
 
 /**
  * Build schedule markup for day.
- * @typedef {import('../../scripts/ScheduleDay').default} ScheduleDay
+ * @typedef {import('../../scripts/services/ScheduleDay').default} ScheduleDay
  * @param {Element} parent
  * @param {ScheduleDay} day
  * @param {number} activeDay

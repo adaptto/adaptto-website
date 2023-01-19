@@ -2,7 +2,7 @@
 /* global describe it */
 
 import { expect } from '@esm-bundle/chai';
-import { getScheduleData } from '../../scripts/ScheduleData.js';
+import { getScheduleData } from '../../../scripts/services/ScheduleData.js';
 
 const scheduleData = await getScheduleData(
   '/test/test-data/schedule-data-2020.json',

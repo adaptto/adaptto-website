@@ -2,7 +2,7 @@
 /* global describe it */
 
 import { expect } from '@esm-bundle/chai';
-import { getQueryIndex } from '../../scripts/QueryIndex.js';
+import { getQueryIndex } from '../../../scripts/services/QueryIndex.js';
 
 const queryIndex = await getQueryIndex('/test/test-data/query-index-sample.json');
 
