@@ -64,13 +64,13 @@ export function getSpeakerOverviewPage(pathname) {
  * @param {Element} nav Navigation element
  * @param {string} queryIndexUrl URL pointing to query-index json
  */
-export async function addArchiveLinks(nav, queryIndexUrl) {
+export async function addArchiveLinks(nav) {
   const navItems = nav.querySelectorAll(':scope > ul > li');
   const lastNavItem = navItems[navItems.length - 1];
   if (lastNavItem) {
     const ul = lastNavItem.querySelector(':scope > ul');
     if (ul) {
-      const queryIndex = await getQueryIndex(queryIndexUrl);
+      const queryIndex = await getQueryIndex();
       queryIndex.getAllSiteRoots().forEach((siteRoot) => {
         const listItem = append(ul, 'li');
         const link = append(listItem, 'a');

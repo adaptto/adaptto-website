@@ -1,5 +1,4 @@
 import { append, prepend } from '../../scripts/utils/dom.js';
-import { readBlockConfig } from '../../scripts/lib-franklin.js';
 import { addArchiveLinks, getSiteRoot } from '../../scripts/utils/site.js';
 import { decorateExternalLinks } from '../../scripts/scripts.js';
 
@@ -19,9 +18,8 @@ function decorateHeader(header, siteRoot) {
 
 /**
  * @param {Element} mainNav
- * @param {object} cfg
  */
-function decorateMainNav(mainNav, cfg) {
+function decorateMainNav(mainNav) {
   mainNav.classList.add('section-mainnav');
 
   // mobile navigation
@@ -52,7 +50,7 @@ function decorateMainNav(mainNav, cfg) {
   });
 
   // add archive links to last mainnav item
-  addArchiveLinks(mainNav, cfg.queryindexurl || '/query-index.json');
+  addArchiveLinks(mainNav);
 }
 
 /**
@@ -60,13 +58,11 @@ function decorateMainNav(mainNav, cfg) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  const cfg = readBlockConfig(block);
   block.textContent = '';
 
   // fetch nav content
   const siteRoot = getSiteRoot(document.location.pathname);
-  const navPath = cfg.nav || `${siteRoot}nav`;
-  const resp = await fetch(`${navPath}.plain.html`);
+  const resp = await fetch(`${siteRoot}nav.plain.html`);
   if (resp.ok) {
     const html = await resp.text();
     const nav = document.createElement('nav');
@@ -82,7 +78,7 @@ export default async function decorate(block) {
     // second section: main navigation
     const mainNav = nav.children[1];
     if (mainNav) {
-      decorateMainNav(mainNav, cfg);
+      decorateMainNav(mainNav);
     }
 
     block.append(nav);

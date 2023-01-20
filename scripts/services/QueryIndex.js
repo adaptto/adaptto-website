@@ -3,7 +3,7 @@ import QueryIndexItem from './QueryIndexItem.js';
 
 const siteRootRegex = /^\/\d\d\d\d\/$/;
 const speakerPathRegex = /^\/speakers\/.*$/;
-const queryIndexCache = new Set();
+let queryIndexInstance;
 
 /**
  * Helper for getting information about published pages and metadata.
@@ -58,13 +58,12 @@ export default class QueryIndex {
 }
 
 /**
- * @param {string} url Url to query-index.json
+ * Get Query Index based on query-index.json.
  */
-export async function getQueryIndex(url) {
-  let queryIndexInstance = queryIndexCache[url];
+export async function getQueryIndex() {
   if (!queryIndexInstance) {
     let data;
-    const resp = await fetch(url);
+    const resp = await fetch('/query-index.json');
     if (resp.ok) {
       const json = await resp.json();
       data = json.data;
@@ -72,7 +71,13 @@ export async function getQueryIndex(url) {
     data = data || [];
     const items = data.map((item) => Object.assign(new QueryIndexItem(), item));
     queryIndexInstance = new QueryIndex(items);
-    queryIndexCache[url] = queryIndexInstance;
   }
   return queryIndexInstance;
+}
+
+/**
+ * Clears internal cache of query index responses.
+ */
+export function clearQueryIndexCache() {
+  queryIndexInstance = undefined;
 }

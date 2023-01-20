@@ -33,6 +33,18 @@ export async function blockLoaded(section) {
 }
 
 /**
+ * Pause execution for given amount of time.
+ * @param {number} time Time (ms)
+ */
+export async function sleep(time = 1000) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, time);
+  });
+}
+
+/**
  * Stubs window.fetch method to redirect URLs matching keys
  * in the given map to other URLs given as map values.
  * @param {object} urlMap Maps requested URLs to other URLs.

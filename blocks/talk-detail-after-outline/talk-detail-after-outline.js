@@ -1,5 +1,5 @@
 import { append } from '../../scripts/utils/dom.js';
-import { createOptimizedPicture, getMetadata, readBlockConfig } from '../../scripts/lib-franklin.js';
+import { createOptimizedPicture, getMetadata } from '../../scripts/lib-franklin.js';
 import { getQueryIndex } from '../../scripts/services/QueryIndex.js';
 import { parseCSVArray } from '../../scripts/utils/metadata.js';
 import { getSpeakerOverviewPage } from '../../scripts/utils/site.js';
@@ -86,8 +86,7 @@ function buildLinks(parent) {
  * @param {Element} block
  */
 export default async function decorate(block) {
-  const cfg = readBlockConfig(block);
-  const queryIndex = await getQueryIndex(cfg.queryindexurl || '/query-index.json');
+  const queryIndex = await getQueryIndex();
 
   buildSpeakers(block, queryIndex);
   buildLinks(block);

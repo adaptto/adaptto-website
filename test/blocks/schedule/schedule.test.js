@@ -4,16 +4,23 @@
 import { expect } from '@esm-bundle/chai';
 import { buildBlock } from '../../../scripts/lib-franklin.js';
 import decorate from '../../../blocks/schedule/schedule.js';
+import { setWindowLocationHref, stubFetchUrlMap } from '../../scripts/test-utils.js';
+import { clearQueryIndexCache } from '../../../scripts/services/QueryIndex.js';
 
 /**
  * @param {string} year
  */
 async function buildScheduleBlock(year) {
-  const block = buildBlock('schedule', [
-    ['scheduledataurl', `/test/test-data/schedule-data-${year}.json`],
-    ['queryindexurl', `/test/test-data/query-index-schedule-${year}.json`],
-  ]);
+  clearQueryIndexCache();
+  // simulate schedule URL and redirect fetch calls to mock data
+  setWindowLocationHref(`/${year}/schedule`);
+  const stub = stubFetchUrlMap({
+    [`/${year}/schedule-data.json`]: `/test/test-data/schedule-data-${year}.json`,
+    '/query-index.json': `/test/test-data/query-index-schedule-${year}.json`,
+  });
+  const block = buildBlock('schedule', []);
   await decorate(block);
+  stub.restore();
   return block;
 }
 

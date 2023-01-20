@@ -3,11 +3,10 @@
 
 import { expect } from '@esm-bundle/chai';
 import { getScheduleData } from '../../../scripts/services/ScheduleData.js';
+import { stubFetchUrlMap } from '../test-utils.js';
 
-const scheduleData = await getScheduleData(
-  '/test/test-data/schedule-data-2020.json',
-  '/test/test-data/query-index-schedule-2020.json',
-);
+stubFetchUrlMap({ '/query-index.json': '/test/test-data/query-index-schedule-2020.json' });
+const scheduleData = await getScheduleData('/test/test-data/schedule-data-2020.json');
 
 describe('services/ScheduleData', () => {
   it('getDays', () => {
