@@ -13,7 +13,7 @@ import {
   getMetadata,
 } from './lib-franklin.js';
 import { getHostName } from './utils/path.js';
-import { getSiteRootPath } from './utils/site.js';
+import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -47,6 +47,19 @@ export function decorateExternalLinks(container) {
       a.target = '_blank';
     }
   });
+}
+
+/**
+ * Auto-builds speaker detail block in speaker page.
+ * @param {Element} main The container element
+ */
+function decorateSpeakerPage(main) {
+  if (isSpeakerDetailPath(window.location.pathname)) {
+    const section = main.querySelector(':scope > div');
+    if (section) {
+      section.prepend(buildBlock('speaker-detail', { elems: Array.from(section.children) }));
+    }
+  }
 }
 
 /**
@@ -132,6 +145,7 @@ function appendTeaserBar(main) {
  */
 function buildAutoBlocks(main) {
   try {
+    decorateSpeakerPage(main);
     decorateTalkDetailPage(main);
     extractStageHeader(main);
     appendAsideBar(main);

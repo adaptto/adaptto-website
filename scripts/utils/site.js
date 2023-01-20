@@ -135,6 +135,15 @@ export function getSpeakerDetailPath(speakerItem, pathName) {
 }
 
 /**
+ * Checks if given path is a speaker detail page.
+ * @param {string} pathName Path name
+ * @returns true if path points to a speaker detail page
+ */
+export function isSpeakerDetailPath(pathName) {
+  return pathName.match(speakerPathRegex) != null;
+}
+
+/**
  * Adds archive links pointing to other yearly edition websites.
  * The links are added to the ul of the last li item.
  * @param {Element} nav Navigation element

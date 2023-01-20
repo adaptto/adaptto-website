@@ -12,6 +12,7 @@ import {
   getSpeakerDetailPath,
   getSpeakerOverviewPath,
   getYearFromPath,
+  isSpeakerDetailPath,
 } from '../../../scripts/utils/site.js';
 
 stubFetchUrlMap({ '/query-index.json': '/test/test-data/query-index-sample.json' });
@@ -62,5 +63,10 @@ describe('utils/site', () => {
 
   it('getSpeakerDetailPath', () => {
     expect(getSpeakerDetailPath({ path: '/speakers/xyz' }, '/2021/')).to.equal('/speakers/xyz#2021');
+  });
+
+  it('isSpeakerDetailPath', () => {
+    expect(isSpeakerDetailPath('/speakers/xyz')).to.true;
+    expect(isSpeakerDetailPath('/2021/schedule')).to.false;
   });
 });
