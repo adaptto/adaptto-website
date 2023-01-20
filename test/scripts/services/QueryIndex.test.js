@@ -81,4 +81,12 @@ describe('services/QueryIndex', () => {
     const item = queryIndex.getSpeaker('/sample-all-properties');
     expect(item).to.not.exist;
   });
+
+  it('getTalkSpeakerNames', () => {
+    expect(queryIndex.getTalkSpeakerNames('/2021/').length).to.eq(4);
+  });
+
+  it('getLightningTalkSpeakerNames', () => {
+    expect(queryIndex.getLightningTalkSpeakerNames('/2021/').length).to.eq(1);
+  });
 });

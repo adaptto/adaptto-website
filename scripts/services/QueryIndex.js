@@ -3,7 +3,22 @@ import QueryIndexItem from './QueryIndexItem.js';
 
 const siteRootRegex = /^\/\d\d\d\d\/$/;
 const speakerPathRegex = /^\/speakers\/.*$/;
+const defaultMetaImage = '/default-meta-image.png?width=1200&format=pjpg&optimize=medium';
 let queryIndexInstance;
+
+/**
+ * Gets a distinct sorted list of speaker names from all talks in given year.
+ * @param {QueryIndexItem[]} items
+ * @param {RegExp} filter
+ */
+function getFilteredDistinctSortedTalkSpeakers(items, pathFilter) {
+  const speakerSet = new Set();
+  items.filter((item) => item.path.match(pathFilter))
+    .forEach((item) => {
+      item.getSpeakers().forEach((speaker) => speakerSet.add(speaker));
+    });
+  return Array.from(speakerSet).sort();
+}
 
 /**
  * Helper for getting information about published pages and metadata.
@@ -47,6 +62,32 @@ export default class QueryIndex {
   }
 
   /**
+   * Get a distinct sorted list of all speakers of main talks in given year.
+   * @param {string} siteRootPath Site root path
+   * @returns {string[]} Speaker names
+   */
+  getTalkSpeakerNames(siteRootPath) {
+    const pathFilter = new RegExp(`^${siteRootPath}schedule/[^/]+$`);
+    return getFilteredDistinctSortedTalkSpeakers(this.items, pathFilter);
+  }
+
+  /**
+   * Get a distinct sorted list of all speakers of lightning talks in given year.
+   * Speakers that also are in the list of main talk speakers are not included.
+   * @param {string} siteRootPath Site root path
+   * @returns {string[]} Speaker names
+   */
+  getLightningTalkSpeakerNames(siteRootPath) {
+    // lightning talks are always stored at sub pages one level deeper than the main talks
+    const pathFilter = new RegExp(`^${siteRootPath}schedule/[^/]+/[^/]+$`);
+    const lightningTalkSpeakerNames = getFilteredDistinctSortedTalkSpeakers(this.items, pathFilter);
+
+    // substract main talk speaker names
+    const talkSpeakerNames = this.getTalkSpeakerNames(siteRootPath);
+    return lightningTalkSpeakerNames.filter((speaker) => !talkSpeakerNames.includes(speaker));
+  }
+
+  /**
    * Get all web site root pages (for each yearly edition), newest first.
    * @returns {QueryIndexItem[]} Query index items pointing to web site roots.
    */
@@ -69,7 +110,14 @@ export async function getQueryIndex() {
       data = json.data;
     }
     data = data || [];
-    const items = data.map((item) => Object.assign(new QueryIndexItem(), item));
+    const items = data.map((item) => {
+      const queryIndexItem = Object.assign(new QueryIndexItem(), item);
+      // remove invalid default-meta-image.png references
+      if (queryIndexItem.image === defaultMetaImage) {
+        queryIndexItem.image = undefined;
+      }
+      return queryIndexItem;
+    });
     queryIndexInstance = new QueryIndex(items);
   }
   return queryIndexInstance;
