@@ -53,32 +53,47 @@ describe('services/QueryIndex', () => {
   });
 
   it('getSpeaker-by-name', () => {
-    const item = queryIndex.getSpeaker('Speaker #1');
+    const item = queryIndex.getSpeaker('Speaker #1', '/2021/');
     expect(item?.path).to.eq('/speakers/speaker1');
   });
 
+  it('getSpeaker-by-name-2021', () => {
+    const item = queryIndex.getSpeaker('Speaker #2', '/2021/');
+    expect(item?.path).to.eq('/speakers/speaker2');
+  });
+
+  it('getSpeaker-by-name-2020', () => {
+    const item = queryIndex.getSpeaker('Speaker #2', '/2020/');
+    expect(item?.path).to.eq('/speakers/speaker2-2020');
+  });
+
+  it('getSpeaker-by-name-2019', () => {
+    const item = queryIndex.getSpeaker('Speaker #2', '/2019/');
+    expect(item?.path).to.eq('/speakers/speaker2-2020');
+  });
+
   it('getSpeaker-by-document-name', () => {
-    const item = queryIndex.getSpeaker('speaker1');
+    const item = queryIndex.getSpeaker('speaker1', '/2021/');
     expect(item?.path).to.eq('/speakers/speaker1');
   });
 
   it('getSpeaker-by-pathname', () => {
-    const item = queryIndex.getSpeaker('/speakers/speaker1');
+    const item = queryIndex.getSpeaker('/speakers/speaker1', '/2021/');
     expect(item?.path).to.eq('/speakers/speaker1');
   });
 
   it('getSpeaker-by-url', () => {
-    const item = queryIndex.getSpeaker('https://my.host.com/speakers/speaker1');
+    const item = queryIndex.getSpeaker('https://my.host.com/speakers/speaker1', '/2021/');
     expect(item?.path).to.eq('/speakers/speaker1');
   });
 
   it('getSpeaker-invalid-name', () => {
-    const item = queryIndex.getSpeaker('Speaker XYZ');
+    const item = queryIndex.getSpeaker('Speaker XYZ', '/2021/');
     expect(item).to.not.exist;
   });
 
   it('getSpeaker-valid-path-invalid-speaker', () => {
-    const item = queryIndex.getSpeaker('/sample-all-properties');
+    const item = queryIndex.getSpeaker('/sample-all-properties', '/2021/');
     expect(item).to.not.exist;
   });
 

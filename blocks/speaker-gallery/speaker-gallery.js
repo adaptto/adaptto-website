@@ -20,7 +20,7 @@ function createSpeakerImage(speakerItem) {
     );
   }
 
-  // use fallback image
+  // fallback image
   const img = document.createElement('img');
   img.src = '/resources/img/speaker_placeholder.svg';
   return img;
@@ -31,10 +31,11 @@ function createSpeakerImage(speakerItem) {
  * @typedef {import('../../scripts/services/QueryIndex').default} QueryIndex
  * @param {Element} parent Parent element
  * @param {string} speaker Speaker name or reference
+ * @param {string} siteRootPath Site root path
  * @param {QueryIndex} queryIndex Query index
  */
-function addSpeaker(parent, speaker, queryIndex) {
-  const speakerItem = queryIndex.getSpeaker(speaker);
+function addSpeaker(parent, speaker, siteRootPath, queryIndex) {
+  const speakerItem = queryIndex.getSpeaker(speaker, siteRootPath);
   if (!speakerItem) {
     return;
   }
@@ -70,24 +71,26 @@ function addSpeaker(parent, speaker, queryIndex) {
  * @typedef {import('../../scripts/services/QueryIndex').default} QueryIndex
  * @param {Element} parent Parent element
  * @param {string[]} speakers Speaker names or references
+ * @param {string} siteRootPath Site root path
  * @param {QueryIndex} queryIndex Query index
  */
-function listSpeakers(parent, speakers, queryIndex) {
+function addSpeakers(parent, speakers, siteRootPath, queryIndex) {
   if (speakers.length === 0) {
     return;
   }
 
   const div = append(parent, 'div', 'speakers');
-  speakers.forEach((speaker) => addSpeaker(div, speaker, queryIndex));
+  speakers.forEach((speaker) => addSpeaker(div, speaker, siteRootPath, queryIndex));
 }
 
 /**
  * List lightning talk speakers.
  * @param {Element} parent Parent element
  * @param {string[]} speakers Speaker names or references
+ * @param {string} siteRootPath Site root path
  * @param {QueryIndex} queryIndex Query index
  */
-function listLightningTalkSpeakers(parent, speakers, queryIndex) {
+function addLightningTalkSpeakers(parent, speakers, siteRootPath, queryIndex) {
   if (speakers.length === 0) {
     return;
   }
@@ -95,7 +98,7 @@ function listLightningTalkSpeakers(parent, speakers, queryIndex) {
   h4.textContent = 'Additional speakers (Lightning Talks)';
 
   const div = append(parent, 'div', 'speakers', 'lightning-talk');
-  speakers.forEach((speaker) => addSpeaker(div, speaker, queryIndex));
+  speakers.forEach((speaker) => addSpeaker(div, speaker, siteRootPath, queryIndex));
 }
 
 /**
@@ -106,23 +109,27 @@ export default async function decorate(block) {
   const cfg = readBlockConfig(block);
   block.textContent = '';
 
+  const siteRoot = getSiteRootPath(document.location.pathname);
   const queryIndex = await getQueryIndex();
 
   // check for list of speakers from block config
   const speakers = parseCSVArray(cfg.speakers);
   if (speakers.length > 0) {
-    listSpeakers(block, speakers, queryIndex);
+    addSpeakers(block, speakers, siteRoot, queryIndex);
 
   // otherwise render gallery with all speakers in the schedule
   } else {
-    // get all speakers from schedule
-    const siteRoot = getSiteRootPath(document.location.pathname);
-
     // headline for speaker gallery
     const h1 = append(block, 'h1');
     h1.textContent = getMetadata('og:title');
 
-    listSpeakers(block, queryIndex.getTalkSpeakerNames(siteRoot), queryIndex);
-    listLightningTalkSpeakers(block, queryIndex.getLightningTalkSpeakerNames(siteRoot), queryIndex);
+    // get all speakers from schedule
+    addSpeakers(block, queryIndex.getTalkSpeakerNames(siteRoot), siteRoot, queryIndex);
+    addLightningTalkSpeakers(
+      block,
+      queryIndex.getLightningTalkSpeakerNames(siteRoot),
+      siteRoot,
+      queryIndex,
+    );
   }
 }

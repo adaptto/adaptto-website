@@ -2,18 +2,19 @@ import { append } from '../../scripts/utils/dom.js';
 import { createOptimizedPicture, getMetadata } from '../../scripts/lib-franklin.js';
 import { getQueryIndex } from '../../scripts/services/QueryIndex.js';
 import { parseCSVArray } from '../../scripts/utils/metadata.js';
-import { getSpeakerOverviewPath } from '../../scripts/utils/site.js';
+import { getSiteRootPath, getSpeakerOverviewPath } from '../../scripts/utils/site.js';
 import { getDocumentName } from '../../scripts/utils/path.js';
 
 /**
  * List talk speakers.
  * @typedef {import('../../scripts/services/QueryIndex').default} QueryIndex
  * @param {Element} parent
+ * @param {string} siteRootPath
  * @param {QueryIndex} queryIndex
  */
-function buildSpeakers(parent, queryIndex) {
+function buildSpeakers(parent, siteRootPath, queryIndex) {
   const speakers = parseCSVArray(getMetadata('speakers'))
-    .map((speaker) => queryIndex.getSpeaker(speaker))
+    .map((speaker) => queryIndex.getSpeaker(speaker, siteRootPath))
     .filter((speakerItem) => speakerItem !== undefined);
   if (speakers.length === 0) {
     return;
@@ -86,8 +87,9 @@ function buildLinks(parent) {
  * @param {Element} block
  */
 export default async function decorate(block) {
+  const siteRootPath = getSiteRootPath(window.location.pathname);
   const queryIndex = await getQueryIndex();
 
-  buildSpeakers(block, queryIndex);
+  buildSpeakers(block, siteRootPath, queryIndex);
   buildLinks(block);
 }

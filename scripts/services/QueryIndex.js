@@ -21,6 +21,37 @@ function getFilteredDistinctSortedTalkSpeakers(items, pathFilter) {
 }
 
 /**
+ * Gets the speaker item variant matching to the given year, if multiple ones
+ * are matching for the same speaker name.
+ * Background: Speaker details and affiliation may change over years. This method
+ * always picks the best match for the requested year.
+ * @param {QueryIndexItem[]} speakerItems Matching speaker items
+ * @param {string} siteRootPath Site root path
+ * @return {QueryIndexItem} Best-matching speaker item
+ */
+function getMatchingSpeakerVariant(speakerItems, siteRootPath) {
+  if (speakerItems.length === 0) {
+    return undefined;
+  }
+  if (speakerItems.length === 1) {
+    return speakerItems[0];
+  }
+
+  const year = parseInt(siteRootPath.substring(1, siteRootPath.length - 1), 10);
+  // sort by uptoyear, with entry without uptoyear coming last
+  speakerItems.sort((a, b) => {
+    if (!a.uptoyear) {
+      return 1;
+    }
+    if (!b.uptoyear) {
+      return -1;
+    }
+    return a.uptoyear - b.uptoyear;
+  });
+  return speakerItems.find((item) => !item.uptoyear || item.uptoyear >= year);
+}
+
+/**
  * Helper for getting information about published pages and metadata.
  */
 export default class QueryIndex {
@@ -46,19 +77,21 @@ export default class QueryIndex {
   /**
    * Get query index item for speaker.
    * @param {string} pathOrName Speaker name or speaker document name or speaker path
+   * @param {string} siteRootPath Site root path
    * @returns {QueryIndexItem} Item or undefined
    */
-  getSpeaker(pathOrName) {
+  getSpeaker(pathOrName, siteRootPath) {
     if (isUrlOrPath(pathOrName)) {
       const path = getPathName(pathOrName);
       if (path.match(speakerPathRegex)) {
         return this.getItem(path);
       }
     }
-    return this.items
+    const matchingSpeakers = this.items
       .filter((item) => item.path.match(speakerPathRegex))
       // check real speaker name or page document name
-      .find((item) => (item.title === pathOrName) || (getDocumentName(item.path) === pathOrName));
+      .filter((item) => (item.title === pathOrName) || (getDocumentName(item.path) === pathOrName));
+    return getMatchingSpeakerVariant(matchingSpeakers, siteRootPath);
   }
 
   /**
