@@ -1,7 +1,9 @@
 import { append } from './dom.js';
 import { getQueryIndex } from '../services/QueryIndex.js';
 
-const siteRootRegex = /^(\/[^/]+\/)(.+)?$/;
+const siteRootRegex = /^(\/(\d\d\d\d)\/)(.+)?$/;
+const speakerPathRegex = /^\/speakers\/[^/]+$/;
+const yearHashRegex = /^#(\d\d\d\d)$/;
 
 /**
  * Detects the root of the current site (first hierarchy level below docroot).
@@ -10,14 +12,60 @@ const siteRootRegex = /^(\/[^/]+\/)(.+)?$/;
  *   /2021/ -> /2021/
  *   /2021/mypage -> /2021/
  * @param {string} pathName Path name
- * @returns Site root path
+ * @returns {string} Site root path
  */
 export function getSiteRootPath(pathName) {
-  const result = pathName.match(siteRootRegex);
-  if (result) {
-    return result[1];
+  const siteRootMatch = pathName.match(siteRootRegex);
+  if (siteRootMatch) {
+    return siteRootMatch[1];
   }
   return '/';
+}
+
+/**
+ * Gets year from given path.
+ * @param {string} pathName Path name.
+ * @returns {number} Year or undefined
+ */
+export function getYearFromPath(pathName) {
+  const siteRootMatch = pathName.match(siteRootRegex);
+  if (siteRootMatch) {
+    return parseInt(siteRootMatch[2], 10);
+  }
+  return undefined;
+}
+
+/**
+ * Detects the root of the current site (first hierarchy level below docroot).
+ * This method also works for speaker pages which are outside the yearly site context.
+ * It uses hash and speaker talks to detect the matching year.
+ * @param {string} pathName Path name
+ * @param {string} hash Hash (optional, only required for speaker pages)
+ * @returns Site root path
+ */
+export async function getSiteRootPathAlsoForSpeakerPath(pathName, hash) {
+  if (pathName.match(speakerPathRegex)) {
+    const yearHashMatch = hash?.match(yearHashRegex);
+    let year;
+    if (yearHashMatch) {
+      [, year] = yearHashMatch;
+    } else {
+      const queryIndex = await getQueryIndex();
+      const speakerItem = queryIndex.getItem(pathName);
+      if (speakerItem) {
+        const speakerTalks = queryIndex.getTalksForSpeaker(speakerItem);
+        const latestTalk = speakerTalks[0];
+        if (latestTalk) {
+          year = getYearFromPath(latestTalk.path);
+        }
+      }
+    }
+    if (year) {
+      return `/${year}/`;
+    }
+  }
+  // fallback to normal site root detection
+  return getSiteRootPath(pathName);
 }
 
 /**
@@ -39,7 +87,7 @@ export function getParentPath(pathName) {
 
 /**
  * Build page path in current site.
- * @param {string} pathName location.pathName
+ * @param {string} pathName Path name
  * @param {string} path relative path inside site (without leading slash)
  * @returns {string} Path
  */
@@ -50,7 +98,7 @@ function getRelativePage(pathName, path) {
 
 /**
  * Build path to schedule page in current site.
- * @param {string} pathName location.pathName
+ * @param {string} pathName Path name
  * @returns {string} Path
  */
 export function getSchedulePath(pathName) {
@@ -59,7 +107,7 @@ export function getSchedulePath(pathName) {
 
 /**
  * Build path to archive page in current site.
- * @param {string} pathName location.pathName
+ * @param {string} pathName Path name
  * @returns {string} Path
  */
 export function getArchivePath(pathName) {
@@ -68,7 +116,7 @@ export function getArchivePath(pathName) {
 
 /**
  * Build path to speaker overview page in current site.
- * @param {string} pathName location.pathName
+ * @param {string} pathName Path name
  * @returns {string} Path
  */
 export function getSpeakerOverviewPath(pathName) {
@@ -76,10 +124,20 @@ export function getSpeakerOverviewPath(pathName) {
 }
 
 /**
+ * Get path to speaker detail page (in context of given year).
+ * @typedef {import('../services/QueryIndexItem').default} QueryIndexItem
+ * @param {QueryIndexItem} speakerItem Speaker item
+ * @param {string} pathName Path name
+ */
+export function getSpeakerDetailPath(speakerItem, pathName) {
+  const year = getYearFromPath(pathName);
+  return `${speakerItem.path}#${year}`;
+}
+
+/**
  * Adds archive links pointing to other yearly edition websites.
  * The links are added to the ul of the last li item.
  * @param {Element} nav Navigation element
- * @param {string} queryIndexUrl URL pointing to query-index json
  */
 export async function addArchiveLinks(nav) {
   const navItems = nav.querySelectorAll(':scope > ul > li');

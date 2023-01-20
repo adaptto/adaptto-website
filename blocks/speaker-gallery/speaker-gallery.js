@@ -2,8 +2,7 @@ import { createOptimizedPicture, getMetadata, readBlockConfig } from '../../scri
 import { getQueryIndex } from '../../scripts/services/QueryIndex.js';
 import { append } from '../../scripts/utils/dom.js';
 import { parseCSVArray } from '../../scripts/utils/metadata.js';
-import { getDocumentName } from '../../scripts/utils/path.js';
-import { getSiteRootPath, getSpeakerOverviewPath } from '../../scripts/utils/site.js';
+import { getSiteRootPath, getSpeakerDetailPath } from '../../scripts/utils/site.js';
 
 /**
  * Create speaker image (or fallback image);
@@ -40,7 +39,7 @@ function addSpeaker(parent, speaker, siteRootPath, queryIndex) {
     return;
   }
 
-  const speakerUrl = `${getSpeakerOverviewPath(window.location.pathname)}#${getDocumentName(speakerItem.path)}`;
+  const speakerUrl = getSpeakerDetailPath(speakerItem, siteRootPath);
 
   const div = append(parent, 'div', 'speaker');
 

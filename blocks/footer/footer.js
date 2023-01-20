@@ -1,5 +1,5 @@
 import { append } from '../../scripts/utils/dom.js';
-import { addArchiveLinks, getSiteRootPath } from '../../scripts/utils/site.js';
+import { addArchiveLinks, getSiteRootPathAlsoForSpeakerPath } from '../../scripts/utils/site.js';
 import { decorateExternalLinks } from '../../scripts/scripts.js';
 
 /**
@@ -49,8 +49,14 @@ function decorateFooterText(footerText) {
 export default async function decorate(block) {
   block.textContent = '';
 
-  // fetch nav content
-  const siteRoot = getSiteRootPath(document.location.pathname);
+  // detect site root
+  // for speaker pages, this year may be derived from hash, or from latest speaker's talk
+  const siteRoot = await getSiteRootPathAlsoForSpeakerPath(
+    window.location.pathname,
+    window.location.hash,
+  );
+
+  // fetch footer content
   const resp = await fetch(`${siteRoot}footer.plain.html`);
   if (resp.ok) {
     const html = await resp.text();

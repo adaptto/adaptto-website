@@ -3,6 +3,7 @@ import QueryIndexItem from './QueryIndexItem.js';
 
 const siteRootRegex = /^\/\d\d\d\d\/$/;
 const speakerPathRegex = /^\/speakers\/.*$/;
+const talkPageRegex = /^\/\d\d\d\d\/schedule\/.+$/;
 const defaultMetaImage = '/default-meta-image.png?width=1200&format=pjpg&optimize=medium';
 let queryIndexInstance;
 
@@ -75,6 +76,16 @@ export default class QueryIndex {
   }
 
   /**
+   * Get all web site root pages (for each yearly edition), newest first.
+   * @returns {QueryIndexItem[]} Query index items pointing to web site roots.
+   */
+  getAllSiteRoots() {
+    return this.items
+      .filter((item) => item.path && item.path.match(siteRootRegex))
+      .sort((item1, item2) => item1.path && item2.path && item2.path.localeCompare(item1.path));
+  }
+
+  /**
    * Get query index item for speaker.
    * @param {string} pathOrName Speaker name or speaker document name or speaker path
    * @param {string} siteRootPath Site root path
@@ -121,13 +132,29 @@ export default class QueryIndex {
   }
 
   /**
-   * Get all web site root pages (for each yearly edition), newest first.
-   * @returns {QueryIndexItem[]} Query index items pointing to web site roots.
+   * Get all talks for given speaker, ordered descending by year, ascending by title.
+   * @param {QueryIndexItem} speakerItem Speaker item
+   * @returns {QueryIndexItem[]} Talk items
    */
-  getAllSiteRoots() {
-    return this.items
-      .filter((item) => item.path && item.path.match(siteRootRegex))
-      .sort((item1, item2) => item1.path && item2.path && item2.path.localeCompare(item1.path));
+  getTalksForSpeaker(speakerItem) {
+    const speakerDocumentName = getDocumentName(speakerItem.path);
+    return this.items.filter((item) => item.path.match(talkPageRegex))
+      .filter((item) => {
+        if (item.speakers) {
+          const speakers = item.getSpeakers();
+          return speakers.includes(speakerItem.title)
+              || speakers.includes(speakerDocumentName);
+        }
+        return false;
+      })
+      .sort((talk1, talk2) => {
+        const year1 = talk1.path.substring(0, 6);
+        const year2 = talk2.path.substring(0, 6);
+        if (year1 === year2) {
+          return talk1.path.localeCompare(talk2.path);
+        }
+        return year2.localeCompare(year1);
+      });
   }
 }
 

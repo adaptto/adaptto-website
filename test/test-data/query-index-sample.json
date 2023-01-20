@@ -54,6 +54,24 @@
       "uptoyear": "2020"
     },
     {
+      "path": "/speakers/konrad-windszus",
+      "robots": "noindex, nofollow",
+      "title": "Konrad Windszus",
+      "image": "/speakers/media_1d1df9ce41e687b12992b3409119e36a3f8b3160d.jpeg?width=1200&format=pjpg&optimize=medium",
+      "affiliation": "Netcentric",
+      "twitter": "",
+      "speaker-alias": "",
+      "uptoyear": "",
+      "speakers": "",
+      "duration-talk": "",
+      "duration-faq": "",
+      "tags": "[]",
+      "lastModified": "1673276116",
+      "speaker": "",
+      "article:tag": "",
+      "tag": ""
+    },
+    {
       "path": "/2021/schedule/aem-cloud-service-from-a-developer-perspective",
       "robots": "",
       "title": "AEM Cloud Service from a Developer Perspective",

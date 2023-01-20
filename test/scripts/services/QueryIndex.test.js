@@ -104,4 +104,13 @@ describe('services/QueryIndex', () => {
   it('getLightningTalkSpeakerNames', () => {
     expect(queryIndex.getLightningTalkSpeakerNames('/2021/').length).to.eq(1);
   });
+
+  it('getTalksForSpeaker', () => {
+    const speakerItem = queryIndex.getItem('/speakers/konrad-windszus');
+    expect(speakerItem).to.exist;
+    expect(queryIndex.getTalksForSpeaker(speakerItem).map((item) => item.path)).to.eql([
+      '/2021/schedule/lightning-talks/precompiled-bundled-scripts-from-content-package',
+      '/2021/schedule/panel-discussion-aem-as-a-cloud-service',
+    ]);
+  });
 });
