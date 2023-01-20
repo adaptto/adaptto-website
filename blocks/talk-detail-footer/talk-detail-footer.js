@@ -13,10 +13,9 @@ export default async function decorate(block) {
 
   const backLink = append(p, 'a');
   backLink.href = parentPath;
-  if (parentPath == schedulePath) {
+  if (parentPath === schedulePath) {
     backLink.textContent = 'Back to schedule';
-  }
-  else {
+  } else {
     backLink.textContent = 'Back to parent';
   }
 }
