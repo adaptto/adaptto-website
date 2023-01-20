@@ -8,7 +8,7 @@ import { getSiteRootPathAlsoForSpeakerPath, getSpeakerOverviewPath, getYearFromP
  * @param {Element} parent
  */
 function addSpeakerMetadata(parent) {
-  const h1 = parent.querySelector('h1');  
+  const h1 = parent.querySelector('h1');
   if (!h1) {
     return;
   }
@@ -35,8 +35,8 @@ function addSpeakerMetadata(parent) {
 /**
  * Add a talk link list item.
  * @typedef {import('../../scripts/services/QueryIndexItem').default} QueryIndexItem
- * @param {Element} parent 
- * @param {QueryIndexItem} talkItem 
+ * @param {Element} parent
+ * @param {QueryIndexItem} talkItem
  */
 function addTalk(parent, talkItem) {
   const li = append(parent, 'li');
@@ -57,7 +57,7 @@ async function addTalkList(parent) {
     return;
   }
   const talks = queryIndex.getTalksForSpeaker(speakerItem);
-  if (talks.length == 0) {
+  if (talks.length === 0) {
     return;
   }
   const siteRoot = await getSiteRootPathAlsoForSpeakerPath(
