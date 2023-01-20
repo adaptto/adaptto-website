@@ -2,7 +2,7 @@ import { append } from '../../scripts/utils/dom.js';
 import { createOptimizedPicture, getMetadata } from '../../scripts/lib-franklin.js';
 import { getQueryIndex } from '../../scripts/services/QueryIndex.js';
 import { parseCSVArray } from '../../scripts/utils/metadata.js';
-import { getSpeakerOverviewPage } from '../../scripts/utils/site.js';
+import { getSpeakerOverviewPath } from '../../scripts/utils/site.js';
 import { getDocumentName } from '../../scripts/utils/path.js';
 
 /**
@@ -23,7 +23,7 @@ function buildSpeakers(parent, queryIndex) {
   const ul = append(parent, 'ul', 'speakers');
   speakers.forEach((speakerItem) => {
     const li = append(ul, 'li');
-    const speakerUrl = `${getSpeakerOverviewPage(window.location.pathname)}#${getDocumentName(speakerItem.path)}`;
+    const speakerUrl = `${getSpeakerOverviewPath(window.location.pathname)}#${getDocumentName(speakerItem.path)}`;
 
     if (speakerItem.image) {
       const imageAnchor = append(li, 'a');

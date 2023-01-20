@@ -1,6 +1,6 @@
 import { append } from '../../scripts/utils/dom.js';
 import { getScheduleData } from '../../scripts/services/ScheduleData.js';
-import { getSiteRoot } from '../../scripts/utils/site.js';
+import { getSiteRootPath } from '../../scripts/utils/site.js';
 import { formatDateFull, formatTime } from '../../scripts/utils/datetime.js';
 
 const dayIdPattern = /^#day-(\d)$/;
@@ -168,7 +168,7 @@ export default async function decorate(block) {
   block.textContent = '';
 
   // load schedule data
-  const siteRoot = getSiteRoot(document.location.pathname);
+  const siteRoot = getSiteRootPath(document.location.pathname);
   const scheduleData = await getScheduleData(`${siteRoot}schedule-data.json`);
 
   // detect active day

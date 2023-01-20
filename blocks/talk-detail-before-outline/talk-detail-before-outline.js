@@ -3,7 +3,7 @@ import { getScheduleData } from '../../scripts/services/ScheduleData.js';
 import { formatDateFull, formatTime } from '../../scripts/utils/datetime.js';
 import { append } from '../../scripts/utils/dom.js';
 import { parseCSVArray } from '../../scripts/utils/metadata.js';
-import { getArchivePage, getSiteRoot } from '../../scripts/utils/site.js';
+import { getArchivePath, getSiteRootPath } from '../../scripts/utils/site.js';
 
 /**
  * Build talk tags (with link to talk archive).
@@ -20,7 +20,7 @@ function buildTalkTags(parent, siteRoot) {
   tags.forEach((tag) => {
     const li = append(ul, 'li');
     const a = append(li, 'a');
-    a.href = `${getArchivePage(document.location.pathname)}#${siteRoot.substring(1)}${tag}`;
+    a.href = `${getArchivePath(document.location.pathname)}#${siteRoot.substring(1)}${tag}`;
     a.textContent = tag;
   });
 }
@@ -67,7 +67,7 @@ export default async function decorate(block) {
   block.textContent = '';
 
   // get schedule entry for talk
-  const siteRoot = getSiteRoot(document.location.pathname);
+  const siteRoot = getSiteRootPath(document.location.pathname);
   const scheduleData = await getScheduleData(`${siteRoot}schedule-data.json`);
   const scheduleEntry = scheduleData.getTalkEntry(document.location.pathname);
 

@@ -9,11 +9,11 @@ const siteRootRegex = /^(\/[^/]+\/)(.+)?$/;
  *   / -> /
  *   /2021/ -> /2021/
  *   /2021/mypage -> /2021/
- * @param {string} pathname Path name
+ * @param {string} pathName Path name
  * @returns Site root path
  */
-export function getSiteRoot(pathname) {
-  const result = pathname.match(siteRootRegex);
+export function getSiteRootPath(pathName) {
+  const result = pathName.match(siteRootRegex);
   if (result) {
     return result[1];
   }
@@ -21,41 +21,58 @@ export function getSiteRoot(pathname) {
 }
 
 /**
+ * Gets parent path. Topmost parent path is the site root.
+ * @param {string} pathName Path name
+ * @returns {string} Parent path or undefined if the path is already site root or invalid.
+ */
+export function getParentPath(pathName) {
+  const siteRoot = getSiteRootPath(pathName);
+  if (pathName !== siteRoot && siteRoot !== '/') {
+    const lastSlash = pathName.lastIndexOf('/');
+    if (lastSlash === siteRoot.length - 1) {
+      return siteRoot;
+    }
+    return pathName.substring(0, lastSlash);
+  }
+  return undefined;
+}
+
+/**
  * Build page path in current site.
- * @param {string} pathname location.pathname
+ * @param {string} pathName location.pathName
  * @param {string} path relative path inside site (without leading slash)
  * @returns {string} Path
  */
-function getRelativePage(pathname, path) {
-  const siteRoot = getSiteRoot(pathname);
+function getRelativePage(pathName, path) {
+  const siteRoot = getSiteRootPath(pathName);
   return `${siteRoot}${path}`;
 }
 
 /**
  * Build path to schedule page in current site.
- * @param {string} pathname location.pathname
+ * @param {string} pathName location.pathName
  * @returns {string} Path
  */
-export function getSchedulePage(pathname) {
-  return getRelativePage(pathname, 'schedule');
+export function getSchedulePath(pathName) {
+  return getRelativePage(pathName, 'schedule');
 }
 
 /**
  * Build path to archive page in current site.
- * @param {string} pathname location.pathname
+ * @param {string} pathName location.pathName
  * @returns {string} Path
  */
-export function getArchivePage(pathname) {
-  return getRelativePage(pathname, 'archive');
+export function getArchivePath(pathName) {
+  return getRelativePage(pathName, 'archive');
 }
 
 /**
  * Build path to speaker overview page in current site.
- * @param {string} pathname location.pathname
+ * @param {string} pathName location.pathName
  * @returns {string} Path
  */
-export function getSpeakerOverviewPage(pathname) {
-  return getRelativePage(pathname, 'conference/speaker');
+export function getSpeakerOverviewPath(pathName) {
+  return getRelativePage(pathName, 'conference/speaker');
 }
 
 /**
