@@ -3,6 +3,7 @@
   display: flex;
   flex-flow: row wrap;
   width: 100%;
+  margin-bottom: 15px;
 }
 
 .speaker-gallery .speaker {
@@ -48,6 +49,7 @@
 /* --- Lightning Talk Speakers --- */
 .speaker-gallery h4 {
   margin-bottom: 0;
+  margin-bottom: 10px;
 }
 
 .speaker-gallery .speakers.lightning-talk {
@@ -58,8 +60,9 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
   width: 100%;
+  padding: 0;
 }
 
 .speaker-gallery .speakers.lightning-talk .speaker img {
@@ -68,10 +71,6 @@
 
 .speaker-gallery .speakers.lightning-talk .speaker .name {
   font-family: var(--font-light);
-}
-
-.speaker-gallery .speakers.lightning-talk .speaker .name::after {
-  content: ',';
 }
 
 .speaker-gallery .speakers.lightning-talk .speaker .twitter {
