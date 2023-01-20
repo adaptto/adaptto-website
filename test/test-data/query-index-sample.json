@@ -142,6 +142,13 @@
       "speaker": "",
       "article:tag": "",
       "tag": ""
+    },
+    {
+      "path": "/2020/schedule/dummy-talk",
+      "title": "Dummy Talk",
+      "image": "/default-meta-image.png?width=1200&format=pjpg&optimize=medium",
+      "speakers": "Konrad Windszus",
+      "lastModified": "1673280063"
     }
   ]
 }

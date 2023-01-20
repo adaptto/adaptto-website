@@ -111,6 +111,7 @@ describe('services/QueryIndex', () => {
     expect(queryIndex.getTalksForSpeaker(speakerItem).map((item) => item.path)).to.eql([
       '/2021/schedule/lightning-talks/precompiled-bundled-scripts-from-content-package',
       '/2021/schedule/panel-discussion-aem-as-a-cloud-service',
+      '/2020/schedule/dummy-talk',
     ]);
   });
 });
