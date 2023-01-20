@@ -33,24 +33,32 @@ function addSpeakerMetadata(parent) {
 }
 
 /**
- * Add a talk link list item.
+ * Add a single list of talks.
  * @typedef {import('../../scripts/services/QueryIndexItem').default} QueryIndexItem
- * @param {Element} parent
- * @param {QueryIndexItem} talkItem
+ * @param {Element} parent Parent element
+ * @param {QueryIndexItem[]} talkItems Talk items
+ * @param {string} title Headline title
  */
-function addTalk(parent, talkItem) {
-  const li = append(parent, 'li');
-  const a = append(li, 'a');
-  a.href = talkItem.path;
-  a.textContent = talkItem.title;
-  li.append(` (${getYearFromPath(talkItem.path)})`);
+function addTalkList(parent, talkItems, title) {
+  if (talkItems.length === 0) {
+    return;
+  }
+  append(parent, 'h4').textContent = title;
+  const ul = append(parent, 'ul');
+  talkItems.forEach((item) => {
+    const li = append(ul, 'li');
+    const a = append(li, 'a');
+    a.href = item.path;
+    a.textContent = item.title;
+    li.append(` (${getYearFromPath(item.path)})`);
+  });
 }
 
 /**
- * Add list of talks.
+ * Add talk overview.
  * @param {Element} parent
  */
-async function addTalkList(parent) {
+async function addTalkOverview(parent) {
   const queryIndex = await getQueryIndex();
   const speakerItem = queryIndex.getItem(window.location.pathname);
   if (!speakerItem) {
@@ -69,17 +77,8 @@ async function addTalkList(parent) {
   const talksOtherYears = talks.filter((item) => item.path.indexOf(siteRoot) !== 0);
 
   const div = append(parent, 'div', 'talk-list');
-
-  if (talksThisYear.length > 0) {
-    append(div, 'h4').textContent = 'Talks from this year';
-    const ul = append(div, 'ul');
-    talksThisYear.forEach((item) => addTalk(ul, item));
-  }
-  if (talksOtherYears.length > 0) {
-    append(div, 'h4').textContent = 'Talks from other years';
-    const ul = append(div, 'ul');
-    talksOtherYears.forEach((item) => addTalk(ul, item));
-  }
+  addTalkList(div, talksThisYear, 'Talks from this year');
+  addTalkList(div, talksOtherYears, 'Talks from other years');
 
   // back to speaker overview link
   const p = append(parent, 'p');
@@ -94,7 +93,7 @@ async function addTalkList(parent) {
  */
 export default async function decorate(block) {
   addSpeakerMetadata(block);
-  addTalkList(block);
+  addTalkOverview(block);
 
   // react to stage changes via hash
   window.addEventListener('hashchange', () => {
