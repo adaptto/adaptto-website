@@ -3,8 +3,10 @@
 
 import { expect } from '@esm-bundle/chai';
 import { getQueryIndex } from '../../../scripts/services/QueryIndex.js';
+import { stubFetchUrlMap } from '../test-utils.js';
 
-const queryIndex = await getQueryIndex('/test/test-data/query-index-sample.json');
+stubFetchUrlMap({ '/query-index.json': '/test/test-data/query-index-sample.json' });
+const queryIndex = await getQueryIndex();
 
 describe('services/QueryIndex', () => {
   it('getItem-all-properties', () => {

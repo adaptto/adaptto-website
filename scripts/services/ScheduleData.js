@@ -148,16 +148,15 @@ function toDays(scheduleData, queryIndex) {
 
 /**
  * @param {string} scheduleDataUrl Url to schedule-data.json
- * @param {string} queryIndexUrl Url to query-index.json
  */
-export async function getScheduleData(scheduleDataUrl, queryIndexUrl) {
+export async function getScheduleData(scheduleDataUrl) {
   let scheduleData;
   const resp = await fetch(scheduleDataUrl);
   if (resp.ok) {
     const json = await resp.json();
     scheduleData = json.data;
   }
-  const queryIndex = await getQueryIndex(queryIndexUrl);
+  const queryIndex = await getQueryIndex();
   const days = toDays(scheduleData || [], queryIndex);
   return new ScheduleData(days);
 }

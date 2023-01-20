@@ -3,22 +3,18 @@
 
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
+import { setWindowLocationHref, sleep, stubFetchUrlMap } from '../../scripts/test-utils.js';
 
-const { buildBlock, decorateBlock, loadBlock } = await import('../../../scripts/lib-franklin.js');
+// simulate current talk and redirect some fetch calls to mock data
+setWindowLocationHref('/2021/');
+stubFetchUrlMap({
+  '/2021/nav.plain.html': '/test/blocks/header/nav.plain.html',
+  '/query-index.json': '/test/test-data/query-index-sample.json',
+});
 
 document.body.innerHTML = await readFile({ path: '../../scripts/body.html' });
 
-const sleep = async (time = 1000) => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve(true);
-  }, time);
-});
-
-const headerBlock = buildBlock('header', [['nav', '/test/blocks/header/nav'],
-  ['queryindexurl', '/test/test-data/query-index-sample.json']]);
-document.querySelector('header').append(headerBlock);
-decorateBlock(headerBlock);
-await loadBlock(headerBlock);
+await import('../../../scripts/scripts.js');
 await sleep();
 
 describe('blocks/header', () => {
@@ -28,7 +24,7 @@ describe('blocks/header', () => {
 
     const logo = header.querySelector('a.logo');
     expect(logo).to.exist;
-    expect(logo.href).to.eq('http://localhost:2000/');
+    expect(logo.href).to.eq('http://localhost:2000/2021/');
 
     const h1 = header.querySelector('h1');
     expect(h1).to.exist;

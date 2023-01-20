@@ -3,33 +3,30 @@
 
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
+import { setWindowLocationHref, sleep, stubFetchUrlMap } from '../../scripts/test-utils.js';
 
-const { buildBlock, decorateBlock, loadBlock } = await import('../../../scripts/lib-franklin.js');
+// simulate current talk and redirect some fetch calls to mock data
+setWindowLocationHref('/2021/');
+stubFetchUrlMap({
+  '/2021/footer.plain.html': '/test/blocks/footer/footer.plain.html',
+  '/query-index.json': '/test/test-data/query-index-sample.json',
+});
 
 document.body.innerHTML = await readFile({ path: '../../scripts/body.html' });
 
-const sleep = async (time = 1000) => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve(true);
-  }, time);
-});
-
-const footerBlock = buildBlock('footer', [['footer', '/test/blocks/footer/footer'],
-  ['queryindexurl', '/test/test-data/query-index-sample.json']]);
-document.querySelector('footer').append(footerBlock);
-decorateBlock(footerBlock);
-await loadBlock(footerBlock);
+await import('../../../scripts/scripts.js');
 await sleep();
 
 describe('blocks/footer', () => {
   it('Footer Nav', async () => {
     const footerNavItems = document.querySelectorAll('.footer .section-footernav > ul > li');
-    expect(footerNavItems.length).to.eq(2);
+    expect(footerNavItems.length, 'footer nav items').to.eq(2);
 
-    const conferenceLinks = footerNavItems[0].querySelectorAll(':scope > ul > li > a');
-    expect(conferenceLinks.length, 'conferenceLinks').to.eq(2);
-    expect(conferenceLinks[0].href).to.equal('http://localhost:2000/2021/conference');
-    expect(conferenceLinks[1].href).to.equal('http://localhost:2000/2021/schedule');
+    const conferenceLinks = Array.from(footerNavItems[0].querySelectorAll(':scope > ul > li > a'));
+    expect(conferenceLinks.map((a) => a.href), 'conferenceLinks').to.eql([
+      'http://localhost:2000/2021/conference',
+      'http://localhost:2000/2021/schedule',
+    ]);
 
     // archive links dynamically added
     const archiveLinks = footerNavItems[1].querySelectorAll(':scope > ul > li > a');

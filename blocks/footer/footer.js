@@ -1,17 +1,15 @@
 import { append } from '../../scripts/utils/dom.js';
-import { readBlockConfig } from '../../scripts/lib-franklin.js';
 import { addArchiveLinks, getSiteRoot } from '../../scripts/utils/site.js';
 import { decorateExternalLinks } from '../../scripts/scripts.js';
 
 /**
  * @param {Element} footerNav
- * @param {object} cfg
  */
-function decorateFooterNav(footerNav, cfg) {
+function decorateFooterNav(footerNav) {
   footerNav.classList.add('section-footernav');
 
   // add archive links to last footernav item
-  addArchiveLinks(footerNav, cfg.queryindexurl || '/query-index.json');
+  addArchiveLinks(footerNav);
 }
 
 /**
@@ -49,13 +47,11 @@ function decorateFooterText(footerText) {
  * @param {Element} block The footer block element
  */
 export default async function decorate(block) {
-  const cfg = readBlockConfig(block);
   block.textContent = '';
 
   // fetch nav content
   const siteRoot = getSiteRoot(document.location.pathname);
-  const navPath = cfg.footer || `${siteRoot}footer`;
-  const resp = await fetch(`${navPath}.plain.html`);
+  const resp = await fetch(`${siteRoot}footer.plain.html`);
   if (resp.ok) {
     const html = await resp.text();
     const container = append(block, 'div');
@@ -65,7 +61,7 @@ export default async function decorate(block) {
     // first section: footer navigation
     const footerNav = container.children[0];
     if (footerNav) {
-      decorateFooterNav(footerNav, cfg);
+      decorateFooterNav(footerNav);
     }
 
     // second section: footer text

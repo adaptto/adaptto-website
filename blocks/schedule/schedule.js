@@ -1,5 +1,4 @@
 import { append } from '../../scripts/utils/dom.js';
-import { readBlockConfig } from '../../scripts/lib-franklin.js';
 import { getScheduleData } from '../../scripts/services/ScheduleData.js';
 import { getSiteRoot } from '../../scripts/utils/site.js';
 import { formatDateFull, formatTime } from '../../scripts/utils/datetime.js';
@@ -166,14 +165,11 @@ function buildDaySchedule(parent, day, activeDay) {
  * @param {Element} block
  */
 export default async function decorate(block) {
-  const cfg = readBlockConfig(block);
   block.textContent = '';
 
   // load schedule data
   const siteRoot = getSiteRoot(document.location.pathname);
-  const scheduleDataUrl = cfg.scheduledataurl || `${siteRoot}schedule-data.json`;
-  const queryIndexUrl = cfg.queryindexurl || '/query-index.json';
-  const scheduleData = await getScheduleData(scheduleDataUrl, queryIndexUrl);
+  const scheduleData = await getScheduleData(`${siteRoot}schedule-data.json`);
 
   // detect active day
   let activeDay = getActiveDayFromHash();

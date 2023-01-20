@@ -1,9 +1,4 @@
-import {
-  decorateBlock,
-  getMetadata,
-  loadBlocks,
-  readBlockConfig,
-} from '../../scripts/lib-franklin.js';
+import { decorateBlock, getMetadata, loadBlocks } from '../../scripts/lib-franklin.js';
 import { getScheduleData } from '../../scripts/services/ScheduleData.js';
 import { formatDateFull, formatTime } from '../../scripts/utils/datetime.js';
 import { append } from '../../scripts/utils/dom.js';
@@ -69,15 +64,12 @@ function buildVideo(parent) {
  * @param {Element} block
  */
 export default async function decorate(block) {
-  const cfg = readBlockConfig(block);
   block.textContent = '';
 
   // get schedule entry for talk
   const siteRoot = getSiteRoot(document.location.pathname);
-  const scheduleDataUrl = cfg.scheduledataurl || `${siteRoot}schedule-data.json`;
-  const queryIndexUrl = cfg.queryindexurl || '/query-index.json';
-  const scheduleData = await getScheduleData(scheduleDataUrl, queryIndexUrl);
-  const scheduleEntry = scheduleData.getTalkEntry(cfg.talkpath || document.location.pathname);
+  const scheduleData = await getScheduleData(`${siteRoot}schedule-data.json`);
+  const scheduleEntry = scheduleData.getTalkEntry(document.location.pathname);
 
   buildTalkTags(block, siteRoot);
   if (scheduleEntry) {
