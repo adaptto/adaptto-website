@@ -1,5 +1,5 @@
 import { append } from '../../scripts/utils/dom.js';
-import { addArchiveLinks, getSiteRoot } from '../../scripts/utils/site.js';
+import { addArchiveLinks, getSiteRootPath } from '../../scripts/utils/site.js';
 import { decorateExternalLinks } from '../../scripts/scripts.js';
 
 /**
@@ -50,7 +50,7 @@ export default async function decorate(block) {
   block.textContent = '';
 
   // fetch nav content
-  const siteRoot = getSiteRoot(document.location.pathname);
+  const siteRoot = getSiteRootPath(document.location.pathname);
   const resp = await fetch(`${siteRoot}footer.plain.html`);
   if (resp.ok) {
     const html = await resp.text();

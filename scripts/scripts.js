@@ -13,7 +13,7 @@ import {
   getMetadata,
 } from './lib-franklin.js';
 import { getHostName } from './utils/path.js';
-import { getSiteRoot } from './utils/site.js';
+import { getSiteRootPath } from './utils/site.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -86,7 +86,7 @@ function decorateTalkDetailPage(main) {
  * @returns Fragment block element
  */
 function buildFragmentBlock(fragmentRef) {
-  const siteRootPath = getSiteRoot(window.location.pathname);
+  const siteRootPath = getSiteRootPath(window.location.pathname);
   const fragmentPath = `${siteRootPath}${fragmentRef}`;
   const fragmentLink = document.createElement('a');
   fragmentLink.setAttribute('href', fragmentPath);
