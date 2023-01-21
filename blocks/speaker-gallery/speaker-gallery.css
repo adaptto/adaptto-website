@@ -1,0 +1,78 @@
+/* --- Speaker Gallery --- */
+.speaker-gallery .speakers {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.speaker-gallery .speaker {
+  width: 100%;
+  padding: 10px;
+}
+
+@media screen and (min-width: 320px) {
+  .speaker-gallery .speaker {
+    width: calc(100% / 2);
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .speaker-gallery .speaker {
+    width: calc(100% / 3);
+  }
+}
+
+@media screen and (min-width: 799px) {
+  .speaker-gallery .speaker {
+    width: calc(100% / 4);
+  }
+}
+
+.speaker-gallery .speaker .img {
+  width: 100%;
+}
+
+.speaker-gallery .speaker .name {
+  font-family: var(--font-semi);
+  margin-top: 5px;
+}
+
+.speaker-gallery .speaker .twitter {
+  font-size: smaller;
+}
+
+.speaker-gallery .speaker .affiliation {
+  margin-top: 5px;
+}
+
+/* --- Lightning Talk Speakers --- */
+.speaker-gallery h4 {
+  margin-bottom: 0;
+  margin-bottom: 10px;
+}
+
+.speaker-gallery .speakers.lightning-talk {
+  display: block;
+}
+
+.speaker-gallery .speakers.lightning-talk .speaker {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+}
+
+.speaker-gallery .speakers.lightning-talk .speaker img {
+  width: 40px;
+}
+
+.speaker-gallery .speakers.lightning-talk .speaker .name {
+  font-family: var(--font-light);
+}
+
+.speaker-gallery .speakers.lightning-talk .speaker .twitter {
+  display: none;
+}

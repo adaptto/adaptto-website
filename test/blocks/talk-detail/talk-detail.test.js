@@ -78,10 +78,10 @@ describe('blocks/talk-detail-*', () => {
     // speakers
     const speakerLinks = Array.from(block.querySelectorAll('ul.speakers a'));
     expect(speakerLinks.map((a) => a.href)).to.eql([
-      'http://localhost:2000/2020/conference/speaker#mark-becker',
-      'http://localhost:2000/2020/conference/speaker#mark-becker',
-      'http://localhost:2000/2020/conference/speaker#markus-haack',
-      'http://localhost:2000/2020/conference/speaker#markus-haack',
+      'http://localhost:2000/speakers/mark-becker#2020',
+      'http://localhost:2000/speakers/mark-becker#2020',
+      'http://localhost:2000/speakers/markus-haack#2020',
+      'http://localhost:2000/speakers/markus-haack#2020',
     ]);
     const speakerImages = Array.from(block.querySelectorAll('ul.speakers img'));
     expect(speakerImages.map((img) => img.src)).to.eql([

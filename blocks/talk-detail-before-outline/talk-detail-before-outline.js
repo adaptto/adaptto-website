@@ -27,9 +27,9 @@ function buildTalkTags(parent, siteRoot) {
 
 /**
  * Build talk schedule time info.
- * @typedef {import('../../scripts/services/scheduleEntry').default} scheduleEntry
+ * @typedef {import('../../scripts/services/ScheduleEntry').default} ScheduleEntry
  * @param {Element} parent
- * @param {scheduleEntry} entry
+ * @param {ScheduleEntry} entry
  */
 function buildTimeInfo(parent, entry) {
   const p = append(parent, 'p');
