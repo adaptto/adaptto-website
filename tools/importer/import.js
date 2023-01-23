@@ -1,8 +1,6 @@
 /* global */
 /* eslint-disable no-console, class-methods-use-this */
 
-import { getPathName } from '../../scripts/utils/path.js';
-
 const targetHostName = 'https://main--adaptto-website--adaptto.hlx.page';
 
 const pageHelixRegex = /^\/content\/adaptto(.+)\/en(.+)?\.helix(-(.+))?\.html$/;
@@ -37,7 +35,10 @@ function sanitizeFilename(filename) {
  * - Special treatment for speaker pages and presentations
  */
 function transformUrlToPath(url) {
-  let pathname = getPathName(url);
+  let pathname = url;
+  if (url.includes('://')) {
+    pathname = new URL(url).pathname;
+  }
 
   // replace multiple "-" by a single "-"
   pathname = pathname.replaceAll(multipleDashes, '-');
