@@ -152,15 +152,16 @@ export async function addArchiveLinks(nav) {
   const navItems = nav.querySelectorAll(':scope > ul > li');
   const lastNavItem = navItems[navItems.length - 1];
   if (lastNavItem) {
-    const ul = lastNavItem.querySelector(':scope > ul');
-    if (ul) {
-      const queryIndex = await getQueryIndex();
-      queryIndex.getAllSiteRoots().forEach((siteRoot) => {
-        const listItem = append(ul, 'li');
-        const link = append(listItem, 'a');
-        link.href = siteRoot.path;
-        link.textContent = siteRoot.title;
-      });
+    let ul = lastNavItem.querySelector(':scope > ul');
+    if (!ul) {
+      ul = append(lastNavItem, 'ul');
     }
+    const queryIndex = await getQueryIndex();
+    queryIndex.getAllSiteRoots().forEach((siteRoot) => {
+      const listItem = append(ul, 'li');
+      const link = append(listItem, 'a');
+      link.href = siteRoot.path;
+      link.textContent = siteRoot.title;
+    });
   }
 }

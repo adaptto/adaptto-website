@@ -1,4 +1,4 @@
-import { createOptimizedPicture, getMetadata, readBlockConfig } from '../../scripts/lib-franklin.js';
+import { createOptimizedPicture, readBlockConfig } from '../../scripts/lib-franklin.js';
 import { getQueryIndex } from '../../scripts/services/QueryIndex.js';
 import { append } from '../../scripts/utils/dom.js';
 import { parseCSVArray } from '../../scripts/utils/metadata.js';
@@ -118,10 +118,6 @@ export default async function decorate(block) {
 
   // otherwise render gallery with all speakers in the schedule
   } else {
-    // headline for speaker gallery
-    const h1 = append(block, 'h1');
-    h1.textContent = getMetadata('og:title');
-
     // get all speakers from schedule
     addSpeakers(block, queryIndex.getTalkSpeakerNames(siteRoot), siteRoot, queryIndex);
     addLightningTalkSpeakers(
