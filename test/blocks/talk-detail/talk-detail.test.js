@@ -90,12 +90,13 @@ describe('blocks/talk-detail-*', () => {
     ]);
 
     // talk links
-    expect(block.querySelector('ul.talk-links li.download a')?.href)
-      .to.eq('http://localhost:2000/2021/presentations/file1.pdf');
-    expect(block.querySelector('ul.talk-links li.code a')?.href)
-      .to.eq('http://localhost:2000/2021/presentations/file1.zip');
-    expect(block.querySelector('ul.talk-links li.video a')?.href)
-      .to.eq('https://myhost/video');
+    const presentationLink = block.querySelector('ul.talk-links li.download a');
+    expect(presentationLink?.href).to.eq('http://localhost:2000/2021/presentations/file1.pdf');
+    const codeLink = block.querySelector('ul.talk-links li.code a');
+    expect(codeLink?.href).to.eq('http://localhost:2000/2021/presentations/file1.zip');
+    const videoLink = block.querySelector('ul.talk-links li.video a');
+    expect(videoLink?.href).to.eq('https://myhost/video');
+    expect(videoLink?.target).to.eq('_blank');
   });
 
   it('talk-detail-footer', async () => {
