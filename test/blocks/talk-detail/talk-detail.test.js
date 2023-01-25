@@ -92,8 +92,10 @@ describe('blocks/talk-detail-*', () => {
     // talk links
     const presentationLink = block.querySelector('ul.talk-links li.download a');
     expect(presentationLink?.href).to.eq('http://localhost:2000/2021/presentations/file1.pdf');
+    expect(presentationLink?.hasAttribute('download')).to.true;
     const codeLink = block.querySelector('ul.talk-links li.code a');
     expect(codeLink?.href).to.eq('http://localhost:2000/2021/presentations/file1.zip');
+    expect(codeLink?.hasAttribute('download')).to.true;
     const videoLink = block.querySelector('ul.talk-links li.video a');
     expect(videoLink?.href).to.eq('https://myhost/video');
     expect(videoLink?.target).to.eq('_blank');
