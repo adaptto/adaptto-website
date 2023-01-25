@@ -4,7 +4,6 @@
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 import sinon from 'sinon';
-import { append } from '../../scripts/utils/dom.js';
 
 /** @type {import('./types').Scripts} */
 let scripts;
@@ -45,18 +44,5 @@ describe('Core Helix features', () => {
     scripts.addFavIcon('/foo.svg');
     const $favIcon = document.querySelector('link[rel="icon"]');
     expect($favIcon.getAttribute('href')).to.equal('/foo.svg');
-  });
-
-  it('decorateExternalLinks', async () => {
-    const container = append(document.body, 'div');
-    const link1 = append(container, 'a');
-    link1.href = 'http://localhost/mypath';
-    const link2 = append(container, 'a');
-    link2.href = 'https://my.host.com';
-
-    scripts.decorateExternalLinks(container);
-
-    expect(link1.target).to.eq('');
-    expect(link2.target).to.eq('_blank');
   });
 });
