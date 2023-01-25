@@ -1,6 +1,6 @@
 import { append } from '../../scripts/utils/dom.js';
 import { addArchiveLinks, getSiteRootPathAlsoForSpeakerPath } from '../../scripts/utils/site.js';
-import { decorateExternalAndDownloadLinks } from '../../scripts/scripts.js';
+import { decorateAnchors } from '../../scripts/services/LinkHandler.js';
 
 /**
  * @param {Element} footerNav
@@ -62,7 +62,7 @@ export default async function decorate(block) {
     const html = await resp.text();
     const container = append(block, 'div');
     container.innerHTML = html;
-    decorateExternalAndDownloadLinks(container);
+    decorateAnchors(container);
 
     // first section: footer navigation
     const footerNav = container.children[0];

@@ -4,7 +4,6 @@
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 import sinon from 'sinon';
-import { append } from '../../scripts/utils/dom.js';
 
 /** @type {import('./types').Scripts} */
 let scripts;
@@ -45,26 +44,5 @@ describe('Core Helix features', () => {
     scripts.addFavIcon('/foo.svg');
     const $favIcon = document.querySelector('link[rel="icon"]');
     expect($favIcon.getAttribute('href')).to.equal('/foo.svg');
-  });
-
-  it('decorateExternalAndDownloadLinks', async () => {
-    const container = append(document.body, 'div');
-    const localLink = append(container, 'a');
-    localLink.href = 'http://localhost/mypath';
-    const externalLink = append(container, 'a');
-    externalLink.href = 'https://my.host.com';
-    const localDownloadLink = append(container, 'a');
-    localDownloadLink.href = '/download.pdf';
-    const externalDownloadLink = append(container, 'a');
-    externalDownloadLink.href = 'https://my.host.com/download.pdf';
-
-    scripts.decorateExternalAndDownloadLinks(container);
-
-    expect(localLink.target).to.eq('');
-    expect(externalLink.target).to.eq('_blank');
-    expect(localDownloadLink.target).to.eq('');
-    expect(localDownloadLink.hasAttribute('download')).to.true;
-    expect(externalDownloadLink.target).to.eq('');
-    expect(externalDownloadLink.hasAttribute('download')).to.true;
   });
 });

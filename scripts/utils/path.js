@@ -1,5 +1,4 @@
 const urlPathRegex = /^(https?:\/\/[^/]+)?\/.*$/;
-const downloadUrlRegex = /^.+\.(pdf|zip)$/;
 
 /**
  * Checks if the given value is a path.
@@ -73,31 +72,4 @@ export function getDocumentName(value) {
     }
   }
   return undefined;
-}
-
-/**
- * Gets hostname from URL.
- * @param {string} url
- * @returns {boolean} true if link points to an external target
- */
-export function getHostName(url) {
-  if (url) {
-    try {
-      return new URL(url).hostname;
-    } catch (e) {
-      // ignore invalid urls
-    }
-  }
-  return undefined;
-}
-
-/**
- * Checks if the given URL is a download URL.
- * @param {string} url
- */
-export function isDownload(url) {
-  if (url) {
-    return url.match(downloadUrlRegex) != null;
-  }
-  return false;
 }

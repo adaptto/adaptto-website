@@ -4,9 +4,7 @@
 import { expect } from '@esm-bundle/chai';
 import {
   getDocumentName,
-  getHostName,
   getPathName,
-  isDownload,
   isPath,
   isUrl,
   isUrlOrPath,
@@ -76,28 +74,5 @@ describe('utils/path', () => {
     expect(getDocumentName('')).to.undefined;
     expect(getDocumentName('wurstbrot')).to.undefined;
     expect(getDocumentName('https://my.host.com')).to.undefined;
-  });
-
-  it('getHostName', () => {
-    expect(getHostName('/')).to.undefined;
-    expect(getHostName('/path1')).to.undefined;
-    expect(getHostName('/path1/path2')).to.undefined;
-    expect(getHostName('https://myhost/path1/path2')).to.eq('myhost');
-    expect(getHostName('https://my.host.com/path1/path2')).to.eq('my.host.com');
-    expect(getHostName('https://my.host.com/')).to.eq('my.host.com');
-    expect(getHostName(undefined)).to.undefined;
-    expect(getHostName('')).to.undefined;
-    expect(getHostName('wurstbrot')).to.undefined;
-    expect(getHostName('https://my.host.com')).to.eq('my.host.com');
-  });
-
-  it('isDownload', () => {
-    expect(isDownload('/download.pdf')).to.true;
-    expect(isDownload('https://my.host.com/path1/download.zip')).to.true;
-    expect(isDownload('/')).to.false;
-    expect(isDownload('/path1')).false;
-    expect(isDownload('https://myhost/path1/path2')).to.false;
-    expect(isDownload(undefined)).to.false;
-    expect(isDownload('')).to.false;
   });
 });
