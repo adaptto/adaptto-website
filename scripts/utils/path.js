@@ -1,4 +1,5 @@
 const urlPathRegex = /^(https?:\/\/[^/]+)?\/.*$/;
+const downloadUrlRegex = /^.+\.(pdf|zip)$/;
 
 /**
  * Checks if the given value is a path.
@@ -88,4 +89,15 @@ export function getHostName(url) {
     }
   }
   return undefined;
+}
+
+/**
+ * Checks if the given URL is a download URL.
+ * @param {string} url
+ */
+export function isDownload(url) {
+  if (url) {
+    return url.match(downloadUrlRegex) != null;
+  }
+  return false;
 }

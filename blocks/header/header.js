@@ -1,6 +1,6 @@
 import { append, prepend } from '../../scripts/utils/dom.js';
 import { addArchiveLinks, getSiteRootPathAlsoForSpeakerPath } from '../../scripts/utils/site.js';
-import { decorateExternalLinks } from '../../scripts/scripts.js';
+import { decorateExternalAndDownloadLinks } from '../../scripts/scripts.js';
 
 /**
  * @param {Element} header
@@ -73,7 +73,7 @@ export default async function decorate(block) {
     const html = await resp.text();
     const nav = document.createElement('nav');
     nav.innerHTML = html;
-    decorateExternalLinks(nav);
+    decorateExternalAndDownloadLinks(nav);
 
     // first section: header with title, slogan and logo
     const header = nav.children[0];

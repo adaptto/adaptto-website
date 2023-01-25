@@ -12,7 +12,7 @@ import {
   loadCSS,
   getMetadata,
 } from './lib-franklin.js';
-import { getHostName } from './utils/path.js';
+import { getHostName, isDownload } from './utils/path.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
@@ -39,12 +39,16 @@ function extractStageHeader(main) {
  * Add target='_blank' to all external links.
  * @param {Element} container The container element
  */
-export function decorateExternalLinks(container) {
+export function decorateExternalAndDownloadLinks(container) {
   const locationHost = getHostName(window.location.href);
   container.querySelectorAll('a').forEach((a) => {
-    const host = getHostName(a.href);
-    if (host && host !== locationHost) {
-      a.target = '_blank';
+    if (isDownload(a.href)) {
+      a.setAttribute('download', '');
+    } else {
+      const host = getHostName(a.href);
+      if (host && host !== locationHost) {
+        a.target = '_blank';
+      }
     }
   });
 }
@@ -163,7 +167,7 @@ function buildAutoBlocks(main) {
  */
 export function decorateMain(main, insideFragment) {
   decorateIcons(main);
-  decorateExternalLinks(main);
+  decorateExternalAndDownloadLinks(main);
   if (!insideFragment) {
     buildAutoBlocks(main);
   }

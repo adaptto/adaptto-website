@@ -3,6 +3,7 @@ import { createOptimizedPicture, getMetadata } from '../../scripts/lib-franklin.
 import { getQueryIndex } from '../../scripts/services/QueryIndex.js';
 import { parseCSVArray } from '../../scripts/utils/metadata.js';
 import { getSiteRootPath, getSpeakerDetailPath } from '../../scripts/utils/site.js';
+import { decorateExternalAndDownloadLinks } from '../../scripts/scripts.js';
 
 /**
  * List talk speakers.
@@ -79,6 +80,8 @@ function buildLinks(parent) {
   buildLinkItem(ul, 'download', presentationLink, 'Presentation download');
   buildLinkItem(ul, 'code', sourceCodeLink, 'Source code');
   buildLinkItem(ul, 'video', videoLink, 'Video');
+
+  decorateExternalAndDownloadLinks(parent);
 }
 
 /**

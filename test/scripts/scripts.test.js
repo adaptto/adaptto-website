@@ -47,16 +47,24 @@ describe('Core Helix features', () => {
     expect($favIcon.getAttribute('href')).to.equal('/foo.svg');
   });
 
-  it('decorateExternalLinks', async () => {
+  it('decorateExternalAndDownloadLinks', async () => {
     const container = append(document.body, 'div');
-    const link1 = append(container, 'a');
-    link1.href = 'http://localhost/mypath';
-    const link2 = append(container, 'a');
-    link2.href = 'https://my.host.com';
+    const localLink = append(container, 'a');
+    localLink.href = 'http://localhost/mypath';
+    const externalLink = append(container, 'a');
+    externalLink.href = 'https://my.host.com';
+    const localDownloadLink = append(container, 'a');
+    localDownloadLink.href = '/download.pdf';
+    const externalDownloadLink = append(container, 'a');
+    externalDownloadLink.href = 'https://my.host.com/download.pdf';
 
-    scripts.decorateExternalLinks(container);
+    scripts.decorateExternalAndDownloadLinks(container);
 
-    expect(link1.target).to.eq('');
-    expect(link2.target).to.eq('_blank');
+    expect(localLink.target).to.eq('');
+    expect(externalLink.target).to.eq('_blank');
+    expect(localDownloadLink.target).to.eq('');
+    expect(localDownloadLink.hasAttribute('download')).to.true;
+    expect(externalDownloadLink.target).to.eq('');
+    expect(externalDownloadLink.hasAttribute('download')).to.true;
   });
 });

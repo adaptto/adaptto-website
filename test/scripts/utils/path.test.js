@@ -6,6 +6,7 @@ import {
   getDocumentName,
   getHostName,
   getPathName,
+  isDownload,
   isPath,
   isUrl,
   isUrlOrPath,
@@ -88,5 +89,15 @@ describe('utils/path', () => {
     expect(getHostName('')).to.undefined;
     expect(getHostName('wurstbrot')).to.undefined;
     expect(getHostName('https://my.host.com')).to.eq('my.host.com');
+  });
+
+  it('isDownload', () => {
+    expect(isDownload('/download.pdf')).to.true;
+    expect(isDownload('https://my.host.com/path1/download.zip')).to.true;
+    expect(isDownload('/')).to.false;
+    expect(isDownload('/path1')).false;
+    expect(isDownload('https://myhost/path1/path2')).to.false;
+    expect(isDownload(undefined)).to.false;
+    expect(isDownload('')).to.false;
   });
 });
