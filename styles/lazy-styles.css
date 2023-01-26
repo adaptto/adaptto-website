@@ -1,5 +1,9 @@
 /* below the fold CSS goes here */
 
+body {
+  letter-spacing: 0px;
+}
+
 @font-face {
   font-family: SignikaLight;
   src: url('/resources/font/Signika-Light-webfont.eot');
