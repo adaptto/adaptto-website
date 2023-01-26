@@ -1,6 +1,24 @@
 .header {
-  background: url('/resources/img/header_bg.jpg') 0 0 no-repeat #fff;
   width: 100%;
+  background-color: #fff;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+
+  /* Use webp image for browser set support it, fallback to header_bg.jpg for the others */
+  background-image: url('/resources/img/header_bg.jpg');
+  /* stylelint-disable-next-line value-no-vendor-prefix */
+  background-image: -webkit-image-set(
+    url('/resources/img/header_bg.webp') 1x,
+    url('/resources/img/header_bg.webp') 2x,
+    url('/resources/img/header_bg.jpg') 1x,
+    url('/resources/img/header_bg.jpg') 2x
+  );
+  background-image: image-set(
+    url('/resources/img/header_bg.webp') 1x,
+    url('/resources/img/header_bg.webp') 2x,
+    url('/resources/img/header_bg.jpg') 1x,
+    url('/resources/img/header_bg.jpg') 2x
+  );
 }
 
 @media screen and (max-width: 320px) {
