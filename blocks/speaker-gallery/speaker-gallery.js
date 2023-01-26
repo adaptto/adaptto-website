@@ -47,7 +47,7 @@ function addSpeaker(parent, speaker, speakerIndex, siteRootPath, queryIndex) {
 
   const imageAnchor = append(div, 'a');
   imageAnchor.href = speakerUrl;
-  const eagerImage = (speakerIndex <= 7);  // use eager loading for first 8 speaker images
+  const eagerImage = (speakerIndex <= 7); // use eager loading for first 8 speaker images
   imageAnchor.append(createSpeakerImage(speakerItem, eagerImage));
 
   const nameDiv = append(div, 'div', 'name');
@@ -82,7 +82,13 @@ function addSpeakers(parent, speakers, siteRootPath, queryIndex) {
   }
 
   const div = append(parent, 'div', 'speakers');
-  speakers.forEach((speaker, speakerIndex) => addSpeaker(div, speaker, speakerIndex, siteRootPath, queryIndex));
+  speakers.forEach((speaker, speakerIndex) => addSpeaker(
+    div,
+    speaker,
+    speakerIndex,
+    siteRootPath,
+    queryIndex,
+  ));
 }
 
 /**
@@ -100,7 +106,13 @@ function addLightningTalkSpeakers(parent, speakers, siteRootPath, queryIndex) {
   h4.textContent = 'Additional speakers (Lightning Talks)';
 
   const div = append(parent, 'div', 'speakers', 'lightning-talk');
-  speakers.forEach((speaker) => addSpeaker(div, speaker, siteRootPath, queryIndex));
+  speakers.forEach((speaker, speakerIndex) => addSpeaker(
+    div,
+    speaker,
+    speakerIndex,
+    siteRootPath,
+    queryIndex,
+  ));
 }
 
 /**
