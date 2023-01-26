@@ -28,6 +28,7 @@
   */
 }
 
+/* Deliberately defining web fonts here and not in lazy-styles.css to avoid Flash of unstyled text (FOUT) */
 @font-face {
   font-family: SignikaLight;
   src: url('/resources/font/Signika-Light-webfont.eot');
