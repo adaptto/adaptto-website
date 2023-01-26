@@ -37,6 +37,7 @@
        url('/resources/font/Signika-Light-webfont.svg#SignikaLight') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -48,6 +49,7 @@
        url('/resources/font/Signika-Regular-webfont.svg#SignikaRegular') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -59,6 +61,7 @@
        url('/resources/font/Signika-Semibold-webfont.svg#SignikaSemibold') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -70,6 +73,7 @@
        url('/resources/font/Signika-Bold-webfont.svg#SignikaBold') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 body {
