@@ -4,7 +4,10 @@
   background-position: 0 0;
   background-repeat: no-repeat;
 
-  /* Use webp image for browser set support it, fallback to header_bg.jpg for the others */
+  /* 
+    Use webp image for browsers that support it, fallback to header_bg.jpg for the others.
+    Chrome does not support yet image-set without -webkit prefix.
+  */
   background-image: url('/resources/img/header_bg.jpg');
   /* stylelint-disable-next-line value-no-vendor-prefix */
   background-image: -webkit-image-set(
@@ -150,7 +153,9 @@
 
   .header .section-mainnav > ul li {
     display: block;
-    margin: 0.5em 1em;
+    margin: 0.5em em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
   }
 
   .header .section-mainnav > ul li ul.active {
