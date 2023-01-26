@@ -7,14 +7,15 @@ import { getSiteRootPath, getSpeakerDetailPath } from '../../scripts/utils/site.
 /**
  * Create speaker image (or fallback image);
  * @typedef {import('../../scripts/services/QueryIndexItem').default} QueryIndexItem
- * @param {QueryIndexItem} speakerItem
+ * @param {QueryIndexItem} speakerItem Speaker item
+ * @param {boolean} eager Use eager loading for image
  */
-function createSpeakerImage(speakerItem) {
+function createSpeakerImage(speakerItem, eager) {
   if (speakerItem.image) {
     return createOptimizedPicture(
       speakerItem.image,
       speakerItem.title,
-      false,
+      eager,
       [{ width: '500' }],
     );
   }
@@ -30,10 +31,11 @@ function createSpeakerImage(speakerItem) {
  * @typedef {import('../../scripts/services/QueryIndex').default} QueryIndex
  * @param {Element} parent Parent element
  * @param {string} speaker Speaker name or reference
+ * @param {number} speakerIndex Index of speaker in list
  * @param {string} siteRootPath Site root path
  * @param {QueryIndex} queryIndex Query index
  */
-function addSpeaker(parent, speaker, siteRootPath, queryIndex) {
+function addSpeaker(parent, speaker, speakerIndex, siteRootPath, queryIndex) {
   const speakerItem = queryIndex.getSpeaker(speaker, siteRootPath);
   if (!speakerItem) {
     return;
@@ -45,7 +47,8 @@ function addSpeaker(parent, speaker, siteRootPath, queryIndex) {
 
   const imageAnchor = append(div, 'a');
   imageAnchor.href = speakerUrl;
-  imageAnchor.append(createSpeakerImage(speakerItem));
+  const eagerImage = (speakerIndex <= 3); // use eager loading for first 4 speaker images
+  imageAnchor.append(createSpeakerImage(speakerItem, eagerImage));
 
   const nameDiv = append(div, 'div', 'name');
   const a = append(nameDiv, 'a');
@@ -79,7 +82,13 @@ function addSpeakers(parent, speakers, siteRootPath, queryIndex) {
   }
 
   const div = append(parent, 'div', 'speakers');
-  speakers.forEach((speaker) => addSpeaker(div, speaker, siteRootPath, queryIndex));
+  speakers.forEach((speaker, speakerIndex) => addSpeaker(
+    div,
+    speaker,
+    speakerIndex,
+    siteRootPath,
+    queryIndex,
+  ));
 }
 
 /**
@@ -97,7 +106,13 @@ function addLightningTalkSpeakers(parent, speakers, siteRootPath, queryIndex) {
   h4.textContent = 'Additional speakers (Lightning Talks)';
 
   const div = append(parent, 'div', 'speakers', 'lightning-talk');
-  speakers.forEach((speaker) => addSpeaker(div, speaker, siteRootPath, queryIndex));
+  speakers.forEach((speaker, speakerIndex) => addSpeaker(
+    div,
+    speaker,
+    speakerIndex,
+    siteRootPath,
+    queryIndex,
+  ));
 }
 
 /**
