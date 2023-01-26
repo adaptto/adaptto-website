@@ -32,7 +32,6 @@ body {
   background-color: var(--color-light);
   color: var(--color-dark);
   font-family: var(--font-light);
-  letter-spacing: -0.5px;
   display: none;
   margin: 0 auto;
 }
