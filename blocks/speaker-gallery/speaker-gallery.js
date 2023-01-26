@@ -47,7 +47,7 @@ function addSpeaker(parent, speaker, speakerIndex, siteRootPath, queryIndex) {
 
   const imageAnchor = append(div, 'a');
   imageAnchor.href = speakerUrl;
-  const eagerImage = (speakerIndex <= 7); // use eager loading for first 8 speaker images
+  const eagerImage = (speakerIndex <= 3); // use eager loading for first 4 speaker images
   imageAnchor.append(createSpeakerImage(speakerItem, eagerImage));
 
   const nameDiv = append(div, 'div', 'name');
