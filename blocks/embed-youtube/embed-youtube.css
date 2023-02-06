@@ -14,6 +14,7 @@ main .embed-youtube .embed-placeholder {
   width: 100%;
   aspect-ratio: 16 / 9;
   position: relative;
+  cursor: pointer;
 }
 
 main .embed-youtube .embed-placeholder > * {
@@ -42,7 +43,9 @@ main .embed-youtube .embed-placeholder-play button {
   height: 22px;
   border: 2px solid;
   border-radius: 20px;
+  border-color: var(--video-player-button);
   padding: 0;
+  cursor: pointer;
 }
 
 main .embed-youtube .embed-placeholder-play button::before {
@@ -55,6 +58,7 @@ main .embed-youtube .embed-placeholder-play button::before {
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
   border-left: 6px solid;
+  border-left-color: var(--video-player-button);
   top: 4px;
   left: 7px;
 }

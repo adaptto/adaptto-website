@@ -5,8 +5,8 @@ const embedYoutube = (vid, autoplay) => {
   const suffix = autoplay ? '&muted=1&autoplay=1' : '';
   return `<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;">
     <iframe src="https://www.youtube.com/embed/${vid}?rel=0&v=${vid}${suffix}" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" 
-      allow="autoplay; fullscreen; picture-in-picture; encrypted-media; accelerometer; gyroscope; picture-in-picture" allowfullscreen="" scrolling="no" title="Content from Youtube" loading="lazy"></iframe>
-  </div>`;
+    allow="autoplay; fullscreen; picture-in-picture; encrypted-media; accelerometer; gyroscope; picture-in-picture" scrolling="no" title="Content from Youtube" loading="lazy"></iframe>
+    </div>`;
 };
 
 const loadEmbed = (block, vid, autoplay) => {
