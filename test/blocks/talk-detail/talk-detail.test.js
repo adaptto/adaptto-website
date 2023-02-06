@@ -65,7 +65,7 @@ describe('blocks/talk-detail-*', () => {
     expect(block.querySelector('p').textContent).to.eq('Monday, 28 September 2020 11:45 - 12:15 (30 min)');
 
     // video embed
-    const embed = block.querySelector('.embed');
+    const embed = block.querySelector('.embed-youtube');
     expect(embed).to.exist;
     await blockLoaded(embed);
   });

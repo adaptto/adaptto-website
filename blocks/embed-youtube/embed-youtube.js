@@ -1,5 +1,5 @@
 // pattern from https://gist.github.com/deunlee/0b45cfacb7e8f788e5bbfa2911f54d3e
-const youTubeUrlPattern = /^(https?:)?(\/\/)?((www\.|m\.)?youtube(-nocookie)?\.com\/((watch)?\?(feature=\w*&)?vi?=|embed\/|vi?\/|e\/)|youtu.be\/)([\w\-]{10,20})/i
+const youTubeUrlPattern = /^(https?:)?(\/\/)?((www\.|m\.)?youtube(-nocookie)?\.com\/((watch)?\?(feature=\w*&)?vi?=|embed\/|vi?\/|e\/)|youtu.be\/)([\w-]{10,20})/i;
 
 const embedYoutube = (vid, autoplay) => {
   const suffix = autoplay ? '&muted=1&autoplay=1' : '';
@@ -15,27 +15,26 @@ const loadEmbed = (block, vid, autoplay) => {
   }
 
   block.innerHTML = embedYoutube(vid, autoplay);
-  block.classList = `block embed-youtube`;
+  block.classList = 'block embed-youtube';
   block.classList.add('embed-is-loaded');
 };
 
 /**
  * Get YouTube Video ID from URL.
- * @param {string} href 
+ * @param {string} href
  */
 function getYouTubeVideoIdByUrl(url) {
   const match = url.match(youTubeUrlPattern);
   if (match) {
     return match[9];
-  } else {
-    return undefined;
   }
+  return undefined;
 }
 
 /**
  * Embed YouTube video player.
  * Automatically uses https://i.ytimg.com/vi/<vid>/maxresdefault.jpg as placeholder image (with <vid> = video id).
- * @param {Element} block 
+ * @param {Element} block
  */
 export default function decorate(block) {
   const link = block.querySelector('a')?.href;
