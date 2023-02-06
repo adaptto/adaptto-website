@@ -37,7 +37,8 @@ main .embed-youtube .embed-placeholder img {
 main .embed-youtube .embed-placeholder-play button {
   width: 65px;
   height: 45px;
-  background-image: url('/icons/youtube-play-button.svg');
+  background-image: url('/icons/youtube.svg');
+  background-size: cover;
   background-repeat: no-repeat;
   background-color: transparent;
   border: 0;
