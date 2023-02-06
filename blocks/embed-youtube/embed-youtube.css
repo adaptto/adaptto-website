@@ -35,30 +35,11 @@ main .embed-youtube .embed-placeholder img {
 }
 
 main .embed-youtube .embed-placeholder-play button {
-  box-sizing: border-box;
-  position: relative;
-  display: block;
-  transform: scale(3);
-  width: 22px;
-  height: 22px;
-  border: 2px solid;
-  border-radius: 20px;
-  border-color: var(--video-player-button);
-  padding: 0;
+  width: 65px;
+  height: 45px;
+  background-image: url('/icons/youtube-play-button.svg');
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: 0;
   cursor: pointer;
-}
-
-main .embed-youtube .embed-placeholder-play button::before {
-  content: "";
-  display: block;
-  box-sizing: border-box;
-  position: absolute;
-  width: 0;
-  height: 10px;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-left: 6px solid;
-  border-left-color: var(--video-player-button);
-  top: 4px;
-  left: 7px;
 }
