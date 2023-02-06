@@ -20,12 +20,6 @@ npm i
 npm tst
 ```
 
-## Cloud development
-
-1. Click "Code" and create a new codespace from your repository
-2. Start Franklin Proxy: `hlx up` (opens your browser at `http://localhost:3000` or a proxied version)
-3. Start coding, your browser is your IDE now.
-
 ## Local development
 
 1. Install the [Helix CLI](https://github.com/adobe/helix-cli): `npm install -g @adobe/helix-cli`
