@@ -1,6 +1,10 @@
 // pattern from https://gist.github.com/deunlee/0b45cfacb7e8f788e5bbfa2911f54d3e
 const youTubeUrlPattern = /^(https?:)?(\/\/)?((www\.|m\.)?youtube(-nocookie)?\.com\/((watch)?\?(feature=\w*&)?vi?=|embed\/|vi?\/|e\/)|youtu.be\/)([\w-]{10,20})/i;
 
+/**
+ * @param {string} vid
+ * @param {boolean} autoplay
+ */
 function embedYoutube(vid, autoplay) {
   const suffix = autoplay ? '&muted=1&autoplay=1' : '';
   return `<div style="left:0; width:100%; height:0; position:relative; padding-bottom:56.25%;">
@@ -9,6 +13,11 @@ function embedYoutube(vid, autoplay) {
     </div>`;
 }
 
+/**
+ * @param {Element} block 
+ * @param {string} vid 
+ * @param {boolean} autoplay 
+ */
 function loadEmbed(block, vid, autoplay) {
   if (block.classList.contains('embed-is-loaded')) {
     return;
@@ -21,6 +30,7 @@ function loadEmbed(block, vid, autoplay) {
 /**
  * Get YouTube Video ID from URL.
  * @param {string} href
+ * @return {string} Video ID
  */
 function getYouTubeVideoIdByUrl(url) {
   const match = url.match(youTubeUrlPattern);
@@ -32,7 +42,7 @@ function getYouTubeVideoIdByUrl(url) {
 
 /**
  * Embed YouTube video player.
- * Automatically uses https://i.ytimg.com/vi/<vid>/maxresdefault.jpg as placeholder image (with <vid> = video id).
+ * Displays a placeholder image first using a thumbnail provided by YouTube, player is loaded when clicking the placeholder.
  * @param {Element} block
  */
 export default function decorate(block) {
@@ -44,7 +54,7 @@ export default function decorate(block) {
 
     const wrapper = document.createElement('div');
     wrapper.className = 'embed-placeholder';
-    wrapper.innerHTML = `<img src="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg"/>
+    wrapper.innerHTML = `<img src="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg">
       <div class="embed-placeholder-play"><button title="Play"></button></div>`;
     wrapper.addEventListener('click', () => {
       loadEmbed(block, vid, true);
