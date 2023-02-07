@@ -29,8 +29,10 @@
   }
 }
 
-.speaker-gallery .speaker .img {
+.speaker-gallery .speaker img {
   width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
 }
 
 .speaker-gallery .speaker .name {
@@ -67,6 +69,8 @@
 
 .speaker-gallery .speakers.lightning-talk .speaker img {
   width: 40px;
+  height: 40px;
+  object-fit: cover;
 }
 
 .speaker-gallery .speakers.lightning-talk .speaker .name {
