@@ -14,9 +14,9 @@ function embedYoutube(vid, autoplay) {
 }
 
 /**
- * @param {Element} block 
- * @param {string} vid 
- * @param {boolean} autoplay 
+ * @param {Element} block
+ * @param {string} vid
+ * @param {boolean} autoplay
  */
 function loadEmbed(block, vid, autoplay) {
   if (block.classList.contains('embed-is-loaded')) {
@@ -42,7 +42,8 @@ function getYouTubeVideoIdByUrl(url) {
 
 /**
  * Embed YouTube video player.
- * Displays a placeholder image first using a thumbnail provided by YouTube, player is loaded when clicking the placeholder.
+ * Displays a placeholder image first using a thumbnail provided by YouTube,
+ * player is loaded when clicking the placeholder.
  * @param {Element} block
  */
 export default function decorate(block) {
