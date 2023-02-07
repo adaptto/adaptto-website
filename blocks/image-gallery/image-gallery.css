@@ -1,0 +1,185 @@
+/* CSS goes here */
+
+.image-gallery {
+  width: auto;
+  height: auto;
+  margin: 0 0 20px;
+  position: relative;
+  font-size: 0;
+}
+
+.image-gallery .gallery-stage {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 50%;
+}
+
+.image-gallery .gallery-stage .gallery-placeholder {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.image-gallery .gallery-stage .gallery-image {
+  width: 100%;
+  max-height: 500px;
+  height: auto;
+  display: inline-block;
+}
+
+.image-gallery .gallery-fullscreen-btn {
+  display: none;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  bottom: 10px;
+  right: 10px;
+  z-index: 0;
+  overflow: hidden;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQBAMAAAB8P++eAAAAA3NCSVQICAjb4U/gAAAAFVBMVEX///////////////////////8Akts1gEQHAAAAB3RSTlMAESIzRFX/WSxzzQAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAFMSURBVEiJxZdJTsNAEEXbJAdACO+DgH2E4n3GAzj25wZw/yMQT223h+qHBEqtIuephh6qfjsXWvK0O0vn08ujM+31otbKDwNLdhrYadHpw0WBlRvGLZFTbp5MsiknFdM83+Y46TjmVvOctB0FnkmwTTMM/rzESQfmcOTScBi4tBwGLtcWJ+09mNlg4TfP5qRuI81SKjuwyD52NHIXO1JzZU3d73HwWoPNan/XNvx38KUcpGiCdZJrAlZJpgTM+1W0wcLXcvv8Na32swPLfrlt8FbNioFbvy8RcN8VHQNzDoKdruwaP4yNFc68gL2V/wAyTroneMflyRhY8EORtr/+7jziq4AvF76uuAHwlpISMP9N28ONFLdm3uzx+MADCY84PjTxGMaDnUsFLD6wnOECCUsuLuKwLORCk0tXLIa5vOaCnT8BHH5UOOOZ8gN3G01EwpWagwAAAABJRU5ErkJggg==') center center no-repeat transparent;
+  background-size: 40px 40px;
+  text-indent: 40px;
+}
+
+.image-gallery .gallery-thumb-list {
+  display: block;
+  list-style-type: none;
+  width: 100%;
+  height: 70px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  margin: 10px 0 0;
+  padding: 0 0 20px;
+  white-space: nowrap;
+}
+
+.image-gallery .gallery-thumb-list li {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+  padding: 0;
+  max-width: 100px;
+  height: 50px;
+}
+
+.image-gallery .gallery-thumb {
+  height: 50px;
+}
+
+.image-gallery .gallery-thumb img {
+  height: 100%;
+  width: auto;
+}
+
+.image-gallery .lb-gallery {
+  border-top: 40px solid #000;
+  height: 100%;
+  width: 100%;
+  line-height: 0;
+}
+
+.image-gallery .lb-gallery .gallery-stage {
+  display: table;
+  height: 100%;
+  padding: 0;
+}
+
+.image-gallery .lb-gallery .gallery-placeholder {
+  display: table-cell;
+  height: auto;
+  vertical-align: middle;
+  position: static;
+}
+
+.image-gallery .lb-gallery .gallery-image {
+  max-height: 100%;
+}
+
+.image-gallery .gallery-prev, .image-gallery .gallery-next {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  display: block;
+  width: 40px;
+  height: 80px;
+  border: 0;
+  padding: 0;
+  margin: -40px 0 0;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABQCAMAAADY1yDdAAAAM1BMVEX///8AAAD///////////8JpO/////v+f4pr/EPpu/F6fsdq/C14/ql3fk1tPKW2Ph4zfbqlSbSAAAAEXRSTlNVAEQRIu8zVbvdVcxmZqpmd6Dw47EAAAG2SURBVFjDtNVRDoJQDETRsa2NHwruf7V+TjCSYSzcDZy0fQQAEdGVeTu9zOqIAFh0nSlUB9jGyZNmoMBY1JwoCoIZE5qZE7rOf28Bo6gLx2DtGw27SI/IAOaKb8yVuUFlbswVGgPlGKKN+UtuDCttFKZF+gfx6/my5gsrnFFc9rLe6/coepD1Davlvh4cJUDkvtgGKzkIFd/QowRMhcYL23LPSGx7UXENtPhGtKINhNiWqzxogJU+O5WHY+h9NYSiDb2vgFS0wVK+La3QGCJUfAMl7q4UGk/s1uaf5ElFGOryAUuhMUeoCGOMUNEG+4UAjrLQsBCpLFvzU50dpEAIA0EAhLgQoiD+/7V7UJhLoJQYGL15KjAQZ7rr+0iN7wOFiA0rPngbobRQRpAwWuec17bV95C6tTXeoOBakWHFFyQNK77qaVgxYsOKf780rHiQsGHFI5ENKx7ubFjxmGrDigduG1a8Otiw4iWob1jZj+fr3LH3DT9eTJOv2I/Cgm/EHrcCnC9EUXdDtezxYFnyhKmnkjd8Lku2qP5S8lUbAyVNprqp/FJ3c2RMjDPza9n5BfP8qvwP6QAXnXSrpHIAAAAASUVORK5CYII=') 0 0 no-repeat transparent;
+  text-indent: 100%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 600px) {
+  .image-gallery .gallery-prev, .image-gallery .gallery-next {
+    width: 80px;
+    height: 120px;
+    margin: -60px 0 0;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAAB4BAMAAACHjORcAAAAGFBMVEX///8AAAD///////////8kttv///8hktv2md6xAAAACHRSTlNVAEQiEbsz7heeEFkAAAJTSURBVGjerJa9bsJAEIQndiBtbJBr8yPqOIpSc8kL0NFi8gJp7v2DIkUTtAf2jfcrkTx861nbh+rC8v28blGsd1+hysNefAn8PIPs3rLS7MXgL0Jk4mIk2IzNe8VIdmHUzTtjNEU3nLdoATlRz2NiGJi3RSbzcDfvhGw2E/u1bG/nfYCoxeiFkPmtwBNEtsLAwu5wY1yaZsN6L7YRndIGvmASnRHENDaed5BF24p1tk47SMXrQArK9P/zGkyndNwZ1sJKHFgxsIYHpefEnJkTO/bcwIfHv8A9fCi41U505kXjszg1vCi5NK43sYUb4XcL4UfPLXRspYYfJTvxoZjcycy0Yjo5IIcjrunscxKzBL9Nzabkp4MiyJptyVES5BtsD1WRgqRMbU1UBHk6PkFVpCApkmsYZUGgqgBV8YgEYYkEURZEt4CgSEFD3yBF1AQZaBVFQaxqSIoUtIGa4hF5gYiaIAOtoiSIh2cIihRMBUqKMS+QQ+X9HQPTQymKLMUKSooMtIKKIgOtoKTIQCuoKfaNIEjF4UAKiord4oagqhiWsmBasao0QSraz6gkSEX7oZcEqWiPIpIgFe1hSRKkoj3OSYJUtAdOQZDMfpo1YyOAQRiIZcTsPw0N4AMbCk6FqBnAL+nPJ3H68fjiaFfNinL4mKdZH4/eeTsGuBcRTIhhxSwBgqyoKmDa58R9C5A0ItMV6hqx8wbGfeg+yQWb/igEjUshlZLLpOEOotCjMs+y1aGDr8LaoNQB6Q9kCXQ4wacdfHzC5zF4wIMnRngEhWdaDZy8tmyZPgn5AAAAAElFTkSuQmCC');
+  }
+}
+
+.image-gallery .gallery-prev {
+  left: 0;
+  background-position: left top;
+}
+
+.image-gallery .gallery-next {
+  right: 0;
+  background-position: right top;
+}
+
+.image-gallery #lb-overlay {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1500;
+  background-color: #000;
+  overflow-x: auto;
+}
+
+.image-gallery .lb-open #lb-overlay {
+  display: block;
+}
+
+.image-gallery .lb-open {
+  overflow: hidden;
+}
+
+.image-gallery #lb-close-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  width: 50px;
+  height: 50px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  text-indent: 100%;
+  cursor: pointer;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoBAMAAAB+0KVeAAAAGFBMVEX///8AAAAAktu14/r///////////8Aktub0eS1AAAAB3RSTlNVAO5mRDMRRGid9wAAAKhJREFUKM+d0LENwyAQBVAkL5AvGQZIirQWWeCKDECR9C6cBdxk/fCtKBDdLyxfYeHHBw7CKfjSOO7GeADzVD/DhcP0wyv/88ohWnKdwlBniPY1Aic2LF30Vn3DObTomUFi131+M0iMCpNaDhMHYRYtYRTNI4lrAuYeBG3TVhWjQpjCRWFSiKIwKkRRGBWiKEwmEItClH/0G0AplKLXh0DgZR7JzzvR1wfkLSJkqx9gWAAAAABJRU5ErkJggg==') right top no-repeat transparent;
+}
+
+.image-gallery #lb-content {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.image-gallery .touch .gallery-stage .gallery-fullscreen-btn {
+  display: block;
+}
+
+.image-gallery .no-touch .gallery-stage:hover .gallery-fullscreen-btn {
+  display: block;
+}
