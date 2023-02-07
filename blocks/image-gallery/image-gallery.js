@@ -6,7 +6,7 @@ import { append } from '../../scripts/utils/dom.js';
  */
 function createGalleryImage(originalPicture, index) {
   const url = originalPicture.querySelector('img')?.src;
-  const picture = createOptimizedPicture(url, '', true);
+  const picture = createOptimizedPicture(url, '', true, [{ width: '980' }]);
   picture.classList.add('gallery-image');
   picture.dataset.index = index;
   return picture;
@@ -63,7 +63,7 @@ function createThumbnailListItem(block, pictures, index) {
   const originalPicture = pictures[index];
   const url = originalPicture.querySelector('img')?.src;
   const eager = (index <= 7);
-  const picture = createOptimizedPicture(url, '', eager);
+  const picture = createOptimizedPicture(url, '', eager, [{ width: '100' }]);
 
   const li = document.createElement('li');
   const a = append(li, 'a', 'gallery-thumb');
