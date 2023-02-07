@@ -51,7 +51,7 @@ function buildVideo(parent) {
     return;
   }
 
-  const block = append(parent, 'div', 'embed');
+  const block = append(parent, 'div', 'embed-youtube');
   const a = append(block, 'a');
   a.href = video;
   a.textContent = video;
