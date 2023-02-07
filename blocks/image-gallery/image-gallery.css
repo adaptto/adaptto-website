@@ -1,5 +1,3 @@
-/* CSS goes here */
-
 .image-gallery {
   width: auto;
   height: auto;
@@ -68,6 +66,7 @@
 
 .image-gallery .gallery-thumb {
   height: 50px;
+  cursor: pointer;
 }
 
 .image-gallery .gallery-thumb img {
