@@ -6,16 +6,24 @@ import decorate from '../../../blocks/embed-youtube/embed-youtube.js';
 import { buildBlock } from '../../../scripts/lib-franklin.js';
 
 /**
+ * @param {string} url
+ * @returns {Element}
+ */
+function createEmbedBlock(url) {
+  const link = document.createElement('a');
+  link.href = url;
+  const block = buildBlock('embed-youtube', link);
+  decorate(block);
+  return block;
+}
+
+/**
  * Assert block with given URL and expected video ID
  * @param {string} url YouTube URL (any variant)
  * @param {string} vid Expected Video ID
  */
 function assertVideoPlayer(url, vid) {
-  const link = document.createElement('a');
-  link.href = url;
-  const block = buildBlock('embed-youtube', link);
-
-  decorate(block);
+  const block = createEmbedBlock(url);
 
   const placeholder = block.querySelector('.embed-placeholder');
   expect(placeholder).to.exist;
@@ -42,12 +50,7 @@ describe('blocks/embed-youtube', () => {
   });
 
   it('invalid-url', () => {
-    const link = document.createElement('a');
-    link.href = 'https://adapt.to';
-    const block = buildBlock('embed-youtube', link);
-
-    decorate(block);
-
+    const block = createEmbedBlock('https://adapt.to');
     const placeholder = block.querySelector('.embed-placeholder');
     expect(placeholder).to.not.exist;
   });
