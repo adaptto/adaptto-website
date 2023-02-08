@@ -4,9 +4,9 @@ import { append } from '../../scripts/utils/dom.js';
 /**
  * @param {Element} originalPicture
  */
-function createGalleryImage(originalPicture, index) {
+function createGalleryImage(originalPicture, index, width) {
   const url = originalPicture.querySelector('img')?.src;
-  const picture = createOptimizedPicture(url, '', true, [{ width: '980' }]);
+  const picture = createOptimizedPicture(url, '', true, [{ width: width }]);
   picture.classList.add('gallery-image');
   picture.dataset.index = index;
   return picture;
@@ -14,9 +14,14 @@ function createGalleryImage(originalPicture, index) {
 
 /**
  * @param {Element} block
+ * @returns {number} Current index or null
  */
 function getCurrentIndex(block) {
-  return parseInt(block.querySelector('.gallery-placeholder .gallery-image')?.dataset.index, 10);
+  const index = block.querySelector('.gallery-placeholder .gallery-image')?.dataset.index;
+  if (index) {
+    return parseInt(index, 10);
+  }
+  return 0;
 }
 
 /**
@@ -25,7 +30,7 @@ function getCurrentIndex(block) {
  * @param {number} index
  */
 function displayImage(block, pictures, index) {
-  const picture = createGalleryImage(pictures[index], index);
+  const picture = createGalleryImage(pictures[index], index, 980);
   block.querySelector('.gallery-placeholder').replaceChildren(picture);
 }
 
@@ -34,8 +39,7 @@ function displayImage(block, pictures, index) {
  * @param {Element[]} pictures
  */
 function displayNextImage(block, pictures) {
-  const index = getCurrentIndex(block);
-  let nextIndex = Number.isNaN(index) ? 0 : index + 1;
+  let nextIndex = getCurrentIndex(block) + 1;
   if (nextIndex > pictures.length - 1) {
     nextIndex = 0;
   }
@@ -47,8 +51,7 @@ function displayNextImage(block, pictures) {
  * @param {Element[]} pictures
  */
 function displayPreviousImage(block, pictures) {
-  const index = getCurrentIndex(block);
-  let nextIndex = Number.isNaN(index) ? 0 : index - 1;
+  let nextIndex = getCurrentIndex(block) - 1;
   if (nextIndex < 0) {
     nextIndex = pictures.length - 1;
   }
@@ -76,6 +79,55 @@ function createThumbnailListItem(block, pictures, index) {
 }
 
 /**
+ * @param {Element[]} pictures
+ * @returns {Element}
+ */
+function getOrCreateOverlay(pictures) {
+  let overlay = document.body.querySelector('#image-gallery-overlay');
+  if (!overlay) {
+    overlay = append(document.body, 'div', 'image-gallery');
+    overlay.id = 'image-gallery-overlay';
+    overlay.innerHTML = `<button type="button" class="lb-close-btn">Close</button>
+      <div class="lb-content">
+        <div class="lb-gallery">
+          <div class="gallery-stage">
+            <a class="gallery-prev">Previous</a>
+            <div class="gallery-placeholder"></div>
+            <a class="gallery-next">Next</a>
+          </div>
+        </div>
+      </div>`;
+
+    overlay.querySelector('.gallery-prev').addEventListener('click', (e) => {
+      e.preventDefault();
+      displayPreviousImage(overlay, pictures);
+    });
+    overlay.querySelector('.gallery-next').addEventListener('click', (e) => {
+      e.preventDefault();
+      displayNextImage(overlay, pictures);
+    });
+    overlay.querySelector('.lb-close-btn').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.body.classList.remove('image-gallery-open');
+      overlay.querySelector('.gallery-placeholder').innerHTML = '';
+    });
+  }
+  return overlay;
+}
+
+/**
+ * @param {Element} block
+ * @param {Element[]} pictures
+ */
+function displayFullScreenImage(block, pictures) {
+  const index = getCurrentIndex(block);
+  const picture = createGalleryImage(pictures[index], index, 2048);
+  const overlay = getOrCreateOverlay(pictures);
+  overlay.querySelector('.gallery-placeholder').replaceChildren(picture);
+  document.body.classList.add('image-gallery-open');
+}
+
+/**
  * Image Gallery.
  * @param {Element} block
  */
@@ -100,6 +152,10 @@ export default function decorate(block) {
   block.querySelector('.gallery-next').addEventListener('click', (e) => {
     e.preventDefault();
     displayNextImage(block, pictures);
+  });
+  block.querySelector('.gallery-fullscreen-btn').addEventListener('click', (e) => {
+    e.preventDefault();
+    displayFullScreenImage(block, pictures);
   });
 
   displayImage(block, pictures, 0);
