@@ -5,18 +5,28 @@ import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 import decorate from '../../../blocks/image-gallery/image-gallery.js';
 
+function assertGalleryImage(parent, index, previousIndex, nextIndex) {
+  expect(parent).to.exist;
+  expect(parent.querySelector('.gallery-image img').src).to.contain(`media_${index}.jpg`);
+  expect(parent.querySelector('.gallery-prev').href).to.contain(`#image-${previousIndex}`);
+  expect(parent.querySelector('.gallery-next').href).to.contain(`#image-${nextIndex}`);
+  expect(parent.querySelector('.gallery-fullscreen-btn').href).to.contain(`#fullscreen-image-${index}`);
+}
+
+function assertOverlayImage(parent, index, previousIndex, nextIndex) {
+  expect(parent).to.exist;
+  expect(parent.querySelector('.gallery-image img').src).to.contain(`media_${index}.jpg`);
+  expect(parent.querySelector('.gallery-prev').href).to.contain(`#fullscreen-image-${previousIndex}`);
+  expect(parent.querySelector('.gallery-next').href).to.contain(`#fullscreen-image-${nextIndex}`);
+  expect(parent.querySelector('.lb-close-btn').href).to.contain(`#image-${index}`);
+}
+
 describe('blocks/image-gallery', () => {
   it('initial', async () => {
     document.body.innerHTML = await readFile({ path: './block.html' });
     decorate(document.querySelector('.image-gallery'));
 
-    const stage = document.body.querySelector('.image-gallery .gallery-stage');
-    expect(stage).to.exist;
-    expect(stage.querySelector('.gallery-image img').src).to.contain('media_1.jpg');
-    expect(stage.querySelector('.gallery-prev').href).to.contain('#image-3');
-    expect(stage.querySelector('.gallery-next').href).to.contain('#image-2');
-    expect(stage.querySelector('.gallery-fullscreen-btn').href).to.contain('#fullscreen-image-1');
-
+    assertGalleryImage(document.body.querySelector('.image-gallery .gallery-stage'), 1, 3, 2);
     expect(document.body.querySelector('#image-gallery-overlay')).to.not.exist;
 
     const thumbnails = Array.from(document.body.querySelectorAll('.image-gallery .gallery-thumb-list li a'));
@@ -31,13 +41,7 @@ describe('blocks/image-gallery', () => {
     document.body.innerHTML = await readFile({ path: './block.html' });
     decorate(document.querySelector('.image-gallery'));
 
-    const stage = document.body.querySelector('.image-gallery .gallery-stage');
-    expect(stage).to.exist;
-    expect(stage.querySelector('.gallery-image img').src).to.contain('media_2.jpg');
-    expect(stage.querySelector('.gallery-prev').href).to.contain('#image-1');
-    expect(stage.querySelector('.gallery-next').href).to.contain('#image-3');
-    expect(stage.querySelector('.gallery-fullscreen-btn').href).to.contain('#fullscreen-image-2');
-
+    assertGalleryImage(document.body.querySelector('.image-gallery .gallery-stage'), 2, 1, 3);
     expect(document.body.querySelector('#image-gallery-overlay')).to.not.exist;
   });
 
@@ -46,18 +50,7 @@ describe('blocks/image-gallery', () => {
     document.body.innerHTML = await readFile({ path: './block.html' });
     decorate(document.querySelector('.image-gallery'));
 
-    const stage = document.body.querySelector('.image-gallery .gallery-stage');
-    expect(stage).to.exist;
-    expect(stage.querySelector('.gallery-image img').src).to.contain('media_3.jpg');
-    expect(stage.querySelector('.gallery-prev').href).to.contain('#image-2');
-    expect(stage.querySelector('.gallery-next').href).to.contain('#image-1');
-    expect(stage.querySelector('.gallery-fullscreen-btn').href).to.contain('#fullscreen-image-3');
-
-    const overlay = document.body.querySelector('#image-gallery-overlay');
-    expect(overlay).to.exist;
-    expect(overlay.querySelector('.gallery-image img').src).to.contain('media_3.jpg');
-    expect(overlay.querySelector('.gallery-prev').href).to.contain('#fullscreen-image-2');
-    expect(overlay.querySelector('.gallery-next').href).to.contain('#fullscreen-image-1');
-    expect(overlay.querySelector('.lb-close-btn').href).to.contain('#image-3');
+    assertGalleryImage(document.body.querySelector('.image-gallery .gallery-stage'), 3, 2, 1);
+    assertOverlayImage(document.body.querySelector('#image-gallery-overlay'), 3, 2, 1);
   });
 });
