@@ -1,1 +1,105 @@
-/* CSS goes here */
+.talk-archive {
+  display: grid;
+  grid-template:
+    "search"
+    "filter"
+    "result"
+    / 100%;
+}
+
+@media screen and (min-width: 600px) {
+  .talk-archive {
+    grid-template:
+      "search search"
+      "filter result"
+      / 20% 80%;
+  }
+}
+
+.talk-archive .search {
+  grid-area: search;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.talk-archive .search::before {
+  content: "🔍";
+}
+
+.talk-archive .search input {
+  border: none;
+  border-bottom: 1px solid var(--color-light-gray);
+  padding: 0 10px 5px;
+  width: 33%;
+}
+
+.talk-archive .filter {
+  grid-area: filter;
+}
+
+.talk-archive .filter .category {
+  font-weight: bold;
+}
+
+.talk-archive .filter ul {
+  list-style: none;
+  margin: 5px 5px 10px;
+  padding: 0;
+}
+
+@media screen and (max-width: 600px) {
+  .talk-archive .filter ul li {
+    display: inline;
+    margin-right: 5px;
+  }
+}
+
+.talk-archive .filter ul.collapsible.collapsed li:nth-child(n+6) {
+  display: none;
+}
+
+.talk-archive .filter ul.collapsible li.collapse-toggle {
+  display: none;
+  font-size: small;
+}
+
+.talk-archive .filter ul.collapsible:not(.collapsed) li.collapse-toggle.less,
+.talk-archive .filter ul.collapsible.collapsed li.collapse-toggle.more {
+  display: block;
+}
+
+.talk-archive .result {
+  grid-area: result;
+}
+
+@media screen and (max-width: 799px) {
+  .talk-archive .result {
+    font-size: small;
+  }
+}
+
+.talk-archive .result table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.talk-archive .result table th {
+  text-align: left;
+  padding: 0.5em;
+}
+
+.talk-archive .result table td {
+  border: 3px solid var(--color-light-gray);
+  padding: 0.5em;
+}
+
+.talk-archive .result table td:first-child {
+  border-left: none;
+  width: 96px;
+}
+
+.talk-archive .result table td:last-child {
+  border-right: none;
+  width: 144px;
+}
