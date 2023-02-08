@@ -11,6 +11,7 @@ class State {
    * @returns {number} Current image index
    */
   index;
+
   /**
    * @returns {number} Fullscreen display
    */
@@ -27,9 +28,8 @@ function getStateFromHash(imageUrls) {
   const hashMatch = window.location.hash.match(hashPattern);
   if (hashMatch) {
     state.index = parseInt(hashMatch[2], 10) - 1;
-    state.fullscreen = hashMatch[1] != undefined;
-  }
-  else {
+    state.fullscreen = hashMatch[1] !== undefined;
+  } else {
     state.index = 0;
     state.fullscreen = false;
   }
@@ -59,8 +59,10 @@ function buildHash(index, fullscreen) {
  */
 function displayImage(parent, imageUrls, index, fullscreen) {
   // display image
-  const width = fullscreen ? 2048 : 980;
-  const picture = createOptimizedPicture(imageUrls[index], '', true, [{ width: width }]);
+  const breakpoints = fullscreen
+    ? [{ media: '(min-width: 500px)', width: 2048 }, { width: 1024 }]
+    : [{ media: '(min-width: 500px)', width: 980 }, { width: 490 }];
+  const picture = createOptimizedPicture(imageUrls[index], '', true, breakpoints);
   picture.classList.add('gallery-image');
   parent.querySelector('.gallery-placeholder').replaceChildren(picture);
 
@@ -133,26 +135,9 @@ function displayCurrentStateImage(block, imageUrls) {
     const overlay = createOverlay(state.index);
     displayImage(overlay, imageUrls, state.index, true);
     document.body.classList.add('image-gallery-open');
-  }
-  else {
+  } else {
     removeOverlay();
   }
-}
-
-/**
- * Appends item for image thumbnail list.
- * @param {Element} parent Parent element
- * @param {Element} originalPicture Original picture
- * @param {number} index Image index
- */
-function appendThumbnailListItem(parent, imageUrls, index) {
-  const eager = (index <= 7);
-  const picture = createOptimizedPicture(imageUrls[index], '', eager, [{ width: '100' }]);
-
-  const li = append(parent, 'li');
-  const a = append(li, 'a', 'gallery-thumb');
-  a.href = buildHash(index, false);
-  a.append(picture);
 }
 
 /**
@@ -163,11 +148,12 @@ export default function decorate(block) {
   // collect list of all image gallery URLs
   const imageUrls = Array.from(block.querySelectorAll('picture'))
     .map((picture) => picture.querySelector('img')?.src)
-    .filter((url) => url != undefined);
+    .filter((url) => url !== undefined);
   if (imageUrls.length === 0) {
     return;
   }
 
+  // build gallery markup
   block.innerHTML = `<div class="gallery-stage">
       <a class="gallery-prev">Previous</a>
       <div class="gallery-placeholder"></div>
@@ -176,10 +162,15 @@ export default function decorate(block) {
     </div>
     <ul class="gallery-thumb-list"></ul>`;
 
+  // list of image thumbnails
   const thumbList = block.querySelector('.gallery-thumb-list');
-  for (let index = 0; index < imageUrls.length; index += 1) {
-    appendThumbnailListItem(thumbList, imageUrls, index);
-  }
+  imageUrls.forEach((imageUrl, index) => {
+    const li = append(thumbList, 'li');
+    const a = append(li, 'a', 'gallery-thumb');
+    a.href = buildHash(index, false);
+    const eager = (index <= 7);
+    a.append(createOptimizedPicture(imageUrl, '', eager, [{ width: '100' }]));
+  });
 
   // react to stage changes via hash
   window.addEventListener('hashchange', () => displayCurrentStateImage(block, imageUrls));
