@@ -1,7 +1,8 @@
 import { getMetadata } from '../../scripts/lib-franklin.js';
 import { getQueryIndex } from '../../scripts/services/QueryIndex.js';
 import { append } from '../../scripts/utils/dom.js';
-import { getSiteRootPathAlsoForSpeakerPath, getSpeakerOverviewPath, getYearFromPath } from '../../scripts/utils/site.js';
+import { getYearFromPath } from '../../scripts/utils/path.js';
+import { getSiteRootPathAlsoForSpeakerPath, getSpeakerOverviewPath } from '../../scripts/utils/site.js';
 
 /**
  * Add speaker metadata.
