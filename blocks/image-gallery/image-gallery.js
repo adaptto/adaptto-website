@@ -141,7 +141,7 @@ export default function decorate(block) {
       <a class="gallery-prev">Previous</a>
       <div class="gallery-placeholder"></div>
       <a class="gallery-next">Next</a>
-      <a class="gallery-fullscreen-btn" href="" title="Fullscreen">Fullscreen</a>
+      <a class="gallery-fullscreen-btn" title="Fullscreen">Fullscreen</a>
     </div>
     <ul class="gallery-thumb-list"></ul>`;
 

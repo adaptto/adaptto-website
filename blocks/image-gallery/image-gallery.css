@@ -41,6 +41,7 @@
   background: url('/resources/img/gallery_fullscreen.png') center center no-repeat transparent;
   background-size: 40px 40px;
   text-indent: 40px;
+  cursor: pointer;
 }
 
 .image-gallery .gallery-thumb-list {
