@@ -1,93 +1,102 @@
 import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
 import { append } from '../../scripts/utils/dom.js';
 
+const hashPattern = /^#(fullscreen-)?image-(\d{1,4})$/;
+
 /**
- * @param {Element} originalPicture
+ * Current display state.
  */
-function createGalleryImage(originalPicture, index, width) {
-  const url = originalPicture.querySelector('img')?.src;
-  const picture = createOptimizedPicture(url, '', true, [{ width: width }]);
-  picture.classList.add('gallery-image');
-  picture.dataset.index = index;
-  return picture;
+class State {
+  /**
+   * @returns {number} Current image index
+   */
+  index;
+  /**
+   * @returns {number} Fullscreen display
+   */
+  fullscreen;
 }
 
 /**
- * @param {Element} block
- * @returns {number} Current index or null
+ * Gets current image display state from hash (defaults to first image).
+ * @param {string[]} imageUrls  Image URLs
+ * @returns {State} State
  */
-function getCurrentIndex(block) {
-  const index = block.querySelector('.gallery-placeholder .gallery-image')?.dataset.index;
-  if (index) {
-    return parseInt(index, 10);
+function getStateFromHash(imageUrls) {
+  const state = new State();
+  const hashMatch = window.location.hash.match(hashPattern);
+  if (hashMatch) {
+    state.index = parseInt(hashMatch[2], 10) - 1;
+    state.fullscreen = hashMatch[1] != undefined;
   }
-  return 0;
+  else {
+    state.index = 0;
+    state.fullscreen = false;
+  }
+  if (state.index < 0 || state.index > imageUrls.length - 1) {
+    state.index = 0;
+  }
+  return state;
 }
 
 /**
- * @param {Element} block
- * @param {Element[]} pictures
- * @param {number} index
+ * Builds location has to address image.
+ * @param {number} index Image index
+ * @param {boolean} fullscreen Full screen mode
+ * @returns {string} Hash
  */
-function displayImage(block, pictures, index) {
-  const picture = createGalleryImage(pictures[index], index, 980);
-  block.querySelector('.gallery-placeholder').replaceChildren(picture);
+function buildHash(index, fullscreen) {
+  const fullscreenSuffix = fullscreen ? 'fullscreen-' : '';
+  return `#${fullscreenSuffix}image-${index + 1}`;
 }
 
 /**
- * @param {Element} block
- * @param {Element[]} pictures
+ * Display selected image in given container (page or fullscreen).
+ * @param {Element} parent Parent element
+ * @param {string[]} imageUrls Image URLs
+ * @param {number} index Image index
+ * @param {boolean} fullscreen Fullscreen mode
  */
-function displayNextImage(block, pictures) {
-  let nextIndex = getCurrentIndex(block) + 1;
-  if (nextIndex > pictures.length - 1) {
+function displayImage(parent, imageUrls, index, fullscreen) {
+  // display image
+  const width = fullscreen ? 2048 : 980;
+  const picture = createOptimizedPicture(imageUrls[index], '', true, [{ width: width }]);
+  picture.classList.add('gallery-image');
+  parent.querySelector('.gallery-placeholder').replaceChildren(picture);
+
+  // navigation links
+  let previousIndex = index - 1;
+  if (previousIndex < 0) {
+    previousIndex = imageUrls.length - 1;
+  }
+  let nextIndex = index + 1;
+  if (nextIndex > imageUrls.length - 1) {
     nextIndex = 0;
   }
-  displayImage(block, pictures, nextIndex);
-}
+  parent.querySelector('.gallery-prev').href = buildHash(previousIndex, fullscreen);
+  parent.querySelector('.gallery-next').href = buildHash(nextIndex, fullscreen);
 
-/**
- * @param {Element} block
- * @param {Element[]} pictures
- */
-function displayPreviousImage(block, pictures) {
-  let nextIndex = getCurrentIndex(block) - 1;
-  if (nextIndex < 0) {
-    nextIndex = pictures.length - 1;
+  // full screen mode open/close buttons
+  const fullscreenButton = parent.querySelector('.gallery-fullscreen-btn');
+  if (fullscreenButton) {
+    fullscreenButton.href = buildHash(index, true);
   }
-  displayImage(block, pictures, nextIndex);
+  const fullscreenCloseButton = parent.querySelector('.lb-close-btn');
+  if (fullscreenCloseButton) {
+    fullscreenCloseButton.href = buildHash(index, false);
+  }
 }
 
 /**
- * @param {Element} originalPicture
- * @param {number} index
+ * Creates overlay markup to display image in fullscreen mode.
+ * @returns {Element} Overlay element added to body.
  */
-function createThumbnailListItem(block, pictures, index) {
-  const originalPicture = pictures[index];
-  const url = originalPicture.querySelector('img')?.src;
-  const eager = (index <= 7);
-  const picture = createOptimizedPicture(url, '', eager, [{ width: '100' }]);
-
-  const li = document.createElement('li');
-  const a = append(li, 'a', 'gallery-thumb');
-  a.append(picture);
-  a.addEventListener('click', (e) => {
-    e.preventDefault();
-    displayImage(block, pictures, index);
-  });
-  return li;
-}
-
-/**
- * @param {Element[]} pictures
- * @returns {Element}
- */
-function getOrCreateOverlay(pictures) {
-  let overlay = document.body.querySelector('#image-gallery-overlay');
+function createOverlay() {
+  let overlay = document.body.querySelector(':scope > #image-gallery-overlay');
   if (!overlay) {
     overlay = append(document.body, 'div', 'image-gallery');
     overlay.id = 'image-gallery-overlay';
-    overlay.innerHTML = `<button type="button" class="lb-close-btn">Close</button>
+    overlay.innerHTML = `<a class="lb-close-btn">Close</a>
       <div class="lb-content">
         <div class="lb-gallery">
           <div class="gallery-stage">
@@ -97,34 +106,53 @@ function getOrCreateOverlay(pictures) {
           </div>
         </div>
       </div>`;
-
-    overlay.querySelector('.gallery-prev').addEventListener('click', (e) => {
-      e.preventDefault();
-      displayPreviousImage(overlay, pictures);
-    });
-    overlay.querySelector('.gallery-next').addEventListener('click', (e) => {
-      e.preventDefault();
-      displayNextImage(overlay, pictures);
-    });
-    overlay.querySelector('.lb-close-btn').addEventListener('click', (e) => {
-      e.preventDefault();
-      document.body.classList.remove('image-gallery-open');
-      overlay.querySelector('.gallery-placeholder').innerHTML = '';
-    });
   }
   return overlay;
 }
 
 /**
- * @param {Element} block
- * @param {Element[]} pictures
+ * Removes overlay markup.
  */
-function displayFullScreenImage(block, pictures) {
-  const index = getCurrentIndex(block);
-  const picture = createGalleryImage(pictures[index], index, 2048);
-  const overlay = getOrCreateOverlay(pictures);
-  overlay.querySelector('.gallery-placeholder').replaceChildren(picture);
-  document.body.classList.add('image-gallery-open');
+function removeOverlay() {
+  const overlay = document.body.querySelector(':scope > #image-gallery-overlay');
+  if (overlay) {
+    document.body.removeChild(overlay);
+  }
+  document.body.classList.remove('image-gallery-open');
+}
+
+/**
+ * Displays image as addressed via current hash.
+ * @param {Element} block Block element
+ * @param {string[]} imageUrls  Image URLs
+ */
+function displayCurrentStateImage(block, imageUrls) {
+  const state = getStateFromHash(imageUrls);
+  displayImage(block, imageUrls, state.index, false);
+  if (state.fullscreen) {
+    const overlay = createOverlay(state.index);
+    displayImage(overlay, imageUrls, state.index, true);
+    document.body.classList.add('image-gallery-open');
+  }
+  else {
+    removeOverlay();
+  }
+}
+
+/**
+ * Appends item for image thumbnail list.
+ * @param {Element} parent Parent element
+ * @param {Element} originalPicture Original picture
+ * @param {number} index Image index
+ */
+function appendThumbnailListItem(parent, imageUrls, index) {
+  const eager = (index <= 7);
+  const picture = createOptimizedPicture(imageUrls[index], '', eager, [{ width: '100' }]);
+
+  const li = append(parent, 'li');
+  const a = append(li, 'a', 'gallery-thumb');
+  a.href = buildHash(index, false);
+  a.append(picture);
 }
 
 /**
@@ -132,8 +160,11 @@ function displayFullScreenImage(block, pictures) {
  * @param {Element} block
  */
 export default function decorate(block) {
-  const pictures = Array.from(block.querySelectorAll('picture'));
-  if (pictures.length === 0) {
+  // collect list of all image gallery URLs
+  const imageUrls = Array.from(block.querySelectorAll('picture'))
+    .map((picture) => picture.querySelector('img')?.src)
+    .filter((url) => url != undefined);
+  if (imageUrls.length === 0) {
     return;
   }
 
@@ -145,23 +176,12 @@ export default function decorate(block) {
     </div>
     <ul class="gallery-thumb-list"></ul>`;
 
-  block.querySelector('.gallery-prev').addEventListener('click', (e) => {
-    e.preventDefault();
-    displayPreviousImage(block, pictures);
-  });
-  block.querySelector('.gallery-next').addEventListener('click', (e) => {
-    e.preventDefault();
-    displayNextImage(block, pictures);
-  });
-  block.querySelector('.gallery-fullscreen-btn').addEventListener('click', (e) => {
-    e.preventDefault();
-    displayFullScreenImage(block, pictures);
-  });
-
-  displayImage(block, pictures, 0);
-
   const thumbList = block.querySelector('.gallery-thumb-list');
-  for (let index = 0; index < pictures.length; index += 1) {
-    thumbList.append(createThumbnailListItem(block, pictures, index));
+  for (let index = 0; index < imageUrls.length; index += 1) {
+    appendThumbnailListItem(thumbList, imageUrls, index);
   }
+
+  // react to stage changes via hash
+  window.addEventListener('hashchange', () => displayCurrentStateImage(block, imageUrls));
+  displayCurrentStateImage(block, imageUrls);
 }
