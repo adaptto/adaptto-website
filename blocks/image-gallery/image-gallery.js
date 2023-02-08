@@ -120,7 +120,6 @@ function removeOverlay() {
   if (overlay) {
     document.body.removeChild(overlay);
   }
-  document.body.classList.remove('image-gallery-open');
 }
 
 /**
@@ -132,9 +131,8 @@ function displayCurrentStateImage(block, imageUrls) {
   const state = getStateFromHash(imageUrls);
   displayImage(block, imageUrls, state.index, false);
   if (state.fullscreen) {
-    const overlay = createOverlay(state.index);
+    const overlay = createOverlay();
     displayImage(overlay, imageUrls, state.index, true);
-    document.body.classList.add('image-gallery-open');
   } else {
     removeOverlay();
   }

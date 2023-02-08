@@ -148,7 +148,7 @@
 }
 
 #image-gallery-overlay {
-  display: none;
+  display: block;
   position: fixed;
   left: 0;
   top: 0;
@@ -161,14 +161,6 @@
 
 #image-gallery-overlay.image-gallery {
   margin: 0;
-}
-
-body.image-gallery-open #image-gallery-overlay {
-  display: block;
-}
-
-body.image-gallery-open {
-  overflow: hidden;
 }
 
 #image-gallery-overlay .lb-close-btn {
@@ -191,4 +183,8 @@ body.image-gallery-open {
   height: 100%;
   width: 100%;
   position: relative;
+}
+
+body:has(#image-gallery-overlay) {
+  overflow: hidden;
 }
