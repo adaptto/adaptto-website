@@ -33,10 +33,16 @@ const filterCategories = [
 function displayFilteredTalks(block, talkArchive) {
   talkArchive.applyFilter(getFilterFromHash(window.location.hash));
 
+  // full text
+  const fullText = block.querySelector('.search input').value.trim();
+  console.log("fullText: " + fullText);
+
   // result table
   const tbody = block.querySelector('.result table tbody');
   tbody.innerHTML = '';
-  const talks = talkArchive.getFilteredTalks();
+  const talks = fullText !== ''
+    ? talkArchive.getFilteredTalksFullTextSearch(fullText)
+    : talkArchive.getFilteredTalks();
 
   if (talks.length > 0) {
     talks.forEach((talk) => {
