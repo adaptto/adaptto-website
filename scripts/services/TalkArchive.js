@@ -1,7 +1,7 @@
 import { getYearFromPath } from '../utils/path.js';
 import { getQueryIndex } from './QueryIndex.js';
+import TalkArchiveFullTextIndex from './TalkArchiveFullTextIndex.js';
 import TalkArchiveItem from './TalkArchiveItem.js';
-import Document from "../3rdparty/flexsearch/document.js";
 
 /**
  * Gets a sorted and distinct list of items. Empty items are removed.
@@ -12,28 +12,6 @@ function getDistinctSortedList(items) {
   const distinctItems = [...new Set(items)]
     .filter((item) => item !== undefined);
   return distinctItems.sort();
-}
-
-/**
- * Creates index for full text esarch (based on flexsearch).
- * @param {TalkArchiveItem[]} filteredTalks 
- * @returns {Document} Document index
- */
-function createFulltextIndex(filteredTalks) {
-  const index = new Document({
-    document: {
-      id: "path",
-      index: [
-        "title",
-        "description",
-        "keywords",
-        "tags",
-        "speakers",
-      ]
-    }
-  });
-  filteredTalks.forEach((talk) => index.add(talk));
-  return index;
 }
 
 /**
@@ -57,7 +35,8 @@ export default class TalkArchive {
   filteredTalks;
 
   /**
-   * @type {Document}
+   * @typedef {import('./TalkArchiveFullTextIndex').default} TalkArchiveFullTextIndex
+   * @type {TalkArchiveFullTextIndex}
    */
   index;
 
@@ -100,7 +79,7 @@ export default class TalkArchive {
    * Get all talks matching the current filter criteria.
    * @returns {TalkArchiveItem[]} Talk items
    */
-  getFilteredTalks(fullText = undefined) {
+  getFilteredTalks() {
     return this.filteredTalks;
   }
 
@@ -111,8 +90,7 @@ export default class TalkArchive {
    */
   getFilteredTalksFullTextSearch(fullText) {
     if (!this.index) {
-      this.index = createFulltextIndex(this.filteredTalks);
-      this.filteredTalks.forEach((talk) => this.index.add(talk));
+      this.index = new TalkArchiveFullTextIndex(this.filteredTalks);
     }
     return this.index.search(fullText);
   }

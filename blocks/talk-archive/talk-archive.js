@@ -29,13 +29,15 @@ const filterCategories = [
  * @typedef {import('../../scripts/services/TalkArchive').default} TalkArchive
  * @param {Element} block
  * @param {TalkArchive} talkArchive
+ * @param {boolean} applyFilter Re-apply filters from hash.
  */
-function displayFilteredTalks(block, talkArchive) {
-  talkArchive.applyFilter(getFilterFromHash(window.location.hash));
+function displayFilteredTalks(block, talkArchive, applyFilter) {
+  if (applyFilter) {
+    talkArchive.applyFilter(getFilterFromHash(window.location.hash));
+  }
 
   // full text
   const fullText = block.querySelector('.search input').value.trim();
-  console.log("fullText: " + fullText);
 
   // result table
   const tbody = block.querySelector('.result table tbody');
@@ -139,7 +141,7 @@ function addFilterCategories(block, talkArchive) {
         const filter = getFilterFromHash(window.location.hash);
         filter[filterCategory.category] = currentlySelectedItems;
         window.history.replaceState(null, null, filter.buildHash());
-        displayFilteredTalks(block, talkArchive);
+        displayFilteredTalks(block, talkArchive, true);
       });
     });
   });
@@ -183,9 +185,14 @@ export default async function decorate(block) {
         </table>
       </div>`;
 
+  // fire full text search when hitting enter key
+  block.querySelector('.search input').addEventListener('input', () => {
+    displayFilteredTalks(block, talkArchive, false);
+  });
+
   // react to stage changes via hash
-  window.addEventListener('hashchange', () => displayFilteredTalks(block, talkArchive));
-  displayFilteredTalks(block, talkArchive);
+  window.addEventListener('hashchange', () => displayFilteredTalks(block, talkArchive, true));
+  displayFilteredTalks(block, talkArchive, true);
 
   // filter
   addFilterCategories(block, talkArchive);
