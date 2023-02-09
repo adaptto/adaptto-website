@@ -58,15 +58,15 @@ function displayFilteredTalks(block, talkArchive) {
 /**
  * Add filter category options.
  * @param {Element} parent Parent element
- * @param {string} category Category label
+ * @param {string} categoryLabel Category label
  * @param {string[]} items All items
  * @param {string[]} selectedItems Selected items
  * @param {boolean} collapsible Options list is collapsible
  */
-function addFilterCategory(parent, category, items, selectedItems, collapsible) {
+function addFilterCategory(parent, categoryLabel, items, selectedItems, collapsible) {
   const div = append(parent, 'div', 'filter-category');
   const span = append(div, 'span', 'category');
-  span.textContent = category;
+  span.textContent = categoryLabel;
   const ul = append(div, 'ul');
 
   items.forEach((item) => {
