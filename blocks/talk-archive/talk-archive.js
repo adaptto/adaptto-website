@@ -82,7 +82,11 @@ function addFilterCategory(parent, categoryLabel, items, selectedItems, collapsi
   });
 
   if (collapsible && items.length > 5) {
-    ul.classList.add('collapsible', 'collapsed');
+    ul.classList.add('collapsible');
+    if (!selectedItems || selectedItems.length == 0) {
+      // collapse by default, unless there is any item selected from this filter option
+      ul.classList.add('collapsed');
+    }
 
     const liNext = append(ul, 'li', 'collapse-toggle', 'more');
     const aNext = append(liNext, 'a');
