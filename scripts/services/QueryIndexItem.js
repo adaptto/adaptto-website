@@ -55,7 +55,7 @@ export default class QueryIndexItem {
   }
 
   /**
-   * @returns {string[]} Tag value as array
+   * @returns {string[]} Tag values as array
    */
   getTags() {
     return parseJsonArray(this.tags);
