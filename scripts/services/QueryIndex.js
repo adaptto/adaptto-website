@@ -1,7 +1,6 @@
 import {
   getDocumentName,
   getPathName,
-  getYearFromPath,
   isUrlOrPath,
 } from '../utils/path.js';
 import QueryIndexItem from './QueryIndexItem.js';
@@ -11,23 +10,6 @@ const speakerPathRegex = /^\/speakers\/.*$/;
 const talkPageRegex = /^\/\d\d\d\d\/schedule\/.+$/;
 const defaultMetaImage = '/default-meta-image.png?width=1200&format=pjpg&optimize=medium';
 let queryIndexInstance;
-
-/**
- * Filters all talk items and sorts them descending be year, ascending by title.
- * @param {QueryIndexItem[]} items
- */
-function getSortedTalks(items) {
-  return items
-    .filter((item) => item.path.match(talkPageRegex))
-    .sort((talk1, talk2) => {
-      const year1 = talk1.path.substring(0, 6);
-      const year2 = talk2.path.substring(0, 6);
-      if (year1 === year2) {
-        return talk1.path.localeCompare(talk2.path);
-      }
-      return year2.localeCompare(year1);
-    });
-}
 
 /**
  * Gets a distinct sorted list of speaker names from all talks in given year.
@@ -72,17 +54,6 @@ function getMatchingSpeakerVariant(speakerItems, siteRootPath) {
     return a.uptoyear - b.uptoyear;
   });
   return speakerItems.find((item) => !item.uptoyear || item.uptoyear >= year);
-}
-
-/**
- * Gets a sorted and distinct list of items. Empty items are removed.
- * @param {string[]} items Raw list
- * @returns {string[]} Compiled list
- */
-function getDistinctSortedList(items) {
-  const distinctItems = [...new Set(items)]
-    .filter((item) => item !== undefined);
-  return distinctItems.sort();
 }
 
 /**
@@ -165,13 +136,29 @@ export default class QueryIndex {
   }
 
   /**
+   * Get all talk items, sorted descending by year, ascending by title.
+   */
+  getAllTalks() {
+    return this.items
+      .filter((item) => item.path.match(talkPageRegex))
+      .sort((talk1, talk2) => {
+        const year1 = talk1.path.substring(0, 6);
+        const year2 = talk2.path.substring(0, 6);
+        if (year1 === year2) {
+          return talk1.path.localeCompare(talk2.path);
+        }
+        return year2.localeCompare(year1);
+      });
+  }
+
+  /**
    * Get all talks for given speaker, ordered descending by year, ascending by title.
    * @param {QueryIndexItem} speakerItem Speaker item
    * @returns {QueryIndexItem[]} Talk items
    */
   getTalksForSpeaker(speakerItem) {
     const speakerDocumentName = getDocumentName(speakerItem.path);
-    return getSortedTalks(this.items)
+    return this.getAllTalks()
       .filter((item) => {
         if (item.speakers) {
           const speakers = item.getSpeakers();
@@ -180,39 +167,6 @@ export default class QueryIndex {
         }
         return false;
       });
-  }
-
-  /**
-   * Get all tag filter options.
-   * @returns {string[]} Tag names
-   */
-  getTagFilterOptions() {
-    return getDistinctSortedList(this.items.filter((item) => item.path.match(talkPageRegex))
-      .flatMap((talk) => talk.getTags()));
-  }
-
-  /**
-   * Get all tag filter options.
-   * @returns {string[]} Tag names
-   */
-  getYearFilterOptions() {
-    return getDistinctSortedList(this.items.filter((item) => item.path.match(talkPageRegex))
-      .map((talk) => getYearFromPath(talk.path)))
-      .reverse();
-  }
-
-  /**
-   * Get all tag filter options.
-   * @returns {string[]} Tag names
-   */
-  getSpeakerFilterOptions() {
-    return getDistinctSortedList(this.items.filter((item) => item.path.match(talkPageRegex))
-      .flatMap((talk) => talk.getSpeakers()));
-  }
-
-  getFilteredTalks() {
-    // TODO: implement filtering
-    return getSortedTalks(this.items);
   }
 }
 

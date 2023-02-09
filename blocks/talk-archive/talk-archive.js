@@ -1,4 +1,4 @@
-import { getQueryIndex } from '../../scripts/services/QueryIndex.js';
+import { getTalkArchive } from '../../scripts/services/TalkArchive.js';
 import { append } from '../../scripts/utils/dom.js';
 import { getYearFromPath } from '../../scripts/utils/path.js';
 
@@ -41,14 +41,14 @@ function addFilterCategory(parent, category, items, collapsible) {
 
 /**
  * Add filter categories.
- * @typedef {import('../../scripts/services/QueryIndex').default} QueryIndex
+ * @typedef {import('../../scripts/services/TalkArchive').default} TalkArchive
  * @param {Element} parent
- * @param {QueryIndex} queryIndex
+ * @param {TalkArchive} talkArchive
  */
-function addFilterCategories(parent, queryIndex) {
-  addFilterCategory(parent, 'Tags', queryIndex.getTagFilterOptions());
-  addFilterCategory(parent, 'Year', queryIndex.getYearFilterOptions(), true);
-  addFilterCategory(parent, 'Speaker', queryIndex.getSpeakerFilterOptions(), true);
+function addFilterCategories(parent, talkArchive) {
+  addFilterCategory(parent, 'Tags', talkArchive.getTagFilterOptions());
+  addFilterCategory(parent, 'Year', talkArchive.getYearFilterOptions(), true);
+  addFilterCategory(parent, 'Speaker', talkArchive.getSpeakerFilterOptions(), true);
 }
 
 /**
@@ -68,12 +68,12 @@ function decorateCollapsibleToggles(parent) {
 
 /**
  * List talks.
- * @typedef {import('../../scripts/services/QueryIndex').default} QueryIndex
+ * @typedef {import('../../scripts/services/TalkArchive').default} TalkArchive
  * @param {Element} tbody
- * @param {QueryIndex} queryIndex
+ * @param {TalkArchive} talkArchive
  */
-function fillResult(tbody, queryIndex) {
-  const talks = queryIndex.getFilteredTalks();
+function fillResult(tbody, talkArchive) {
+  const talks = talkArchive.getFilteredTalks();
   talks.forEach((talk) => {
     const tr = append(tbody, 'tr');
     append(tr, 'td').textContent = getYearFromPath(talk.path);
@@ -89,7 +89,7 @@ function fillResult(tbody, queryIndex) {
  * @param {Element} block
  */
 export default async function decorate(block) {
-  const queryIndex = await getQueryIndex();
+  const talkArchive = await getTalkArchive();
 
   // prepare archive markup
   block.innerHTML = `
@@ -114,10 +114,10 @@ export default async function decorate(block) {
 
   // filter
   const filter = block.querySelector('.filter');
-  addFilterCategories(filter, queryIndex);
+  addFilterCategories(filter, talkArchive);
   decorateCollapsibleToggles(filter);
 
   // result table
   const resultTableBody = block.querySelector('.result table tbody');
-  fillResult(resultTableBody, queryIndex);
+  fillResult(resultTableBody, talkArchive);
 }
