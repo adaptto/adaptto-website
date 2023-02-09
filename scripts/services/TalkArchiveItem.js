@@ -1,6 +1,6 @@
 /**
  * Item of talk archive.
- * Subset of properties from QueryIndexItem, but the array properties are already processed.
+ * Subset of properties from QueryIndexItem, the array properties are already processed.
  */
 export default class TalkArchiveItem {
   /** @type {string} */
