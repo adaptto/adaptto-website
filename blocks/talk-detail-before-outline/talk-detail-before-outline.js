@@ -3,6 +3,7 @@ import { getScheduleData } from '../../scripts/services/ScheduleData.js';
 import { formatDateFull, formatTime } from '../../scripts/utils/datetime.js';
 import { append } from '../../scripts/utils/dom.js';
 import { parseCSVArray } from '../../scripts/utils/metadata.js';
+import { getYearFromPath } from '../../scripts/utils/path.js';
 import { getArchivePath, getSiteRootPath } from '../../scripts/utils/site.js';
 
 /**
@@ -15,12 +16,14 @@ function buildTalkTags(parent, siteRoot) {
   if (tags.length === 0) {
     return;
   }
+  const archivePath = getArchivePath(document.location.pathname);
+  const year = getYearFromPath(siteRoot);
 
   const ul = append(parent, 'ul', 'talk-tags');
   tags.forEach((tag) => {
     const li = append(ul, 'li');
     const a = append(li, 'a');
-    a.href = `${getArchivePath(document.location.pathname)}#${siteRoot.substring(1)}${tag}`;
+    a.href = `${archivePath}#tags=${encodeURIComponent(tag)}/years=${encodeURIComponent(year)}`;
     a.textContent = tag;
   });
 }

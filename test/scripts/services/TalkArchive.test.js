@@ -10,13 +10,7 @@ stubFetchUrlMap({ '/query-index.json': '/test/test-data/query-index-schedule-202
 const talkArchive = await getTalkArchive();
 
 describe('services/TalkArchive', () => {
-  it('unfiltered', () => {
-    talkArchive.applyFilter(undefined);
-    const talks = talkArchive.getFilteredTalks();
-    expect(talks.length).to.eq(46);
-    expect(talks[0].path).to.eq('/2020/schedule/a-hackers-perspective-on-aem-applications-security');
-    expect(talks[45].path).to.eq('/2020/schedule/use-the-adobe-client-data-layer-to-track-data-on-your-website');
-
+  it('filterOptions', () => {
     expect(talkArchive.getTagFilterOptions()).to.eql([
       'AEM',
       'Analytics',
@@ -29,21 +23,26 @@ describe('services/TalkArchive', () => {
       'Target',
       'Testing',
       'Tooling',
-      'wcm-io']);
+      'wcm-io',
+    ]);
     expect(talkArchive.getYearFilterOptions()).to.eql(['2020']);
     expect(talkArchive.getSpeakerFilterOptions().length).to.eq(49);
   });
 
-  it('filtered', () => {
+  it('getFilteredTalks-unfiltered', () => {
+    talkArchive.applyFilter(undefined);
+    const talks = talkArchive.getFilteredTalks();
+    expect(talks.length).to.eq(46);
+    expect(talks[0].path).to.eq('/2020/schedule/a-hackers-perspective-on-aem-applications-security');
+    expect(talks[45].path).to.eq('/2020/schedule/use-the-adobe-client-data-layer-to-track-data-on-your-website');
+  });
+
+  it('getFilteredTalks-filtered', () => {
     const filter = new TalkArchiveFilter();
     filter.tags = ['OSGi'];
     talkArchive.applyFilter(filter);
     const talks = talkArchive.getFilteredTalks();
     expect(talks.length).to.eq(1);
     expect(talks[0].path).to.eq('/2020/schedule/future-proof-your-applications-with-api-regions');
-
-    expect(talkArchive.getTagFilterOptions()).to.eql(['OSGi']);
-    expect(talkArchive.getYearFilterOptions()).to.eql(['2020']);
-    expect(talkArchive.getSpeakerFilterOptions()).to.eql(['David Bosschaert', 'Karl Pauls']);
   });
 });

@@ -1,15 +1,69 @@
 import { getTalkArchive } from '../../scripts/services/TalkArchive.js';
+import { getFilterFromHash } from '../../scripts/services/TalkArchiveFilter.js';
 import { append } from '../../scripts/utils/dom.js';
 import { getYearFromPath } from '../../scripts/utils/path.js';
 
+const filterCategories = [
+  {
+    category: 'tags',
+    label: 'Tags',
+    archiveMethod: 'getTagFilterOptions',
+    collapsible: false,
+  },
+  {
+    category: 'years',
+    label: 'Year',
+    archiveMethod: 'getYearFilterOptions',
+    collapsible: true,
+  },
+  {
+    category: 'speakers',
+    label: 'Speaker',
+    archiveMethod: 'getSpeakerFilterOptions',
+    collapsible: true,
+  },
+];
+
+/**
+ * Renders talk archive filter options and result depending on current filter hash.
+ * @typedef {import('../../scripts/services/TalkArchive').default} TalkArchive
+ * @param {Element} block
+ * @param {TalkArchive} talkArchive
+ */
+function displayFilteredTalks(block, talkArchive) {
+  talkArchive.applyFilter(getFilterFromHash(window.location.hash));
+
+  // result table
+  const tbody = block.querySelector('.result table tbody');
+  tbody.innerHTML = '';
+  const talks = talkArchive.getFilteredTalks();
+
+  if (talks.length > 0) {
+    talks.forEach((talk) => {
+      const tr = append(tbody, 'tr');
+      append(tr, 'td').textContent = getYearFromPath(talk.path);
+      const a = append(append(tr, 'td'), 'a');
+      a.href = talk.path;
+      a.textContent = talk.title;
+      append(tr, 'td').textContent = talk.speakers.join(', ');
+    });
+  } else {
+    const tr = append(tbody, 'tr');
+    const td = append(tr, 'td');
+    td.setAttribute('colspan', 3);
+    td.textContent = 'No matching talk found.';
+  }
+}
+
 /**
  * Add filter category options.
- * @param {Element} parent
- * @param {string} category
- * @param {string[]} items
- * @param {boolean} collapsible
+ * @param {Element} parent Parent element
+ * @param {string} category Category label
+ * @param {string[]} items All items
+ * @param {string[]} selectedItems Selected items
+ * @param {boolean} collapsible Options list is collapsible
  */
-function addFilterCategory(parent, category, items, collapsible) {
+function addFilterCategory(parent, category, items, selectedItems, collapsible) {
   const div = append(parent, 'div', 'filter-category');
   const span = append(div, 'span', 'category');
   span.textContent = category;
@@ -21,6 +75,9 @@ function addFilterCategory(parent, category, items, collapsible) {
     const input = append(label, 'input');
     input.type = 'checkbox';
     input.value = item;
+    if (selectedItems && selectedItems.includes(item)) {
+      input.checked = true;
+    }
     label.append(item);
   });
 
@@ -42,21 +99,24 @@ function addFilterCategory(parent, category, items, collapsible) {
 /**
  * Add filter categories.
  * @typedef {import('../../scripts/services/TalkArchive').default} TalkArchive
- * @param {Element} parent
+ * @param {Element} block
  * @param {TalkArchive} talkArchive
  */
-function addFilterCategories(parent, talkArchive) {
-  addFilterCategory(parent, 'Tags', talkArchive.getTagFilterOptions());
-  addFilterCategory(parent, 'Year', talkArchive.getYearFilterOptions(), true);
-  addFilterCategory(parent, 'Speaker', talkArchive.getSpeakerFilterOptions(), true);
-}
+function addFilterCategories(block, talkArchive) {
+  const filterDiv = block.querySelector('.filter');
 
-/**
- * Enable toggles for collapsible filter lists.
- * @param {Element} parent
- */
-function decorateCollapsibleToggles(parent) {
-  parent.querySelectorAll('ul.collapsible').forEach((ul) => {
+  filterCategories.forEach((filterCategory) => {
+    addFilterCategory(
+      filterDiv,
+      filterCategory.label,
+      talkArchive[filterCategory.archiveMethod](),
+      talkArchive.filter[filterCategory.category],
+      filterCategory.collapsible,
+    );
+  });
+
+  // enable toggles for collapsible filter lists
+  filterDiv.querySelectorAll('ul.collapsible').forEach((ul) => {
     ul.querySelectorAll(' li.collapse-toggle a').forEach((a) => {
       a.addEventListener('click', (e) => {
         e.preventDefault();
@@ -64,23 +124,27 @@ function decorateCollapsibleToggles(parent) {
       });
     });
   });
-}
 
-/**
- * List talks.
- * @typedef {import('../../scripts/services/TalkArchive').default} TalkArchive
- * @param {Element} tbody
- * @param {TalkArchive} talkArchive
- */
-function fillResult(tbody, talkArchive) {
-  const talks = talkArchive.getFilteredTalks();
-  talks.forEach((talk) => {
-    const tr = append(tbody, 'tr');
-    append(tr, 'td').textContent = getYearFromPath(talk.path);
-    const a = append(append(tr, 'td'), 'a');
-    a.href = talk.path;
-    a.textContent = talk.title;
-    append(tr, 'td').textContent = talk.speakers.join(', ');
+  // enable filter state changes
+  filterDiv.querySelectorAll('.filter-category').forEach((categoryDiv) => {
+    const categoryLabel = categoryDiv.querySelector('.category').textContent;
+    const filterCategory = filterCategories.find((item) => item.label === categoryLabel);
+    if (filterCategory) {
+      categoryDiv.querySelectorAll('label').forEach((label) => {
+        label.addEventListener('click', () => {
+          let currentlySelectedItems = Array.from(categoryDiv.querySelectorAll('input[type=checkbox]'))
+            .filter((input) => input.checked)
+            .map((input) => input.value);
+          if (currentlySelectedItems.length === 0) {
+            currentlySelectedItems = undefined;
+          }
+          const filter = getFilterFromHash(window.location.hash);
+          filter[filterCategory.category] = currentlySelectedItems;
+          window.history.replaceState(null, null, filter.buildHash());
+          displayFilteredTalks(block, talkArchive);
+        });
+      });
+    }
   });
 }
 
@@ -112,12 +176,10 @@ export default async function decorate(block) {
         </table>
       </div>`;
 
-  // filter
-  const filter = block.querySelector('.filter');
-  addFilterCategories(filter, talkArchive);
-  decorateCollapsibleToggles(filter);
+  // react to stage changes via hash
+  window.addEventListener('hashchange', () => displayFilteredTalks(block, talkArchive));
+  displayFilteredTalks(block, talkArchive);
 
-  // result table
-  const resultTableBody = block.querySelector('.result table tbody');
-  fillResult(resultTableBody, talkArchive);
+  // filter
+  addFilterCategories(block, talkArchive);
 }

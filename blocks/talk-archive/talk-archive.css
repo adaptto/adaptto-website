@@ -84,6 +84,7 @@
 .talk-archive .result table {
   border-collapse: collapse;
   border-spacing: 0;
+  width: 100%;
 }
 
 .talk-archive .result table th {
@@ -96,12 +97,22 @@
   padding: 0.5em;
 }
 
+.talk-archive .result table th:first-child {
+  width: 60px;
+}
+
+.talk-archive .result table th:nth-child(2) {
+  width: 1fr;
+}
+
+.talk-archive .result table th:last-child {
+  width: 144px;
+}
+
 .talk-archive .result table td:first-child {
   border-left: none;
-  width: 96px;
 }
 
 .talk-archive .result table td:last-child {
   border-right: none;
-  width: 144px;
 }

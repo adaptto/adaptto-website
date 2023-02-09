@@ -80,7 +80,7 @@ export default class TalkArchive {
    * @returns {string[]} Tag names
    */
   getTagFilterOptions() {
-    return getDistinctSortedList(this.filteredTalks
+    return getDistinctSortedList(this.talks
       .flatMap((talk) => talk.tags));
   }
 
@@ -89,7 +89,7 @@ export default class TalkArchive {
    * @returns {string[]} Years
    */
   getYearFilterOptions() {
-    return getDistinctSortedList(this.filteredTalks
+    return getDistinctSortedList(this.talks
       .map((talk) => talk.year))
       .reverse();
   }
@@ -99,7 +99,7 @@ export default class TalkArchive {
    * @returns {string[]} Speaker names
    */
   getSpeakerFilterOptions() {
-    return getDistinctSortedList(this.filteredTalks
+    return getDistinctSortedList(this.talks
       .flatMap((talk) => talk.speakers));
   }
 }
