@@ -39,8 +39,8 @@ export default class TalkArchiveFullTextIndex {
   constructor(talks) {
     this.talks = talks;
     this.index = new Index({
-      charset: charset,
-      lang: lang,
+      charset,
+      lang,
     });
     talks.forEach((talk, talkIndex) => this.index.add(talkIndex, talkToText(talk)));
   }
