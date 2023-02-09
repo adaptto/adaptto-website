@@ -185,9 +185,11 @@ export default async function decorate(block) {
         </table>
       </div>`;
 
-  // fire full text search when hitting enter key
+  // fire full text search when entering text (with 0.5sec delay)
+  let typingTimer;
   block.querySelector('.search input').addEventListener('input', () => {
-    displayFilteredTalks(block, talkArchive, false);
+    clearInterval(typingTimer);
+    typingTimer = setTimeout(() => displayFilteredTalks(block, talkArchive, false), 500);
   });
 
   // react to stage changes via hash

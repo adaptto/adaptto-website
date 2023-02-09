@@ -1,4 +1,6 @@
 import Index from '../3rdparty/flexsearch/index.js';
+import lang from '../3rdparty/flexsearch/lang/en.js';
+import charset from '../3rdparty/flexsearch/lang/latin/advanced.js';
 
 /**
  * Converts talk to indexable string.
@@ -36,7 +38,10 @@ export default class TalkArchiveFullTextIndex {
    */
   constructor(talks) {
     this.talks = talks;
-    this.index = new Index();
+    this.index = new Index({
+      charset: charset,
+      lang: lang,
+    });
     talks.forEach((talk, talkIndex) => this.index.add(talkIndex, talkToText(talk)));
   }
 
