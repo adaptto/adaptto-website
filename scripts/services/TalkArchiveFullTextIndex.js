@@ -9,8 +9,8 @@ import charset from '../3rdparty/flexsearch/lang/latin/advanced.js';
  */
 function talkToText(talk) {
   return [
-    talk.title,
-    talk.description,
+    talk.title ?? '',
+    talk.description ?? '',
     talk.keywords.join(', '),
     talk.tags.join(', '),
     talk.speakers.join(', '),
