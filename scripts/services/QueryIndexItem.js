@@ -11,6 +11,12 @@ export default class QueryIndexItem {
   title;
 
   /** @type {string} */
+  description;
+
+  /** @type {string} */
+  keywords;
+
+  /** @type {string} */
   robots;
 
   /** @type {string} */
@@ -33,6 +39,13 @@ export default class QueryIndexItem {
 
   /** @type {string} Talk: Speaker assignment (speaker names or speaker path-names) */
   speakers;
+
+  /**
+   * @returns {string[]} Robot values as array
+   */
+  getKeywords() {
+    return parseCSVArray(this.keywords);
+  }
 
   /**
    * @returns {string[]} Robot values as array

@@ -1,5 +1,6 @@
 import { getYearFromPath } from '../utils/path.js';
 import { getQueryIndex } from './QueryIndex.js';
+import TalkArchiveItem from './TalkArchiveItem.js';
 
 /**
  * Gets a sorted and distinct list of items. Empty items are removed.
@@ -17,46 +18,89 @@ function getDistinctSortedList(items) {
  */
 export default class TalkArchive {
   /**
-   * @typedef {import('./QueryIndexItem').default} QueryIndexItem
-   * @type {QueryIndexItem[]}
+   * @typedef {import('./TalkArchiveFilter').default} TalkArchiveFilter
+   * @type {TalkArchiveFilter}
+   */
+  filter;
+
+  /**
+   * @type {TalkArchiveItem[]}
    */
   talks;
 
   /**
-   * @param {QueryIndexItem[]} items data array from query-index.json
+   * @type {TalkArchiveItem[]}
    */
-  constructor(talks) {
-    this.talks = talks;
+  filteredTalks;
+
+  /**
+   * @typedef {import('./QueryIndex').default} QueryIndex
+   * @param {QueryIndex} queryIndex Query index
+   */
+  constructor(queryIndex) {
+    this.talks = queryIndex.getAllTalks()
+      .map((item) => {
+        const talk = new TalkArchiveItem();
+        talk.path = item.path;
+        talk.year = getYearFromPath(item.path)?.toString();
+        talk.title = item.title;
+        talk.description = item.description;
+        talk.keywords = item.getKeywords();
+        talk.tags = item.getTags();
+        talk.speakers = item.getSpeakers();
+        return talk;
+      })
+      .filter((talk) => talk.speakers.length > 0);
+    this.filteredTalks = this.talks;
   }
 
   /**
-   * Get all tag filter options.
+   * @typedef {import('./TalkArchiveFilter').default} TalkArchiveFilter
+   * @param {TalkArchiveFilter} filter
+   */
+  applyFilter(filter) {
+    this.filter = filter;
+    if (filter) {
+      this.filteredTalks = this.talks.filter((talk) => filter.matches(talk));
+    } else {
+      this.filteredTalks = this.talks;
+    }
+  }
+
+  /**
+   * Get all talks matching the current filter criteria.
+   * @returns {TalkArchiveItem[]} Talk items
+   */
+  getFilteredTalks() {
+    return this.filteredTalks;
+  }
+
+  /**
+   * Get all tag filter options, sorted ascending.
    * @returns {string[]} Tag names
    */
   getTagFilterOptions() {
-    return getDistinctSortedList(this.talks.flatMap((talk) => talk.getTags()));
+    return getDistinctSortedList(this.filteredTalks
+      .flatMap((talk) => talk.tags));
   }
 
   /**
-   * Get all tag filter options.
-   * @returns {string[]} Tag names
+   * Get all year filter options, sorted descending.
+   * @returns {string[]} Years
    */
   getYearFilterOptions() {
-    return getDistinctSortedList(this.talks.map((talk) => getYearFromPath(talk.path)))
+    return getDistinctSortedList(this.filteredTalks
+      .map((talk) => talk.year))
       .reverse();
   }
 
   /**
-   * Get all tag filter options.
-   * @returns {string[]} Tag names
+   * Get all speaker filter options, sorted ascending.
+   * @returns {string[]} Speaker names
    */
   getSpeakerFilterOptions() {
-    return getDistinctSortedList(this.talks.flatMap((talk) => talk.getSpeakers()));
-  }
-
-  getFilteredTalks() {
-    // TODO: implement filtering
-    return this.talks;
+    return getDistinctSortedList(this.filteredTalks
+      .flatMap((talk) => talk.speakers));
   }
 }
 
@@ -65,5 +109,5 @@ export default class TalkArchive {
  */
 export async function getTalkArchive() {
   const queryIndex = await getQueryIndex();
-  return new TalkArchive(queryIndex.getAllTalks());
+  return new TalkArchive(queryIndex);
 }

@@ -80,7 +80,7 @@ function fillResult(tbody, talkArchive) {
     const a = append(append(tr, 'td'), 'a');
     a.href = talk.path;
     a.textContent = talk.title;
-    append(tr, 'td').textContent = talk.getSpeakers().join(', ');
+    append(tr, 'td').textContent = talk.speakers.join(', ');
   });
 }
 

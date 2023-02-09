@@ -90,9 +90,9 @@ export default class QueryIndex {
   }
 
   /**
-   * Get query index item for speaker.
+   * Get query index item for speaker for given year.
    * @param {string} pathOrName Speaker name or speaker document name or speaker path
-   * @param {string} siteRootPath Site root path
+   * @param {string} siteRootPath Site root path of current year
    * @returns {QueryIndexItem} Item or undefined
    */
   getSpeaker(pathOrName, siteRootPath) {
@@ -130,7 +130,7 @@ export default class QueryIndex {
     const pathFilter = new RegExp(`^${siteRootPath}schedule/[^/]+/[^/]+$`);
     const lightningTalkSpeakerNames = getFilteredDistinctSortedTalkSpeakers(this.items, pathFilter);
 
-    // substract main talk speaker names
+    // subtract main talk speaker names
     const talkSpeakerNames = this.getTalkSpeakerNames(siteRootPath);
     return lightningTalkSpeakerNames.filter((speaker) => !talkSpeakerNames.includes(speaker));
   }

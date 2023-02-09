@@ -15,6 +15,8 @@ describe('services/QueryIndex', () => {
     expect({
       path: '/sample-all-properties',
       title: 'Sample Title',
+      description: 'The Description',
+      keywords: 'Keyword 1, Keyword 2',
       robots: 'no-index, no-follow',
       image: '/sample-image.jpg',
       tags: '["Tag1","Tag2"]',
@@ -24,6 +26,7 @@ describe('services/QueryIndex', () => {
       uptoyear: '2020',
       speakers: 'Speaker 1, Speaker 2',
     }).to.eql(item);
+    expect(item.getKeywords()).to.eql(['Keyword 1', 'Keyword 2']);
     expect(item.getRobots()).to.eql(['no-index', 'no-follow']);
     expect(item.getTags()).to.eql(['Tag1', 'Tag2']);
     expect(item.getSpeakers()).to.eql(['Speaker 1', 'Speaker 2']);
