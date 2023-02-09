@@ -3,27 +3,23 @@ import { getScheduleData } from '../../scripts/services/ScheduleData.js';
 import { formatDateFull, formatTime } from '../../scripts/utils/datetime.js';
 import { append } from '../../scripts/utils/dom.js';
 import { parseCSVArray } from '../../scripts/utils/metadata.js';
-import { getYearFromPath } from '../../scripts/utils/path.js';
 import { getArchivePath, getSiteRootPath } from '../../scripts/utils/site.js';
 
 /**
  * Build talk tags (with link to talk archive).
  * @param {Element} parent
- * @param {string} siteRoot
  */
-function buildTalkTags(parent, siteRoot) {
+function buildTalkTags(parent) {
   const tags = parseCSVArray(getMetadata('article:tag'));
   if (tags.length === 0) {
     return;
   }
-  const archivePath = getArchivePath(document.location.pathname);
-  const year = getYearFromPath(siteRoot);
 
   const ul = append(parent, 'ul', 'talk-tags');
   tags.forEach((tag) => {
     const li = append(ul, 'li');
     const a = append(li, 'a');
-    a.href = `${archivePath}#tags=${encodeURIComponent(tag)}/years=${encodeURIComponent(year)}`;
+    a.href = `${getArchivePath(document.location.pathname)}#tags=${encodeURIComponent(tag)}`;
     a.textContent = tag;
   });
 }
@@ -74,7 +70,7 @@ export default async function decorate(block) {
   const scheduleData = await getScheduleData(`${siteRoot}schedule-data.json`);
   const scheduleEntry = scheduleData.getTalkEntry(document.location.pathname);
 
-  buildTalkTags(block, siteRoot);
+  buildTalkTags(block);
   if (scheduleEntry) {
     buildTimeInfo(block, scheduleEntry);
   }

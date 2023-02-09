@@ -57,8 +57,8 @@ describe('blocks/talk-detail-*', () => {
       'Tag2',
     ]);
     expect(tagLinks.map((a) => a.href)).to.eql([
-      'http://localhost:2000/2020/archive#tags=Tag1/years=2020',
-      'http://localhost:2000/2020/archive#tags=Tag2/years=2020',
+      'http://localhost:2000/2020/archive#tags=Tag1',
+      'http://localhost:2000/2020/archive#tags=Tag2',
     ]);
 
     // time info
