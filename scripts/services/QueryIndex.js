@@ -168,6 +168,7 @@ export default class QueryIndex {
 
 /**
  * Get Query Index based on query-index.json.
+ * The response is cached, multiple requests to this method return ths same instance.
  */
 export async function getQueryIndex() {
   if (!queryIndexInstance) {
@@ -180,7 +181,7 @@ export async function getQueryIndex() {
     data = data || [];
     const items = data.map((item) => {
       const queryIndexItem = Object.assign(new QueryIndexItem(), item);
-      // remove invalid default-meta-image.png references
+      // remove default-meta-image.png references
       if (queryIndexItem.image === defaultMetaImage) {
         queryIndexItem.image = undefined;
       }
