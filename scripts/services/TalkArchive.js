@@ -1,5 +1,6 @@
 import { getYearFromPath } from '../utils/path.js';
 import { getQueryIndex } from './QueryIndex.js';
+import TalkArchiveFullTextIndex from './TalkArchiveFullTextIndex.js';
 import TalkArchiveItem from './TalkArchiveItem.js';
 
 /**
@@ -34,6 +35,12 @@ export default class TalkArchive {
   filteredTalks;
 
   /**
+   * @typedef {import('./TalkArchiveFullTextIndex').default} TalkArchiveFullTextIndex
+   * @type {TalkArchiveFullTextIndex}
+   */
+  index;
+
+  /**
    * @typedef {import('./QueryIndex').default} QueryIndex
    * @param {QueryIndex} queryIndex Query index
    */
@@ -65,6 +72,7 @@ export default class TalkArchive {
     } else {
       this.filteredTalks = this.talks;
     }
+    this.index = undefined;
   }
 
   /**
@@ -73,6 +81,18 @@ export default class TalkArchive {
    */
   getFilteredTalks() {
     return this.filteredTalks;
+  }
+
+  /**
+   * Get all talks matching the current filter criteria and the given fill text expression.
+   * @param {string} fullText Full text expression
+   * @returns {TalkArchiveItem[]} Talk items
+   */
+  getFilteredTalksFullTextSearch(fullText) {
+    if (!this.index) {
+      this.index = new TalkArchiveFullTextIndex(this.filteredTalks);
+    }
+    return this.index.search(fullText);
   }
 
   /**

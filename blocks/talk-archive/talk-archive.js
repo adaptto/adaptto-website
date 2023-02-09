@@ -29,14 +29,22 @@ const filterCategories = [
  * @typedef {import('../../scripts/services/TalkArchive').default} TalkArchive
  * @param {Element} block
  * @param {TalkArchive} talkArchive
+ * @param {boolean} applyFilter Re-apply filters from hash.
  */
-function displayFilteredTalks(block, talkArchive) {
-  talkArchive.applyFilter(getFilterFromHash(window.location.hash));
+function displayFilteredTalks(block, talkArchive, applyFilter) {
+  if (applyFilter) {
+    talkArchive.applyFilter(getFilterFromHash(window.location.hash));
+  }
+
+  // full text
+  const fullText = block.querySelector('.search input').value.trim();
 
   // result table
   const tbody = block.querySelector('.result table tbody');
   tbody.innerHTML = '';
-  const talks = talkArchive.getFilteredTalks();
+  const talks = fullText !== ''
+    ? talkArchive.getFilteredTalksFullTextSearch(fullText)
+    : talkArchive.getFilteredTalks();
 
   if (talks.length > 0) {
     talks.forEach((talk) => {
@@ -133,7 +141,7 @@ function addFilterCategories(block, talkArchive) {
         const filter = getFilterFromHash(window.location.hash);
         filter[filterCategory.category] = currentlySelectedItems;
         window.history.replaceState(null, null, filter.buildHash());
-        displayFilteredTalks(block, talkArchive);
+        displayFilteredTalks(block, talkArchive, true);
       });
     });
   });
@@ -177,9 +185,16 @@ export default async function decorate(block) {
         </table>
       </div>`;
 
+  // fire full text search when entering text (with 0.5sec delay)
+  let typingTimer;
+  block.querySelector('.search input').addEventListener('input', () => {
+    clearInterval(typingTimer);
+    typingTimer = setTimeout(() => displayFilteredTalks(block, talkArchive, false), 500);
+  });
+
   // react to stage changes via hash
-  window.addEventListener('hashchange', () => displayFilteredTalks(block, talkArchive));
-  displayFilteredTalks(block, talkArchive);
+  window.addEventListener('hashchange', () => displayFilteredTalks(block, talkArchive, true));
+  displayFilteredTalks(block, talkArchive, true);
 
   // filter
   addFilterCategories(block, talkArchive);

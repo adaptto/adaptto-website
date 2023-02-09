@@ -21,7 +21,6 @@
   text-align: center;
   width: 100%;
   margin-bottom: 15px;
-  display: none;  /* hide until implemented */
 }
 
 .talk-archive .search::before {

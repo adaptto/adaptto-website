@@ -45,4 +45,20 @@ describe('services/TalkArchive', () => {
     expect(talks.length).to.eq(1);
     expect(talks[0].path).to.eq('/2020/schedule/future-proof-your-applications-with-api-regions');
   });
+
+  it('getFilteredTalksFullTextSearch-unfiltered', () => {
+    talkArchive.applyFilter(undefined);
+    const talks = talkArchive.getFilteredTalksFullTextSearch('API');
+    expect(talks.length).to.eq(1);
+    expect(talks[0].path).to.eq('/2020/schedule/future-proof-your-applications-with-api-regions');
+  });
+
+  it('getFilteredTalksFullTextSearch-filtered', () => {
+    const filter = new TalkArchiveFilter();
+    filter.tags = ['OSGi'];
+    talkArchive.applyFilter(filter);
+    const talks = talkArchive.getFilteredTalksFullTextSearch('API');
+    expect(talks.length).to.eq(1);
+    expect(talks[0].path).to.eq('/2020/schedule/future-proof-your-applications-with-api-regions');
+  });
 });
