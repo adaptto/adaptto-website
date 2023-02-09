@@ -5,6 +5,7 @@ import { expect } from '@esm-bundle/chai';
 import {
   getDocumentName,
   getPathName,
+  getYearFromPath,
   isPath,
   isUrl,
   isUrlOrPath,
@@ -74,5 +75,12 @@ describe('utils/path', () => {
     expect(getDocumentName('')).to.undefined;
     expect(getDocumentName('wurstbrot')).to.undefined;
     expect(getDocumentName('https://my.host.com')).to.undefined;
+  });
+
+  it('getYearFromPath', () => {
+    expect(getYearFromPath('/')).to.undefined;
+    expect(getYearFromPath('/2021/')).to.equal(2021);
+    expect(getYearFromPath('/2021/mypage')).to.equal(2021);
+    expect(getYearFromPath('/2021/mypage/mysubpage')).to.equal(2021);
   });
 });

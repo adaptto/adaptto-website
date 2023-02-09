@@ -3,6 +3,8 @@
     {
       "path": "/sample-all-properties",
       "title": "Sample Title",
+      "description": "The Description",
+      "keywords": "Keyword 1, Keyword 2",
       "robots": "no-index, no-follow",
       "image": "/sample-image.jpg",
       "tags": "[\"Tag1\",\"Tag2\"]",

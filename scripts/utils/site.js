@@ -1,7 +1,8 @@
 import { append } from './dom.js';
 import { getQueryIndex } from '../services/QueryIndex.js';
+import { getYearFromPath } from './path.js';
 
-const siteRootRegex = /^(\/(\d\d\d\d)\/)(.+)?$/;
+const siteRootRegex = /^(\/\d\d\d\d\/)(.+)?$/;
 const speakerPathRegex = /^\/speakers\/[^/]+$/;
 const yearHashRegex = /^#(\d\d\d\d)$/;
 
@@ -20,19 +21,6 @@ export function getSiteRootPath(pathName) {
     return siteRootMatch[1];
   }
   return '/';
-}
-
-/**
- * Gets year from given path.
- * @param {string} pathName Path name.
- * @returns {number} Year or undefined
- */
-export function getYearFromPath(pathName) {
-  const siteRootMatch = pathName.match(siteRootRegex);
-  if (siteRootMatch) {
-    return parseInt(siteRootMatch[2], 10);
-  }
-  return undefined;
 }
 
 /**
@@ -91,7 +79,7 @@ export function getParentPath(pathName) {
  * @param {string} path relative path inside site (without leading slash)
  * @returns {string} Path
  */
-function getRelativePage(pathName, path) {
+function getRelativePath(pathName, path) {
   const siteRoot = getSiteRootPath(pathName);
   return `${siteRoot}${path}`;
 }
@@ -102,7 +90,7 @@ function getRelativePage(pathName, path) {
  * @returns {string} Path
  */
 export function getSchedulePath(pathName) {
-  return getRelativePage(pathName, 'schedule');
+  return getRelativePath(pathName, 'schedule');
 }
 
 /**
@@ -111,7 +99,7 @@ export function getSchedulePath(pathName) {
  * @returns {string} Path
  */
 export function getArchivePath(pathName) {
-  return getRelativePage(pathName, 'archive');
+  return getRelativePath(pathName, 'archive');
 }
 
 /**
@@ -120,7 +108,7 @@ export function getArchivePath(pathName) {
  * @returns {string} Path
  */
 export function getSpeakerOverviewPath(pathName) {
-  return getRelativePage(pathName, 'conference/speaker');
+  return getRelativePath(pathName, 'conference/speaker');
 }
 
 /**

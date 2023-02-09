@@ -1,4 +1,5 @@
 const urlPathRegex = /^(https?:\/\/[^/]+)?\/.*$/;
+const yearPathRegex = /^\/(\d\d\d\d)\/(.+)?$/;
 
 /**
  * Checks if the given value is a path.
@@ -70,6 +71,19 @@ export function getDocumentName(value) {
     if (documentName !== '') {
       return documentName;
     }
+  }
+  return undefined;
+}
+
+/**
+ * Gets year from given path.
+ * @param {string} pathName Path name.
+ * @returns {number} Year or undefined
+ */
+export function getYearFromPath(pathName) {
+  const yearPathMatch = pathName.match(yearPathRegex);
+  if (yearPathMatch) {
+    return parseInt(yearPathMatch[1], 10);
   }
   return undefined;
 }

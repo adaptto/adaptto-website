@@ -11,6 +11,12 @@ export default class QueryIndexItem {
   title;
 
   /** @type {string} */
+  description;
+
+  /** @type {string} */
+  keywords;
+
+  /** @type {string} */
   robots;
 
   /** @type {string} */
@@ -37,12 +43,19 @@ export default class QueryIndexItem {
   /**
    * @returns {string[]} Robot values as array
    */
+  getKeywords() {
+    return parseCSVArray(this.keywords);
+  }
+
+  /**
+   * @returns {string[]} Robot values as array
+   */
   getRobots() {
     return parseCSVArray(this.robots);
   }
 
   /**
-   * @returns {string[]} Tag value as array
+   * @returns {string[]} Tag values as array
    */
   getTags() {
     return parseJsonArray(this.tags);

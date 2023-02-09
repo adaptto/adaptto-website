@@ -8,9 +8,8 @@ import { getArchivePath, getSiteRootPath } from '../../scripts/utils/site.js';
 /**
  * Build talk tags (with link to talk archive).
  * @param {Element} parent
- * @param {string} siteRoot
  */
-function buildTalkTags(parent, siteRoot) {
+function buildTalkTags(parent) {
   const tags = parseCSVArray(getMetadata('article:tag'));
   if (tags.length === 0) {
     return;
@@ -20,7 +19,7 @@ function buildTalkTags(parent, siteRoot) {
   tags.forEach((tag) => {
     const li = append(ul, 'li');
     const a = append(li, 'a');
-    a.href = `${getArchivePath(document.location.pathname)}#${siteRoot.substring(1)}${tag}`;
+    a.href = `${getArchivePath(document.location.pathname)}#tags=${encodeURIComponent(tag)}`;
     a.textContent = tag;
   });
 }
@@ -71,7 +70,7 @@ export default async function decorate(block) {
   const scheduleData = await getScheduleData(`${siteRoot}schedule-data.json`);
   const scheduleEntry = scheduleData.getTalkEntry(document.location.pathname);
 
-  buildTalkTags(block, siteRoot);
+  buildTalkTags(block);
   if (scheduleEntry) {
     buildTimeInfo(block, scheduleEntry);
   }

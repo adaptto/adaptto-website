@@ -11,7 +11,6 @@ import {
   getSiteRootPathAlsoForSpeakerPath,
   getSpeakerDetailPath,
   getSpeakerOverviewPath,
-  getYearFromPath,
   isSpeakerDetailPath,
 } from '../../../scripts/utils/site.js';
 
@@ -23,13 +22,6 @@ describe('utils/site', () => {
     expect(getSiteRootPath('/2021/')).to.equal('/2021/');
     expect(getSiteRootPath('/2021/mypage')).to.equal('/2021/');
     expect(getSiteRootPath('/2021/mypage/mysubpage')).to.equal('/2021/');
-  });
-
-  it('getYearFromPath', () => {
-    expect(getYearFromPath('/')).to.undefined;
-    expect(getYearFromPath('/2021/')).to.equal(2021);
-    expect(getYearFromPath('/2021/mypage')).to.equal(2021);
-    expect(getYearFromPath('/2021/mypage/mysubpage')).to.equal(2021);
   });
 
   it('getSiteRootPathAlsoForSpeakerPath', async () => {
