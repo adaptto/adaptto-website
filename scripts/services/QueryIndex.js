@@ -1,8 +1,4 @@
-import {
-  getDocumentName,
-  getPathName,
-  isUrlOrPath,
-} from '../utils/path.js';
+import { getDocumentName, getPathName, isUrlOrPath } from '../utils/path.js';
 import QueryIndexItem from './QueryIndexItem.js';
 
 const siteRootRegex = /^\/\d\d\d\d\/$/;

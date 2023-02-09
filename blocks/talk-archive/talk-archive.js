@@ -62,6 +62,7 @@ function displayFilteredTalks(block, talkArchive) {
  * @param {string[]} items All items
  * @param {string[]} selectedItems Selected items
  * @param {boolean} collapsible Options list is collapsible
+ * @returns {Element} Filter category element
  */
 function addFilterCategory(parent, categoryLabel, items, selectedItems, collapsible) {
   const div = append(parent, 'div', 'filter-category');
@@ -98,6 +99,8 @@ function addFilterCategory(parent, categoryLabel, items, selectedItems, collapsi
     aLess.href = '#';
     aLess.textContent = 'less...';
   }
+
+  return div;
 }
 
 /**
@@ -110,13 +113,29 @@ function addFilterCategories(block, talkArchive) {
   const filterDiv = block.querySelector('.filter');
 
   filterCategories.forEach((filterCategory) => {
-    addFilterCategory(
+    const categoryDiv = addFilterCategory(
       filterDiv,
       filterCategory.label,
       talkArchive[filterCategory.archiveMethod](),
       talkArchive.filter[filterCategory.category],
       filterCategory.collapsible,
     );
+
+    // enable filter state changes
+    categoryDiv.querySelectorAll('input[type=checkbox]').forEach((input) => {
+      input.addEventListener('change', () => {
+        let currentlySelectedItems = Array.from(categoryDiv.querySelectorAll('input[type=checkbox]'))
+          .filter((item) => item.checked)
+          .map((item) => item.value);
+        if (currentlySelectedItems.length === 0) {
+          currentlySelectedItems = undefined;
+        }
+        const filter = getFilterFromHash(window.location.hash);
+        filter[filterCategory.category] = currentlySelectedItems;
+        window.history.replaceState(null, null, filter.buildHash());
+        displayFilteredTalks(block, talkArchive);
+      });
+    });
   });
 
   // enable toggles for collapsible filter lists
@@ -127,28 +146,6 @@ function addFilterCategories(block, talkArchive) {
         ul.classList.toggle('collapsed');
       });
     });
-  });
-
-  // enable filter state changes
-  filterDiv.querySelectorAll('.filter-category').forEach((categoryDiv) => {
-    const categoryLabel = categoryDiv.querySelector('.category').textContent;
-    const filterCategory = filterCategories.find((item) => item.label === categoryLabel);
-    if (filterCategory) {
-      categoryDiv.querySelectorAll('input[type=checkbox]').forEach((input) => {
-        input.addEventListener('change', () => {
-          let currentlySelectedItems = Array.from(categoryDiv.querySelectorAll('input[type=checkbox]'))
-            .filter((item) => item.checked)
-            .map((item) => item.value);
-          if (currentlySelectedItems.length === 0) {
-            currentlySelectedItems = undefined;
-          }
-          const filter = getFilterFromHash(window.location.hash);
-          filter[filterCategory.category] = currentlySelectedItems;
-          window.history.replaceState(null, null, filter.buildHash());
-          displayFilteredTalks(block, talkArchive);
-        });
-      });
-    }
   });
 }
 
