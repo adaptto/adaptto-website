@@ -48,7 +48,7 @@ function displayFilteredTalks(block, talkArchive) {
       append(tr, 'td').textContent = talk.speakers.join(', ');
     });
   } else {
-    const tr = append(tbody, 'tr');
+    const tr = append(tbody, 'tr', 'no-result');
     const td = append(tr, 'td');
     td.setAttribute('colspan', 3);
     td.textContent = 'No matching talk found.';
@@ -130,11 +130,11 @@ function addFilterCategories(block, talkArchive) {
     const categoryLabel = categoryDiv.querySelector('.category').textContent;
     const filterCategory = filterCategories.find((item) => item.label === categoryLabel);
     if (filterCategory) {
-      categoryDiv.querySelectorAll('label').forEach((label) => {
-        label.addEventListener('click', () => {
+      categoryDiv.querySelectorAll('input[type=checkbox]').forEach((input) => {
+        input.addEventListener('change', () => {
           let currentlySelectedItems = Array.from(categoryDiv.querySelectorAll('input[type=checkbox]'))
-            .filter((input) => input.checked)
-            .map((input) => input.value);
+            .filter((item) => item.checked)
+            .map((item) => item.value);
           if (currentlySelectedItems.length === 0) {
             currentlySelectedItems = undefined;
           }
