@@ -1,6 +1,7 @@
 import { getTalkArchive } from '../../scripts/services/TalkArchive.js';
 import { getFilterFromHash } from '../../scripts/services/TalkArchiveFilter.js';
 import { append } from '../../scripts/utils/dom.js';
+import html from '../../scripts/utils/htmlTemplateTag.js';
 import { getYearFromPath } from '../../scripts/utils/path.js';
 
 const filterCategories = [
@@ -48,18 +49,16 @@ function displayFilteredTalks(block, talkArchive, applyFilter) {
 
   if (talks.length > 0) {
     talks.forEach((talk) => {
-      const tr = append(tbody, 'tr');
-      append(tr, 'td').textContent = getYearFromPath(talk.path);
-      const a = append(append(tr, 'td'), 'a');
-      a.href = talk.path;
-      a.textContent = talk.title;
-      append(tr, 'td').textContent = talk.speakers.join(', ');
+      tbody.insertAdjacentHTML('beforeend', html`<tr>
+        <td>${getYearFromPath(talk.path)}</td>
+        <td><a href="${talk.path}">${talk.title}</a></td>
+        <td>${talk.speakers.join(', ')}</td>
+      </tr>`);
     });
   } else {
-    const tr = append(tbody, 'tr', 'no-result');
-    const td = append(tr, 'td');
-    td.setAttribute('colspan', 3);
-    td.textContent = 'No matching talk found.';
+    tbody.insertAdjacentHTML('beforeend', html`<tr class="no-result">
+      <td colspan="3">No matching talk found.</td>
+    </tr>`);
   }
 }
 
@@ -97,15 +96,9 @@ function addFilterCategory(parent, categoryLabel, items, selectedItems, collapsi
       ul.classList.add('collapsed');
     }
 
-    const liNext = append(ul, 'li', 'collapse-toggle', 'more');
-    const aNext = append(liNext, 'a');
-    aNext.href = '#';
-    aNext.textContent = 'more...';
-
-    const liLess = append(ul, 'li', 'collapse-toggle', 'less');
-    const aLess = append(liLess, 'a');
-    aLess.href = '#';
-    aLess.textContent = 'less...';
+    ul.insertAdjacentHTML('beforeend', html`
+      <li class="collapse-toggle more"><a href="">more...</a></li>
+      <li class="collapse-toggle less"><a href="">less...</a></li>`);
   }
 
   return div;
@@ -165,7 +158,7 @@ export default async function decorate(block) {
   const talkArchive = await getTalkArchive();
 
   // prepare archive markup
-  block.innerHTML = `
+  block.innerHTML = html`
       <div class="search">
         <input type="search" placeholder="Search">
       </div>
