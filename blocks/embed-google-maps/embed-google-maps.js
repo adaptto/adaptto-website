@@ -10,7 +10,6 @@ export default function decorate(block) {
     block.innerHTML = '';
 
     const iframe = append(block, 'iframe');
-    iframe.setAttribute('frameborder', '0');
     iframe.setAttribute('allowfullscreen', '');
     iframe.src = mapsUrl;
   }
