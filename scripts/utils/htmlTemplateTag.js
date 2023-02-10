@@ -25,7 +25,7 @@ function escape(str) {
 /**
  * Escapes template literals for HTML.
  * @param {TemplateStringsArray} literals
- * @param {string[]} substs
+ * @param {string[]|string[][]} substs
  * @returns {string} Escaped result string
  */
 export default function html(literals, ...substs) {

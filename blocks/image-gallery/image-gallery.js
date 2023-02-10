@@ -1,5 +1,6 @@
 import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
 import { append } from '../../scripts/utils/dom.js';
+import html from '../../scripts/utils/htmlTemplateTag.js';
 
 const hashPattern = /^#(fullscreen-)?image-(\d{1,4})$/;
 
@@ -98,7 +99,7 @@ function createOverlay() {
   if (!overlay) {
     overlay = append(document.body, 'div', 'image-gallery');
     overlay.id = 'image-gallery-overlay';
-    overlay.innerHTML = `<a class="lb-close-btn">Close</a>
+    overlay.innerHTML = html`<a class="lb-close-btn">Close</a>
       <div class="lb-content">
         <div class="lb-gallery">
           <div class="gallery-stage">
@@ -152,7 +153,7 @@ export default function decorate(block) {
   }
 
   // build gallery markup
-  block.innerHTML = `<div class="gallery-stage">
+  block.innerHTML = html`<div class="gallery-stage">
       <a class="gallery-prev">Previous</a>
       <div class="gallery-placeholder"></div>
       <a class="gallery-next">Next</a>
