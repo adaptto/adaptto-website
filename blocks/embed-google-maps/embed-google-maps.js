@@ -11,6 +11,8 @@ export default function decorate(block) {
 
     const iframe = append(block, 'iframe');
     iframe.setAttribute('allowfullscreen', '');
+    iframe.setAttribute('loading', 'lazy');
+    iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
     iframe.src = mapsUrl;
   }
 }
