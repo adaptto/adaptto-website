@@ -7,5 +7,33 @@ import html from '../../scripts/utils/htmlTemplateTag.js';
  */
 export default function decorate(block) {
   const config = readBlockConfig(block);
-  block.innerHTML = html`${JSON.stringify(config)}`;
+  const shopUrl = config['shop-url'];
+  const shopCssUrl = config['shop-css-url'];
+  const scriptUrl = config['script-url'];
+
+  if (shopUrl && shopCssUrl && scriptUrl) {
+    // add pretix script to HTML head
+    const script = document.createElement('script');
+    script.src = scriptUrl;
+    script.type = 'text/javascript';
+    script.async = true;
+    document.head.append(script);
+
+    block.innerHTML = html`
+      <link rel="stylesheet" type="text/css" href="${shopCssUrl}">
+      <div class="pretix-ticket-shop">
+        <pretix-widget event="${shopUrl}"></pretix-widget>
+        <noscript>
+          <div class="pretix-widget">
+            <div class="pretix-widget-info-message">
+              JavaScript is disabled in your browser. To access our ticket shop without JavaScript, please <a target="_blank" rel="noopener" href="${shopUrl}">click here</a>.
+            </div>
+          </div>
+        </noscript>
+      </div>
+      <p>
+        Direct link to <a href="${shopUrl}" target="_blank">adaptTo() Ticket Shop</a>.
+      </p>
+    `;
+  }
 }
