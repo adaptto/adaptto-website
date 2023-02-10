@@ -5,7 +5,7 @@ import { expect } from '@esm-bundle/chai';
 import decorate from '../../../blocks/embed-pretix/embed-pretix.js';
 import { buildBlock } from '../../../scripts/lib-franklin.js';
 
-describe('blocks/embed-google-maps', () => {
+describe('blocks/embed-pretix', () => {
   it('block', () => {
     const block = buildBlock('embed-pretix', [
       ['shop-url', 'https://pretix/shop-url'],
