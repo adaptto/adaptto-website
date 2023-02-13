@@ -1,4 +1,5 @@
 import html from '../../scripts/utils/htmlTemplateTag.js';
+import { isConsentManagementEnabled } from '../../scripts/utils/usercentrics.js';
 
 // pattern from https://gist.github.com/deunlee/0b45cfacb7e8f788e5bbfa2911f54d3e
 const youTubeUrlPattern = /^(https?:)?(\/\/)?((www\.|m\.)?youtube(-nocookie)?\.com\/((watch)?\?(feature=\w*&)?vi?=|embed\/|vi?\/|e\/)|youtu.be\/)([\w-]{10,20})/i;
@@ -9,8 +10,9 @@ const youTubeUrlPattern = /^(https?:)?(\/\/)?((www\.|m\.)?youtube(-nocookie)?\.c
  */
 function embedYoutube(vid, autoplay) {
   const suffix = autoplay ? '&muted=1&autoplay=1' : '';
+  const srcAttr = isConsentManagementEnabled() ? 'uc-src' : 'src';
   return html`<div style="left:0; width:100%; height:0; position:relative; padding-bottom:56.25%;">
-    <iframe src="https://www.youtube.com/embed/${vid}?rel=0${suffix}" style="border:0; top:0; left:0; width:100%; height:100%; position:absolute;" 
+    <iframe ${srcAttr}="https://www.youtube.com/embed/${vid}?rel=0${suffix}" style="border:0; top:0; left:0; width:100%; height:100%; position:absolute;" 
     allow="autoplay; fullscreen; picture-in-picture; encrypted-media; accelerometer; gyroscope; picture-in-picture" scrolling="no" title="Content from Youtube" loading="lazy"></iframe>
     </div>`;
 }

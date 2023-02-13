@@ -33,7 +33,7 @@ function assertVideoPlayer(url, vid) {
   // simulate placeholder click
   expect(placeholder.dispatchEvent(new Event('click'))).to.true;
 
-  expect(block.querySelector('iframe')?.src).to.eq(`https://www.youtube.com/embed/${vid}?rel=0&muted=1&autoplay=1`);
+  expect(block.querySelector('iframe')?.getAttribute('uc-src')).to.eq(`https://www.youtube.com/embed/${vid}?rel=0&muted=1&autoplay=1`);
 }
 
 describe('blocks/embed-youtube', () => {

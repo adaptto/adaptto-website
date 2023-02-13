@@ -12,6 +12,6 @@ describe('blocks/embed-google-maps', () => {
     const block = buildBlock('embed-google-maps', link);
     decorate(block);
 
-    expect(block.querySelector('iframe')?.src).to.eq('https://google-maps/');
+    expect(block.querySelector('iframe')?.getAttribute('uc-src')).to.eq('https://google-maps/');
   });
 });

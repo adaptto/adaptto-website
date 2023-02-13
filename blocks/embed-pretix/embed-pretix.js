@@ -1,5 +1,6 @@
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
 import html from '../../scripts/utils/htmlTemplateTag.js';
+import { isConsentManagementEnabled } from '../../scripts/utils/usercentrics.js';
 
 /**
  * Embed Pretix Ticket Shop.
@@ -17,23 +18,31 @@ export default function decorate(block) {
     script.src = scriptUrl;
     script.type = 'text/javascript';
     script.async = true;
-    document.head.append(script);
+    script.onload = () => {
+      if (isConsentManagementEnabled() && window.uc) {
+        window.uc.reloadOnOptIn('4gBcUVFgPUn-Zs');
+        window.uc.blockElements({
+          '4gBcUVFgPUn-Zs': '.pretix-ticket-shop',
+        });
+      }
 
-    block.innerHTML = html`
-      <link rel="stylesheet" type="text/css" href="${shopCssUrl}">
-      <div class="pretix-ticket-shop">
-        <pretix-widget event="${shopUrl}"></pretix-widget>
-        <noscript>
-          <div class="pretix-widget">
-            <div class="pretix-widget-info-message">
-              JavaScript is disabled in your browser. To access our ticket shop without JavaScript, please <a target="_blank" rel="noopener" href="${shopUrl}">click here</a>.
+      block.innerHTML = html`
+        <link rel="stylesheet" type="text/css" href="${shopCssUrl}">
+        <div class="pretix-ticket-shop">
+          <pretix-widget event="${shopUrl}"></pretix-widget>
+          <noscript>
+            <div class="pretix-widget">
+              <div class="pretix-widget-info-message">
+                JavaScript is disabled in your browser. To access our ticket shop without JavaScript, please <a target="_blank" rel="noopener" href="${shopUrl}">click here</a>.
+              </div>
             </div>
-          </div>
-        </noscript>
-      </div>
-      <p>
-        Direct link to <a href="${shopUrl}" target="_blank">adaptTo() Ticket Shop</a>.
-      </p>
-    `;
+          </noscript>
+        </div>
+        <p>
+          Direct link to <a href="${shopUrl}" target="_blank">adaptTo() Ticket Shop</a>.
+        </p>
+      `;
+    };
+    document.head.append(script);
   }
 }

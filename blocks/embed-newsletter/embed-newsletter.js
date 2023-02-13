@@ -1,5 +1,5 @@
-/* global hbspt */
 import html from '../../scripts/utils/htmlTemplateTag.js';
+import { isConsentManagementEnabled } from '../../scripts/utils/usercentrics.js';
 
 /**
  * Embed Hubspot newsletter signup form.
@@ -10,8 +10,14 @@ export default function decorate(block) {
   script.src = '//js.hsforms.net/forms/v2.js';
   script.type = 'text/javascript';
   script.onload = () => {
+    if (isConsentManagementEnabled() && window.uc) {
+      window.uc.blockElements({
+        r1Fhc4iOoWX: '.hs-form-iframe',
+      });
+    }
+
     try {
-      hbspt.forms.create({
+      window.hbspt.forms.create({
         portalId: '3937475',
         formId: '4d3174fb-0e39-4596-b6a8-4b63caeae340',
       });

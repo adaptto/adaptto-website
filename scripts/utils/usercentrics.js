@@ -1,4 +1,4 @@
-import { append } from "./dom.js";
+import { append } from './dom.js';
 
 const enabled = true;
 const settingsId = 'o544Hdz9e';
