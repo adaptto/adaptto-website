@@ -13,7 +13,7 @@ import {
   getMetadata,
 } from './lib-franklin.js';
 import { decorateAnchors } from './services/LinkHandler.js';
-import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
+import { getHierarchicalTitle, getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -209,6 +209,19 @@ export function addFavIcon(href) {
 }
 
 /**
+ * Applies hierarchical HTML title.
+ * @param {Element} head Head
+ */
+function decorateTitle(head) {
+  getHierarchicalTitle(document.location.pathname).then((title) => {
+    Array.from(head.querySelectorAll('title, meta[property=\'og:title\'], meta[name=\'twitter:title\']'))
+      .forEach((element) => {
+        element.textContent = title;
+      });
+  });
+}
+
+/**
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
@@ -221,6 +234,7 @@ async function loadLazy(doc) {
 
   loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
+  decorateTitle(doc.head);
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/resources/img/adaptto-favicon.svg`);

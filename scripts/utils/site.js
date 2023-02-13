@@ -153,3 +153,28 @@ export async function addArchiveLinks(nav) {
     });
   }
 }
+
+function getHierarchicalItems(pathName, queryIndex) {
+  const result = [];
+  const item = queryIndex.getItem(pathName);
+  if (item) {
+    result.push(item);
+    const parentPath = getParentPath(pathName);
+    if (parentPath) {
+      result.push(...getHierarchicalItems(parentPath, queryIndex));
+    }
+  }
+  return result;
+}
+
+/**
+ * Gets HTML title build from page hierarchy of current page up to site root page.
+ * @param {string} pathName Path of current page
+ * @returns {string} Hierarchical title, starting with current page title.
+ */
+export async function getHierarchicalTitle(pathName) {
+  const queryIndex = await getQueryIndex();
+  return getHierarchicalItems(pathName, queryIndex)
+    .map((item) => item.title)
+    .join(' - ');
+}

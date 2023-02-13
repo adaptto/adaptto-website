@@ -5,6 +5,7 @@ import { expect } from '@esm-bundle/chai';
 import { stubFetchUrlMap } from '../test-utils.js';
 import {
   getArchivePath,
+  getHierarchicalTitle,
   getParentPath,
   getSchedulePath,
   getSiteRootPath,
@@ -60,5 +61,13 @@ describe('utils/site', () => {
   it('isSpeakerDetailPath', () => {
     expect(isSpeakerDetailPath('/speakers/xyz')).to.true;
     expect(isSpeakerDetailPath('/2021/schedule')).to.false;
+  });
+
+  it('getHierarchicalTitle', async () => {
+    expect(await getHierarchicalTitle('/2021/'))
+      .to.eq('adaptTo() 2021');
+    expect(await getHierarchicalTitle('/2021/schedule/panel-discussion-aem-as-a-cloud-service'))
+      .to.eq('Panel Discussion: AEM as a Cloud Service - Schedule - adaptTo() 2021');
+    expect(await getHierarchicalTitle('/')).to.eql('');
   });
 });

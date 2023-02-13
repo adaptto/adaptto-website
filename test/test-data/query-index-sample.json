@@ -74,6 +74,12 @@
       "tag": ""
     },
     {
+      "path": "/2021/schedule",
+      "robots": "",
+      "title": "Schedule",
+      "image": "/default-meta-image.png?width=1200&format=pjpg&optimize=medium"
+    },
+    {
       "path": "/2021/schedule/aem-cloud-service-from-a-developer-perspective",
       "robots": "",
       "title": "AEM Cloud Service from a Developer Perspective",
