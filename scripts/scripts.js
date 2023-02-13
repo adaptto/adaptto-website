@@ -14,6 +14,7 @@ import {
 } from './lib-franklin.js';
 import { decorateAnchors } from './services/LinkHandler.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
+import { enableConsentManagement } from './utils/usercentrics.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -184,6 +185,7 @@ function decorateTemplateAndThemeWithAutoDetection() {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndThemeWithAutoDetection();
+  enableConsentManagement(document.head);
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
