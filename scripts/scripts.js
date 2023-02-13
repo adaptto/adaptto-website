@@ -185,7 +185,6 @@ function decorateTemplateAndThemeWithAutoDetection() {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndThemeWithAutoDetection();
-  decorateConsentManagement(document.head);
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
@@ -215,6 +214,7 @@ export function addFavIcon(href) {
  */
 async function loadLazy(doc) {
   const main = doc.querySelector('main');
+  decorateConsentManagement(document.head);
   await loadBlocks(main);
 
   const { hash } = window.location;
