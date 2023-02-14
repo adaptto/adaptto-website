@@ -26,15 +26,18 @@ function buildSpeakers(parent, siteRootPath, queryIndex) {
     const li = append(ul, 'li');
     const speakerUrl = getSpeakerDetailPath(speakerItem, siteRootPath);
 
+    const imageAnchor = append(li, 'a');
+    imageAnchor.href = speakerUrl;
     if (speakerItem.image) {
-      const imageAnchor = append(li, 'a');
-      imageAnchor.href = speakerUrl;
       imageAnchor.append(createOptimizedPicture(
         speakerItem.image,
         speakerItem.title,
         false,
         [{ width: '150' }],
       ));
+    } else {
+      const img = append(imageAnchor, 'img');
+      img.src = '/resources/img/speaker_placeholder.svg';
     }
 
     const a = append(li, 'a');
