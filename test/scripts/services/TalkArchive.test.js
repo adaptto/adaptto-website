@@ -34,6 +34,7 @@ describe('services/TalkArchive', () => {
     const talks = talkArchive.getFilteredTalks();
     expect(talks.length).to.eq(46);
     expect(talks[0].path).to.eq('/2020/schedule/a-hackers-perspective-on-aem-applications-security');
+    expect(talks[0].title).to.eq('A Hacker\'s perspective on AEM applications security');
     expect(talks[45].path).to.eq('/2020/schedule/use-the-adobe-client-data-layer-to-track-data-on-your-website');
   });
 

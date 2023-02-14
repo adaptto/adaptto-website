@@ -1,3 +1,4 @@
+import { removeTitleSuffix } from '../utils/metadata.js';
 import { getYearFromPath } from '../utils/path.js';
 import { getQueryIndex } from './QueryIndex.js';
 import TalkArchiveFullTextIndex from './TalkArchiveFullTextIndex.js';
@@ -50,7 +51,7 @@ export default class TalkArchive {
         const talk = new TalkArchiveItem();
         talk.path = item.path;
         talk.year = getYearFromPath(item.path)?.toString();
-        talk.title = item.title;
+        talk.title = removeTitleSuffix(item.title);
         talk.description = item.description;
         talk.keywords = item.getKeywords();
         talk.tags = item.getTags();

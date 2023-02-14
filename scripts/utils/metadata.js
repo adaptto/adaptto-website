@@ -1,3 +1,5 @@
+const titleSuffixPattern = /^(.+)\s-\s+adaptTo\(\)\s+\d+\s*$/;
+
 /**
  * Splits a comma-separated value to array (trimming the values).
  * @param {string} value Comma-separated value
@@ -28,4 +30,19 @@ export function parseJsonArray(value) {
     }
   }
   return [];
+}
+
+/**
+ * Removes " - adaptTo() XXXX" suffix from title, if present.
+ * @param {string} title Title
+ * @returns {string} title Title without suffix
+ */
+export function removeTitleSuffix(title) {
+  if (title) {
+    const matchSuffixPattern = title.match(titleSuffixPattern);
+    if (matchSuffixPattern) {
+      return matchSuffixPattern[1].trim();
+    }
+  }
+  return title;
 }
