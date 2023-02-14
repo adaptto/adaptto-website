@@ -6,7 +6,7 @@ const targetHostName = 'https://main--adaptto-website--adaptto.hlx.page';
 const pageHelixRegex = /^\/content\/adaptto(.+)\/en(.+)?\.helix(-(.+))?\.html$/;
 const pageRegex = /^\/content\/adaptto(.+)\/en(.+)?\.html$/;
 const speakerRegex = /^\/content\/dam\/adaptto\/production\/speaker\/(.+)\.helix(\.(.+))?\.html$/;
-const presentationRegex = /^\/content\/dam\/adaptto\/production\/presentations\/([^/]+)\/(.+)\/_jcr_content\/renditions\/original\..+$/;
+const presentationRegex = /^\/content\/dam\/adaptto\/production\/presentations\/([^/]+)\/(.+?)(\/_jcr_content\/renditions\/original\..+)?$/;
 const suffixFragmentRegex = /^fragment-(.+)$/;
 const multipleDashes = /-{2,}/g;
 

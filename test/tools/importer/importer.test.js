@@ -22,6 +22,7 @@ describe('tools/importer/import', () => {
     expect(path('/content/dam/adaptto/production/speaker/name1-name2.helix.2020.html')).to.eq('/speakers/name1-name2-2020');
     expect(path('/content/dam/adaptto/production/presentations/2021/my-file.pdf/_jcr_content/renditions/original./my-file.pdf')).to.eq('/2021/presentations/my-file.pdf');
     expect(path('/content/dam/adaptto/production/presentations/2021/My.File.pdf/_jcr_content/renditions/original./my-file.pdf')).to.eq('/2021/presentations/my-file.pdf');
+    expect(path('/content/dam/adaptto/production/presentations/2021/My.File.pdf')).to.eq('/2021/presentations/my-file.pdf');
     expect(path('/other/url.html')).to.eq('/other/url.html');
   });
 
