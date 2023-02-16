@@ -3,14 +3,9 @@
  * Include content from one Helix page in another.
  * https://www.hlx.live/developer/block-collection/fragment
  */
-
-import {
-  decorateMain,
-} from '../../scripts/scripts.js';
-
-import {
-  loadBlocks,
-} from '../../scripts/lib-franklin.js';
+import { decorateMain } from '../../scripts/scripts.js';
+import { loadBlocks } from '../../scripts/lib-franklin.js';
+import { getFetchCacheOptions } from '../../scripts/utils/fetch.js';
 
 /**
  * Loads a fragment.
@@ -19,7 +14,7 @@ import {
  */
 async function loadFragment(path) {
   if (path && path.startsWith('/')) {
-    const resp = await fetch(`${path}.plain.html`);
+    const resp = await fetch(`${path}.plain.html`, getFetchCacheOptions());
     if (resp.ok) {
       const main = document.createElement('main');
       main.innerHTML = await resp.text();

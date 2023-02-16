@@ -1,3 +1,4 @@
+import { getFetchCacheOptions } from '../utils/fetch.js';
 import { getDocumentName, getPathName, isUrlOrPath } from '../utils/path.js';
 import QueryIndexItem from './QueryIndexItem.js';
 
@@ -173,7 +174,7 @@ export default class QueryIndex {
 export async function getQueryIndex() {
   if (!queryIndexInstance) {
     let data;
-    const resp = await fetch('/query-index.json');
+    const resp = await fetch('/query-index.json', getFetchCacheOptions());
     if (resp.ok) {
       const json = await resp.json();
       data = json.data;

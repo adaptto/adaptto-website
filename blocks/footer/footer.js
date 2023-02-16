@@ -1,6 +1,7 @@
 import { append } from '../../scripts/utils/dom.js';
 import { addArchiveLinks, getSiteRootPathAlsoForSpeakerPath } from '../../scripts/utils/site.js';
 import { decorateAnchors } from '../../scripts/services/LinkHandler.js';
+import { getFetchCacheOptions } from '../../scripts/utils/fetch.js';
 
 /**
  * @param {Element} footerNav
@@ -57,7 +58,7 @@ export default async function decorate(block) {
   );
 
   // fetch footer content
-  const resp = await fetch(`${siteRoot}footer.plain.html`);
+  const resp = await fetch(`${siteRoot}footer.plain.html`, getFetchCacheOptions());
   if (resp.ok) {
     const html = await resp.text();
     const container = append(block, 'div');
