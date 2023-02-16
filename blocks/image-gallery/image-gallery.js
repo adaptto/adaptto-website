@@ -134,8 +134,10 @@ function displayCurrentStateImage(block, imageUrls) {
   if (state.fullscreen) {
     const overlay = createOverlay();
     displayImage(overlay, imageUrls, state.index, true);
+    document.body.classList.add('image-gallery-overlay');
   } else {
     removeOverlay();
+    document.body.classList.remove('image-gallery-overlay');
   }
 }
 
