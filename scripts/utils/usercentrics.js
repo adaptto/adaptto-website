@@ -29,10 +29,5 @@ export function decorateConsentManagement(head) {
   scriptCMP.async = true;
   scriptCMP.src = 'https://app.usercentrics.eu/browser-ui/latest/loader.js';
 
-  // Smart Data Protector
-  const scriptProtector = append(fragment, 'script');
-  scriptProtector.type = 'application/javascript';
-  scriptProtector.src = 'https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js';
-
   head.append(fragment);
 }
