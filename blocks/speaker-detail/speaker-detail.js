@@ -1,6 +1,7 @@
 import { getMetadata } from '../../scripts/lib-franklin.js';
 import { getQueryIndex } from '../../scripts/services/QueryIndex.js';
 import { append } from '../../scripts/utils/dom.js';
+import { removeTitleSuffix } from '../../scripts/utils/metadata.js';
 import { getYearFromPath } from '../../scripts/utils/path.js';
 import { getSiteRootPathAlsoForSpeakerPath, getSpeakerOverviewPath } from '../../scripts/utils/site.js';
 
@@ -50,7 +51,7 @@ function addTalkList(parent, talkItems, title) {
     const li = append(ul, 'li');
     const a = append(li, 'a');
     a.href = item.path;
-    a.textContent = item.title;
+    a.textContent = removeTitleSuffix(item.title);
     li.append(` (${getYearFromPath(item.path)})`);
   });
 }

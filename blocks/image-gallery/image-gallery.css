@@ -184,6 +184,6 @@
   position: relative;
 }
 
-body:has(#image-gallery-overlay) {
+body.image-gallery-overlay {
   overflow: hidden;
 }
