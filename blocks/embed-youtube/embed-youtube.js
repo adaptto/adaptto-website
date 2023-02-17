@@ -59,7 +59,7 @@ export default function decorate(block) {
 
     const wrapper = document.createElement('div');
     wrapper.className = 'embed-placeholder';
-    wrapper.innerHTML = html`<img src="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg">
+    wrapper.innerHTML = html`<img src="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg" alt="YouTube Video">
       <div class="embed-placeholder-play"><button title="Play"></button></div>`;
     wrapper.addEventListener('click', () => {
       loadEmbed(block, vid, true);
