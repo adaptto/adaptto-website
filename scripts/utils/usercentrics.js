@@ -23,15 +23,6 @@ export function decorateConsentManagement(head) {
   const fragment = document.createDocumentFragment();
 
   // Usercentrics Web CMP v2
-  const preconnect1 = append(fragment, 'link');
-  preconnect1.rel = 'preconnect';
-  preconnect1.href = '//app.usercentrics.eu';
-
-  const preload = append(fragment, 'link');
-  preload.rel = 'preload';
-  preload.as = 'script';
-  preload.href = '//privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js';
-
   const scriptCMP = append(fragment, 'script');
   scriptCMP.id = 'usercentrics-cmp';
   scriptCMP.dataset.settingsId = settingsId;
@@ -39,10 +30,6 @@ export function decorateConsentManagement(head) {
   scriptCMP.src = 'https://app.usercentrics.eu/browser-ui/latest/loader.js';
 
   // Smart Data Protector
-  const preconnect2 = append(fragment, 'link');
-  preconnect2.rel = 'preconnect';
-  preconnect2.href = '//privacy-proxy.usercentrics.eu';
-
   const scriptProtector = append(fragment, 'script');
   scriptProtector.type = 'application/javascript';
   scriptProtector.src = 'https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js';
