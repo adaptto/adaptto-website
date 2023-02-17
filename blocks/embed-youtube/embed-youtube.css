@@ -30,7 +30,7 @@ main .embed-youtube .embed-placeholder > * {
 
 main .embed-youtube .embed-placeholder img {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
