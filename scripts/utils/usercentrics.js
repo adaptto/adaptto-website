@@ -30,7 +30,7 @@ function isConsentGiven(service) {
 /**
  * Get full service information for consent dialog message.
  * @param {string} service Service name
- * @return {object} Service info
+ * @return {Promise} Service info
  */
 async function getServiceInfo(service) {
   if (!window.UC_UI) {
