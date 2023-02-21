@@ -47,11 +47,7 @@ async function getServiceInfo(service) {
  * @param {Element} parent Parent element
  */
 async function decorateConsentDialogMessage(service, parent) {
-  const serviceInfo = await getServiceInfo(service);
-  if (!serviceInfo) {
-    parent.innerHTML = `Error: Unable to load service info for ${service}.`;
-    return;
-  }
+  const serviceInfo = await getServiceInfo(service) || { name: service, description: '' };
   parent.innerHTML = html`
   <div class="usercentrics-consent-message">
     <h3>We need your consent to load the ${serviceInfo.name} service!</h3>
@@ -141,7 +137,9 @@ export function decorateConsentManagement(head) {
     updateConsentStatus();
   });
   window.addEventListener('UC_UI_CMP_EVENT', () => {
-    updateConsentStatus();
+    if (isInitialized) {
+      updateConsentStatus();
+    }
   });
 
   // Usercentrics Web CMP v2
