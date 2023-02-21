@@ -10,7 +10,7 @@ export default function decorate(block) {
   if (mapsUrl) {
     decorateWithConsent('googleMaps', block, (parent) => {
       parent.innerHTML = html`<iframe src="${mapsUrl}"
-      allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">`;
+        allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">`;
     });
   }
 }
