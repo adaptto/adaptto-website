@@ -185,7 +185,6 @@ function decorateTemplateAndThemeWithAutoDetection() {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndThemeWithAutoDetection();
-  decorateConsentManagement(document.head);
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
@@ -229,6 +228,8 @@ async function loadLazy(doc) {
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));
+
+  decorateConsentManagement(document.head);
 }
 
 /**
