@@ -4,9 +4,12 @@
 import { expect } from '@esm-bundle/chai';
 import decorate from '../../../blocks/embed-pretix/embed-pretix.js';
 import { buildBlock } from '../../../scripts/lib-franklin.js';
+import { setConsentManagementEnabled } from '../../../scripts/utils/usercentrics.js';
 
 describe('blocks/embed-pretix', () => {
   it('block', async () => {
+    setConsentManagementEnabled(false);
+
     const block = buildBlock('embed-pretix', [
       ['shop-url', 'https://pretix/shop-url'],
       ['shop-css-url', 'https://pretix/shop-css-url'],

@@ -1,1 +1,3 @@
-/* No CSS */
+.embed-pretix > div, .embed-pretix > div .usercentrics-consent-message {
+  min-height: 300px;
+}

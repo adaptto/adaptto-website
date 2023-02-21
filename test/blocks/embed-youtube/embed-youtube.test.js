@@ -4,6 +4,7 @@
 import { expect } from '@esm-bundle/chai';
 import decorate from '../../../blocks/embed-youtube/embed-youtube.js';
 import { buildBlock } from '../../../scripts/lib-franklin.js';
+import { setConsentManagementEnabled } from '../../../scripts/utils/usercentrics.js';
 
 /**
  * @param {string} url
@@ -23,17 +24,10 @@ function createEmbedBlock(url) {
  * @param {string} vid Expected Video ID
  */
 function assertVideoPlayer(url, vid) {
+  setConsentManagementEnabled(false);
   const block = createEmbedBlock(url);
 
-  const placeholder = block.querySelector('.embed-placeholder');
-  expect(placeholder).to.exist;
-  expect(placeholder.querySelector('img')?.src).to.eq(`https://i.ytimg.com/vi/${vid}/maxresdefault.jpg`);
-  expect(placeholder.querySelector('.embed-placeholder-play button')).to.exist;
-
-  // simulate placeholder click
-  expect(placeholder.dispatchEvent(new Event('click'))).to.true;
-
-  expect(block.querySelector('iframe')?.getAttribute('uc-src')).to.eq(`https://www.youtube.com/embed/${vid}?rel=0&muted=1&autoplay=1`);
+  expect(block.querySelector('iframe')?.getAttribute('src')).to.eq(`https://www.youtube.com/embed/${vid}`);
 }
 
 describe('blocks/embed-youtube', () => {

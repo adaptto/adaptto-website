@@ -220,3 +220,47 @@ a:active {
     grid-template-columns: 1fr repeat(4, 250px) 1fr;
   }
 }
+
+/* UserCentrics consent message */
+main .usercentrics-consent-message {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border: 10px solid lightgray;
+  background-color: #fff;
+  padding: 20px;
+  overflow: auto;
+}
+
+main .usercentrics-consent-message h3 {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+main .usercentrics-consent-message p {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+main .usercentrics-consent-message button {
+  display: block;
+  width: 180px;
+  margin: 5px;
+  padding: 10px;
+  border: 0;
+  font-family: var(--font-bold);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+main .usercentrics-consent-message button.more-info {
+  background-color: lightgray;
+}
+
+main .usercentrics-consent-message button.accept {
+  color: #fff;
+  background-color: var(--color-cta);
+}
