@@ -91,12 +91,10 @@ function updateConsentStatus() {
     const previousStatus = serviceConsentStatus.get(service);
     if (currentStatus !== previousStatus) {
       // change in consent status detected - re-decorate all affected blocks
-      const items = serviceElementDecorators.get(service);
-      if (items) {
-        items.forEach((item) => {
-          decorateDependingOnConsent(service, item.parent, item.decorator);
-        });
-      }
+      const items = serviceElementDecorators.get(service) || [];
+      items.forEach((item) => {
+        decorateDependingOnConsent(service, item.parent, item.decorator);
+      });
     }
     serviceConsentStatus.set(service, currentStatus);
   });
