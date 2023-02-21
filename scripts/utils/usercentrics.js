@@ -1,5 +1,3 @@
-import { append } from './dom.js';
-
 const enabled = true;
 const settingsId = 'o544Hdz9e';
 
@@ -20,14 +18,10 @@ export function decorateConsentManagement(head) {
     return;
   }
 
-  const fragment = document.createDocumentFragment();
-
   // Usercentrics Web CMP v2
-  const scriptCMP = append(fragment, 'script');
-  scriptCMP.id = 'usercentrics-cmp';
-  scriptCMP.dataset.settingsId = settingsId;
-  scriptCMP.async = true;
-  scriptCMP.src = 'https://app.usercentrics.eu/browser-ui/latest/loader.js';
-
-  head.append(fragment);
+  const script = document.createElement('script');
+  script.id = 'usercentrics-cmp';
+  script.dataset.settingsId = settingsId;
+  script.src = 'https://app.usercentrics.eu/browser-ui/latest/loader.js';
+  head.append(script);
 }
