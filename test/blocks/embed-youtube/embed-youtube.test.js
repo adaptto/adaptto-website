@@ -27,7 +27,7 @@ function assertVideoPlayer(url, vid) {
   setConsentManagementEnabled(false);
   const block = createEmbedBlock(url);
 
-  expect(block.querySelector('iframe')?.getAttribute('src')).to.eq(`https://www.youtube.com/embed/${vid}`);
+  expect(block.querySelector('iframe')?.src).to.eq(`https://www.youtube.com/embed/${vid}`);
 }
 
 describe('blocks/embed-youtube', () => {
