@@ -21,7 +21,7 @@ const serviceIds = {
 
 let enabled = true;
 let isInitialized = false;
-const serviceConsentStatus = new Map();
+const lastServiceConsentStatus = new Map();
 const serviceElementDecorators = new Map();
 
 /**
@@ -60,7 +60,7 @@ async function getServiceInfo(service) {
 async function decorateConsentDialogMessage(service, parent) {
   const serviceInfo = await getServiceInfo(service) || { name: service, description: '' };
   parent.innerHTML = html`
-  <div class="Usercentrics-consent-message">
+  <div class="usercentrics-consent-message">
     <h3>We need your consent to load the ${serviceInfo.name} service!</h3>
     <p>${serviceInfo.description}</p>
     <button class="more-info">More Information</button>
@@ -91,7 +91,7 @@ function decorateDependingOnConsent(service, parent, decorator) {
     decorateConsentDialogMessage(service, parent);
   } else {
     // show loading spinner if Usercentrics is not ready yet
-    parent.innerHTML = html`<img class="Usercentrics-loading-spinner" src="/resources/img/spinner.svg" alt=""/>`;
+    parent.innerHTML = html`<img class="usercentrics-loading-spinner" src="/resources/img/spinner.svg" alt=""/>`;
   }
 }
 
@@ -102,15 +102,15 @@ function decorateDependingOnConsent(service, parent, decorator) {
 function updateConsentStatus() {
   Object.keys(serviceIds).forEach((service) => {
     const currentStatus = isConsentGiven(service);
-    const previousStatus = serviceConsentStatus.get(service);
-    if (currentStatus !== previousStatus) {
+    const lastStatus = lastServiceConsentStatus.get(service);
+    if (currentStatus !== lastStatus) {
       // change in consent status detected - re-decorate all affected blocks
       const items = serviceElementDecorators.get(service) || [];
       items.forEach((item) => {
         decorateDependingOnConsent(service, item.parent, item.decorator);
       });
     }
-    serviceConsentStatus.set(service, currentStatus);
+    lastServiceConsentStatus.set(service, currentStatus);
   });
 }
 
@@ -156,7 +156,7 @@ export function decorateConsentManagement(head) {
 
   // Usercentrics Web CMP v2
   const script = document.createElement('script');
-  script.id = 'Usercentrics-cmp';
+  script.id = 'usercentrics-cmp';
   script.dataset.settingsId = settingsId;
   script.src = 'https://app.Usercentrics.eu/browser-ui/latest/loader.js';
   head.append(script);
