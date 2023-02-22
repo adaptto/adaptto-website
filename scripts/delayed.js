@@ -2,8 +2,8 @@
 import { sampleRUM } from './lib-franklin.js';
 import { decorateConsentManagement } from './utils/usercentrics.js';
 
+// enable UserCentrics consent management
+decorateConsentManagement(document.head);
+
 // Core Web Vitals RUM collection
 sampleRUM('cwv');
-
-// add more delayed functionality here
-decorateConsentManagement(document.head);

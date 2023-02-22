@@ -27,7 +27,14 @@ function assertVideoPlayer(url, vid) {
   setConsentManagementEnabled(false);
   const block = createEmbedBlock(url);
 
-  expect(block.querySelector('iframe')?.src).to.eq(`https://www.youtube.com/embed/${vid}`);
+  const placeholder = block.querySelector('.placeholder');
+  expect(placeholder).to.exist;
+  expect(placeholder.querySelector('img')?.src).to.eq(`https://i.ytimg.com/vi/${vid}/maxresdefault.jpg`);
+
+  // simulate placeholder click
+  expect(placeholder.dispatchEvent(new Event('click'))).to.true;
+
+  expect(block.querySelector('iframe')?.src).to.eq(`https://www.youtube.com/embed/${vid}?rel=0&muted=1&autoplay=1`);
 }
 
 describe('blocks/embed-youtube', () => {
