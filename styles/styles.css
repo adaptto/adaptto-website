@@ -264,3 +264,8 @@ main .usercentrics-consent-message button.accept {
   color: #fff;
   background-color: var(--color-cta);
 }
+
+main .usercentrics-loading-spinner {
+  width: 100%;
+  height: 100%;
+}
