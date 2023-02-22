@@ -78,7 +78,7 @@ async function decorateConsentDialogMessage(service, parent) {
 /**
  * Checks current consent status and re-Decorates block either with
  * actual content, or with consent message.
- * If Usercentrics is not initialized yet, render nothing.
+ * If Usercentrics is not initialized yet, render a loading spinner.
  * @param {string} service Service
  * @param {Element} parent Parent element
  * @param {function} decorator Decorator method
@@ -90,7 +90,6 @@ function decorateDependingOnConsent(service, parent, decorator) {
   } else if (isInitialized) {
     decorateConsentDialogMessage(service, parent);
   } else {
-    // show loading spinner if Usercentrics is not ready yet
     parent.innerHTML = html`<img class="usercentrics-loading-spinner" src="/resources/img/spinner.svg" alt=""/>`;
   }
 }
