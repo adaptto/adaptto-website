@@ -14,7 +14,6 @@ import {
 } from './lib-franklin.js';
 import { decorateAnchors } from './services/LinkHandler.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
-import { decorateConsentManagement } from './utils/usercentrics.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -225,7 +224,6 @@ async function loadLazy(doc) {
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/resources/img/adaptto-favicon.svg`);
-  decorateConsentManagement(document.head);
 
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
