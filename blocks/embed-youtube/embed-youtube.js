@@ -20,8 +20,10 @@ function youtubePlayerHtml(vid) {
  */
 function fallbackImageHtml(vid) {
   return html`<picture>
-      <source srcset="https://i.ytimg.com/vi_webp/${vid}/maxresdefault.webp" type="image/webp">
-      <source srcset="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg" type="image/jpeg">
+      <source media="(min-width: 799px)" srcset="https://i.ytimg.com/vi_webp/${vid}/maxresdefault.webp" type="image/webp">
+      <source media="(min-width: 799px)" srcset="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg" type="image/jpeg">
+      <source srcset="https://i.ytimg.com/vi_webp/${vid}/hqdefault.webp" type="image/webp">
+      <source srcset="https://i.ytimg.com/vi/${vid}/hqdefault.jpg" type="image/jpeg">
       <img src="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg" alt="YouTube Video">
     </picture>`;
 }
