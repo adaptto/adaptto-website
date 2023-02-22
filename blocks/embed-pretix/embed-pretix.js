@@ -15,9 +15,11 @@ export default function decorate(block) {
 
   if (shopUrl && shopCssUrl && scriptUrl) {
     block.innerHTML = '';
-    const div = append(block, 'div');
+
     const p = append(block, 'p');
     p.innerHTML = html`Direct link to <a href="${shopUrl}" target="_blank">adaptTo() Ticket Shop</a>.`;
+
+    const div = append(block, 'div');
 
     decorateWithConsent('pretix', div, (parent) => {
       // add pretix script to HTML head

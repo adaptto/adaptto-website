@@ -60,7 +60,7 @@ async function getServiceInfo(service) {
 async function decorateConsentDialogMessage(service, parent) {
   const serviceInfo = await getServiceInfo(service) || { name: service, description: '' };
   parent.innerHTML = html`
-  <div class="usercentrics-consent-message">
+  <div class="usercentrics-consent-message usercentrics-placeholder">
     <h3>We need your consent to load the ${serviceInfo.name} service!</h3>
     <p>${serviceInfo.description}</p>
     <button class="more-info">More Information</button>
@@ -90,7 +90,7 @@ function decorateDependingOnConsent(service, parent, decorator) {
   } else if (isInitialized) {
     decorateConsentDialogMessage(service, parent);
   } else {
-    parent.innerHTML = html`<img class="usercentrics-loading-spinner" src="/resources/img/spinner.svg" alt=""/>`;
+    parent.innerHTML = html`<img class="usercentrics-loading-spinner usercentrics-placeholder" src="/resources/img/spinner.svg" alt=""/>`;
   }
 }
 
