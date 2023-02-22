@@ -65,6 +65,13 @@ async function decorateConsentDialogMessage(service, parent) {
 }
 
 /**
+ * @returns Time passed since DOM was complete.
+ */
+function getTimeSinceDomComplete() {
+  return Date.now() - window.performance.timing.domComplete;
+}
+
+/**
  * Checks current consent status and re-Decorates block either with
  * actual content, or with consent message.
  * If UserCentrics is not initialized yet, render nothing.
@@ -76,7 +83,9 @@ function decorateDependingOnConsent(service, parent, decorator) {
   parent.innerHTML = '';
   if (isConsentGiven(service)) {
     decorator(parent);
-  } else if (isInitialized) {
+  } else if (isInitialized || getTimeSinceDomComplete() > 1500) {
+    // show consent dialog if consent was not given
+    // or loading of usercentrics scripts to checks this just took too long (>1.5sec)
     decorateConsentDialogMessage(service, parent);
   }
 }
