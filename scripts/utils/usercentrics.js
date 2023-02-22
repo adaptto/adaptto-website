@@ -1,3 +1,14 @@
+/**
+ * Integration of Usercentrics Consent Management.
+ * Based on Web CMP v2, but without Smart Data Protector.
+ * Web CMP v2 is still a very big script (~180k), so special treatment is applied
+ * to be performant. If a block is rendered before UC is actually initialized
+ * a loading spinner is displayed. Once loaded, the spinner is replaced with
+ * the block content, or a consent dialog message.
+ * Via the decorateWithConsent all blocks depending on consent are registering
+ * themselves with a decorate method and the block parent element. If consent
+ * status changes (event triggered), the block is re-rendered automatically.
+ */
 import html from './htmlTemplateTag.js';
 
 const settingsId = 'o544Hdz9e';
@@ -49,7 +60,7 @@ async function getServiceInfo(service) {
 async function decorateConsentDialogMessage(service, parent) {
   const serviceInfo = await getServiceInfo(service) || { name: service, description: '' };
   parent.innerHTML = html`
-  <div class="usercentrics-consent-message">
+  <div class="Usercentrics-consent-message">
     <h3>We need your consent to load the ${serviceInfo.name} service!</h3>
     <p>${serviceInfo.description}</p>
     <button class="more-info">More Information</button>
@@ -67,7 +78,7 @@ async function decorateConsentDialogMessage(service, parent) {
 /**
  * Checks current consent status and re-Decorates block either with
  * actual content, or with consent message.
- * If UserCentrics is not initialized yet, render nothing.
+ * If Usercentrics is not initialized yet, render nothing.
  * @param {string} service Service
  * @param {Element} parent Parent element
  * @param {function} decorator Decorator method
@@ -79,8 +90,8 @@ function decorateDependingOnConsent(service, parent, decorator) {
   } else if (isInitialized) {
     decorateConsentDialogMessage(service, parent);
   } else {
-    // show loading spinner if usercentrics is not ready yet
-    parent.innerHTML = html`<img class="usercentrics-loading-spinner" src="/resources/img/spinner.svg" alt=""/>`;
+    // show loading spinner if Usercentrics is not ready yet
+    parent.innerHTML = html`<img class="Usercentrics-loading-spinner" src="/resources/img/spinner.svg" alt=""/>`;
   }
 }
 
@@ -145,9 +156,9 @@ export function decorateConsentManagement(head) {
 
   // Usercentrics Web CMP v2
   const script = document.createElement('script');
-  script.id = 'usercentrics-cmp';
+  script.id = 'Usercentrics-cmp';
   script.dataset.settingsId = settingsId;
-  script.src = 'https://app.usercentrics.eu/browser-ui/latest/loader.js';
+  script.src = 'https://app.Usercentrics.eu/browser-ui/latest/loader.js';
   head.append(script);
 }
 
