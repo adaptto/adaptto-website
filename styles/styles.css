@@ -222,7 +222,7 @@ a:active {
 }
 
 /* UserCentrics consent message */
-main .usercentrics-consent-message {
+main .usercentrics-consent-dialog {
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -235,17 +235,17 @@ main .usercentrics-consent-message {
   overflow: auto;
 }
 
-main .usercentrics-consent-message h3 {
+main .usercentrics-consent-dialog h3 {
   margin-top: 10px;
   margin-bottom: 0;
 }
 
-main .usercentrics-consent-message p {
+main .usercentrics-consent-dialog p {
   margin-top: 10px;
   margin-bottom: 20px;
 }
 
-main .usercentrics-consent-message button {
+main .usercentrics-consent-dialog button {
   display: block;
   width: 180px;
   margin: 5px;
@@ -256,11 +256,11 @@ main .usercentrics-consent-message button {
   cursor: pointer;
 }
 
-main .usercentrics-consent-message button.more-info {
+main .usercentrics-consent-dialog button.more-info {
   background-color: lightgray;
 }
 
-main .usercentrics-consent-message button.accept {
+main .usercentrics-consent-dialog button.accept {
   color: #fff;
   background-color: var(--color-cta);
 }

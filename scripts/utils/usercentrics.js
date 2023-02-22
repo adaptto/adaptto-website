@@ -60,7 +60,7 @@ async function getServiceInfo(service) {
 async function decorateConsentDialogMessage(service, parent) {
   const serviceInfo = await getServiceInfo(service) || { name: service, description: '' };
   parent.innerHTML = html`
-  <div class="usercentrics-consent-message usercentrics-placeholder">
+  <div class="usercentrics-consent-dialog usercentrics-placeholder">
     <h3>We need your consent to load the ${serviceInfo.name} service!</h3>
     <p>${serviceInfo.description}</p>
     <button class="more-info">More Information</button>
