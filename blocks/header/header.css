@@ -31,13 +31,15 @@
   position: absolute;
   z-index: 100;
   top: calc(var(--nav-height) - 36px);
+  left: 0;
   font-family: var(--font-semi);
   font-weight: normal;
   list-style: none;
   list-style-type: none;
   margin: 0 auto;
-  padding: 0;
+  padding: 1px 0 0;
   background-color: var(--color-highlight-1);
+  width: 100%;
 }
 
 .header nav > ul li {
@@ -80,7 +82,7 @@
 
   .header nav > ul li {
     display: block;
-    margin: 0.5em em;
+    margin: 0.5em;
     padding-top: 0.2em;
     padding-bottom: 0.2em;
   }
@@ -89,6 +91,12 @@
     display: block;
     position: relative;
     padding-left: 1.5em;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .header nav > ul {
+    top: 110px;
   }
 }
 
@@ -133,3 +141,11 @@
     text-indent: 100%;
   }
 }
+
+@media screen and (max-width: 320px) {
+  .header nav .mobile-nav {
+    top: 76px;
+    margin-left: 5px;
+  }
+}
+
