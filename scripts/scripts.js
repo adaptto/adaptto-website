@@ -13,6 +13,7 @@ import {
   getMetadata,
 } from './lib-franklin.js';
 import { decorateAnchors } from './services/LinkHandler.js';
+import { append } from './utils/dom.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
@@ -158,6 +159,18 @@ export function decorateMain(main, insideFragment) {
 }
 
 /**
+ * Add static elements to header.
+ * @param {Element} header Header element
+ */
+function addStaticHeaderElements(header) {
+  const container = append(header, 'div', 'header-container');
+  const logoLink = append(container, 'a', 'logo');
+  logoLink.id = 'top';
+  append(logoLink, 'div');
+  append(header, 'div', 'nav-background');
+}
+
+/**
  * Applies template and theme as defined in document's metadata. Additionally,
  * if no template is set, a default template is derived based on "include-aside-bar" status.
  * Supported templates are:
@@ -183,6 +196,10 @@ function decorateTemplateAndThemeWithAutoDetection() {
  */
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
+  const header = doc.querySelector('header');
+  if (header) {
+    addStaticHeaderElements(header);
+  }
   decorateTemplateAndThemeWithAutoDetection();
   const main = doc.querySelector('main');
   if (main) {
@@ -219,7 +236,7 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header'));
+  loadHeader(doc.querySelector('header .header-container'));
   loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);

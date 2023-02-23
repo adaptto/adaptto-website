@@ -4,25 +4,9 @@ import { decorateAnchors } from '../../scripts/services/LinkHandler.js';
 import { getFetchCacheOptions } from '../../scripts/utils/fetch.js';
 
 /**
- * @param {Element} header
- * @param {string} siteRoot
- */
-function decorateHeader(header, siteRoot) {
-  header.classList.add('section-header');
-
-  // add logo with site root link
-  const logoLink = prepend(header, 'a', 'logo');
-  logoLink.id = 'top';
-  logoLink.href = siteRoot;
-  append(logoLink, 'div');
-}
-
-/**
  * @param {Element} mainNav
  */
 function decorateMainNav(mainNav) {
-  mainNav.classList.add('section-mainnav');
-
   // mobile navigation
   const mobileNavH1 = prepend(mainNav, 'h1', 'mobile-nav');
   const mobileNavAnchor = append(mobileNavH1, 'a');
@@ -68,26 +52,30 @@ export default async function decorate(block) {
     window.location.hash,
   );
 
+  // logo link
+  const logoLink = document.querySelector('header a.logo');
+  if (logoLink) {
+    logoLink.href = siteRoot;
+  }
+
   // fetch nav content
   const resp = await fetch(`${siteRoot}nav.plain.html`, getFetchCacheOptions());
   if (resp.ok) {
     const html = await resp.text();
-    const nav = document.createElement('nav');
-    nav.innerHTML = html;
-    decorateAnchors(nav);
+    const container = document.createElement('div');
+    container.innerHTML = html;
+    decorateAnchors(container);
 
-    // first section: header with title, slogan and logo
-    const header = nav.children[0];
-    if (header) {
-      decorateHeader(header, siteRoot);
+    // first section: title and slogan, second section: main navigation
+    const titles = container.children[0];
+    const mainNav = container.children[1];
+    if (titles) {
+      block.append(...Array.from(titles.childNodes));
     }
-
-    // second section: main navigation
-    const mainNav = nav.children[1];
     if (mainNav) {
       decorateMainNav(mainNav);
+      const nav = append(block, 'nav');
+      nav.append(...Array.from(mainNav.childNodes));
     }
-
-    block.append(nav);
   }
 }
