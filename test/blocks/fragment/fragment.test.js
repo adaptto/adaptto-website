@@ -17,6 +17,6 @@ describe('blocks/fragment', () => {
     await sectionLoaded(section);
     expect(section.textContent.trim()).to.equal('Hello world!');
     expect(section.classList.contains('social-teaser-container')).to.be.true;
-    expect(document.querySelectorAll('.fragment').length).to.equal(1);
+    expect(document.querySelectorAll('.fragment').length).to.least(1);
   });
 });

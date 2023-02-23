@@ -1,5 +1,7 @@
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
 import html from '../../scripts/utils/htmlTemplateTag.js';
+import { append } from '../../scripts/utils/dom.js';
+import { decorateWithConsent } from '../../scripts/utils/usercentrics.js';
 
 /**
  * Embed Pretix Ticket Shop.
@@ -12,28 +14,25 @@ export default function decorate(block) {
   const scriptUrl = config['script-url'];
 
   if (shopUrl && shopCssUrl && scriptUrl) {
-    // add pretix script to HTML head
-    const script = document.createElement('script');
-    script.src = scriptUrl;
-    script.type = 'text/javascript';
-    script.async = true;
-    document.head.append(script);
+    block.innerHTML = '';
 
-    block.innerHTML = html`
-      <link rel="stylesheet" type="text/css" href="${shopCssUrl}">
-      <div class="pretix-ticket-shop">
-        <pretix-widget event="${shopUrl}"></pretix-widget>
-        <noscript>
-          <div class="pretix-widget">
-            <div class="pretix-widget-info-message">
-              JavaScript is disabled in your browser. To access our ticket shop without JavaScript, please <a target="_blank" rel="noopener" href="${shopUrl}">click here</a>.
-            </div>
-          </div>
-        </noscript>
-      </div>
-      <p>
-        Direct link to <a href="${shopUrl}" target="_blank">adaptTo() Ticket Shop</a>.
-      </p>
-    `;
+    const p = append(block, 'p');
+    p.innerHTML = html`Direct link to <a href="${shopUrl}" target="_blank">adaptTo() Ticket Shop</a>.`;
+
+    const div = append(block, 'div');
+
+    decorateWithConsent('pretix', div, (parent) => {
+      // add pretix script to HTML head
+      const script = document.createElement('script');
+      script.src = scriptUrl;
+      script.type = 'text/javascript';
+      script.onload = () => {
+        parent.innerHTML = html`
+          <link rel="stylesheet" type="text/css" href="${shopCssUrl}">
+          <pretix-widget event="${shopUrl}"></pretix-widget>
+        `;
+      };
+      document.head.append(script);
+    });
   }
 }

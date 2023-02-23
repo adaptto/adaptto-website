@@ -1,32 +1,31 @@
 import html from '../../scripts/utils/htmlTemplateTag.js';
+import { append } from '../../scripts/utils/dom.js';
+import { decorateWithConsent } from '../../scripts/utils/usercentrics.js';
 
 // pattern from https://gist.github.com/deunlee/0b45cfacb7e8f788e5bbfa2911f54d3e
 const youTubeUrlPattern = /^(https?:)?(\/\/)?((www\.|m\.)?youtube(-nocookie)?\.com\/((watch)?\?(feature=\w*&)?vi?=|embed\/|vi?\/|e\/)|youtu.be\/)([\w-]{10,20})/i;
 
 /**
  * @param {string} vid
- * @param {boolean} autoplay
  */
-function embedYoutube(vid, autoplay) {
-  const suffix = autoplay ? '&muted=1&autoplay=1' : '';
-  return html`<div style="left:0; width:100%; height:0; position:relative; padding-bottom:56.25%;">
-    <iframe src="https://www.youtube.com/embed/${vid}?rel=0${suffix}" style="border:0; top:0; left:0; width:100%; height:100%; position:absolute;" 
-    allow="autoplay; fullscreen; picture-in-picture; encrypted-media; accelerometer; gyroscope; picture-in-picture" scrolling="no" title="Content from Youtube" loading="lazy"></iframe>
-    </div>`;
+function youtubePlayerHtml(vid) {
+  return html`<iframe src="https://www.youtube.com/embed/${vid}?rel=0&muted=1&autoplay=1"
+     allow="autoplay; fullscreen; picture-in-picture; encrypted-media; accelerometer; gyroscope; picture-in-picture"
+     scrolling="no"
+     loading="lazy"></iframe>`;
 }
 
 /**
- * @param {Element} block
  * @param {string} vid
- * @param {boolean} autoplay
  */
-function loadEmbed(block, vid, autoplay) {
-  if (block.classList.contains('embed-is-loaded')) {
-    return;
-  }
-  block.innerHTML = embedYoutube(vid, autoplay);
-  block.classList = 'block embed-youtube';
-  block.classList.add('embed-is-loaded');
+function fallbackImageHtml(vid) {
+  return html`<picture>
+      <source media="(min-width: 799px)" srcset="https://i.ytimg.com/vi_webp/${vid}/maxresdefault.webp" type="image/webp">
+      <source media="(min-width: 799px)" srcset="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg" type="image/jpeg">
+      <source srcset="https://i.ytimg.com/vi_webp/${vid}/hqdefault.webp" type="image/webp">
+      <source srcset="https://i.ytimg.com/vi/${vid}/hqdefault.jpg" type="image/jpeg">
+      <img src="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg" alt="YouTube Video">
+    </picture>`;
 }
 
 /**
@@ -44,24 +43,20 @@ function getYouTubeVideoIdByUrl(url) {
 
 /**
  * Embed YouTube video player.
- * Displays a placeholder image first using a thumbnail provided by YouTube,
- * player is loaded when clicking the placeholder.
+ * Display a placeholder with static image first.
  * @param {Element} block
  */
 export default function decorate(block) {
   const link = block.querySelector('a')?.href;
   const vid = getYouTubeVideoIdByUrl(link);
-
   if (vid) {
-    block.textContent = '';
-
-    const wrapper = document.createElement('div');
-    wrapper.className = 'embed-placeholder';
-    wrapper.innerHTML = html`<img src="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg" alt="YouTube Video">
-      <div class="embed-placeholder-play"><button title="Play"></button></div>`;
-    wrapper.addEventListener('click', () => {
-      loadEmbed(block, vid, true);
+    block.innerHTML = '';
+    const placeholder = append(block, 'div', 'placeholder');
+    placeholder.innerHTML = `<button title="Play"></button>${fallbackImageHtml(vid)}`;
+    placeholder.addEventListener('click', () => {
+      decorateWithConsent('youtube', block, (parent) => {
+        parent.innerHTML = youtubePlayerHtml(vid);
+      });
     });
-    block.append(wrapper);
   }
 }
