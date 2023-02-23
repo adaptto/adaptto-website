@@ -148,6 +148,7 @@ function buildAutoBlocks(main) {
  * @param {Element} main The main element
  * @param {boolean} insideFragment Decorate main block inside a fragment
  */
+// eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main, insideFragment) {
   decorateIcons(main);
   decorateAnchors(main);
