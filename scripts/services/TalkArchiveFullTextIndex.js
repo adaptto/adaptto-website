@@ -1,7 +1,3 @@
-import Index from '../3rdparty/flexsearch/index.js';
-import lang from '../3rdparty/flexsearch/lang/en.js';
-import charset from '../3rdparty/flexsearch/lang/latin/advanced.js';
-
 /**
  * Converts talk to indexable string.
  * @typedef {import('./TalkArchiveItem').default} TalkArchiveItem
@@ -19,16 +15,12 @@ function talkToText(talk) {
 
 /**
  * Full text index for talk archive.
+ * This implements a very simplistic approach by just checking for appearance of
+ * search string in talk properties.
  */
 export default class TalkArchiveFullTextIndex {
   /**
-   * @typedef {import('./TalkArchiveItem').default} TalkArchiveItem
-   * @type {TalkArchiveItem[]}
-   */
-  talks;
-
-  /**
-   * @type {Index}
+   * @type {object[]}
    */
   index;
 
@@ -37,12 +29,7 @@ export default class TalkArchiveFullTextIndex {
    * @param {TalkArchiveItem[]} talks Talks
    */
   constructor(talks) {
-    this.talks = talks;
-    this.index = new Index({
-      charset,
-      lang,
-    });
-    talks.forEach((talk, talkIndex) => this.index.add(talkIndex, talkToText(talk)));
+    this.index = talks.map((talk) => ({ talk, text: talkToText(talk).toLocaleLowerCase() }));
   }
 
   /**
@@ -52,7 +39,9 @@ export default class TalkArchiveFullTextIndex {
    * @returns {TalkArchiveItem[]} Search result
    */
   search(text) {
-    return this.index.search(text)
-      .map((index) => this.talks[index]);
+    const searchText = text.toLocaleLowerCase();
+    return this.index
+      .filter((item) => item.text.includes(searchText))
+      .map((item) => item.talk);
   }
 }
