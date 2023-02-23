@@ -148,6 +148,7 @@ function buildAutoBlocks(main) {
  * @param {Element} main The main element
  * @param {boolean} insideFragment Decorate main block inside a fragment
  */
+// eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main, insideFragment) {
   decorateIcons(main);
   decorateAnchors(main);
@@ -209,23 +210,6 @@ async function loadEager(doc) {
 }
 
 /**
- * Adds the favicon.
- * @param {string} href The favicon URL
- */
-export function addFavIcon(href) {
-  const link = document.createElement('link');
-  link.rel = 'icon';
-  link.type = 'image/svg+xml';
-  link.href = href;
-  const existingLink = document.querySelector('head link[rel="icon"]');
-  if (existingLink) {
-    existingLink.parentElement.replaceChild(link, existingLink);
-  } else {
-    document.getElementsByTagName('head')[0].appendChild(link);
-  }
-}
-
-/**
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
@@ -240,8 +224,6 @@ async function loadLazy(doc) {
   loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
-  addFavIcon(`${window.hlx.codeBasePath}/resources/img/adaptto-favicon.svg`);
-
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));
