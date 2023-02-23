@@ -19,7 +19,7 @@ await sleep();
 
 describe('blocks/header', () => {
   it('Header', async () => {
-    const header = document.querySelector('header .section-header');
+    const header = document.querySelector('header');
     expect(header).to.exist;
 
     const logo = header.querySelector('a.logo');
@@ -36,7 +36,7 @@ describe('blocks/header', () => {
   });
 
   it('Main Navigation', async () => {
-    const mainNav = document.querySelector('header .section-mainnav');
+    const mainNav = document.querySelector('header nav');
     expect(mainNav).to.exist;
 
     const mobileNav = mainNav.querySelector('h1.mobile-nav a');
