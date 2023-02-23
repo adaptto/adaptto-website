@@ -4,23 +4,23 @@ import { decorateAnchors } from '../../scripts/services/LinkHandler.js';
 import { getFetchCacheOptions } from '../../scripts/utils/fetch.js';
 
 /**
- * @param {Element} mainNav
+ * @param {Element} nav
  */
-function decorateMainNav(mainNav) {
+function decorateMainNav(nav) {
   // mobile navigation
-  const mobileNavH1 = prepend(mainNav, 'h1', 'mobile-nav');
+  const mobileNavH1 = prepend(nav, 'h1', 'mobile-nav');
   const mobileNavAnchor = append(mobileNavH1, 'a');
   mobileNavAnchor.href = '#';
   mobileNavAnchor.text = 'Navigation';
   mobileNavAnchor.addEventListener('click', (e) => {
     e.preventDefault();
-    mainNav.querySelector(':scope > ul')?.classList.toggle('active');
+    nav.querySelector(':scope > ul')?.classList.toggle('active');
   });
 
   // mobile navigation support for mainnav items with sub menus
   // ensure for those items the link is not followed, but the submenu is shown
   // (if mobile nav is active)
-  mainNav.querySelectorAll('li > a').forEach((a) => {
+  nav.querySelectorAll('li > a').forEach((a) => {
     const li = a.parentElement;
     // nav item has sub menu
     const submenu = li.querySelector(':scope > ul');
@@ -35,7 +35,7 @@ function decorateMainNav(mainNav) {
   });
 
   // add archive links to last mainnav item
-  addArchiveLinks(mainNav);
+  addArchiveLinks(nav);
 }
 
 /**
@@ -73,9 +73,9 @@ export default async function decorate(block) {
       block.append(...Array.from(titles.childNodes));
     }
     if (mainNav) {
-      decorateMainNav(mainNav);
       const nav = append(block, 'nav');
       nav.append(...Array.from(mainNav.childNodes));
+      decorateMainNav(nav);
     }
   }
 }
