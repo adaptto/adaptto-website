@@ -1,1 +1,0 @@
-import{a as t}from"./usercentrics-674c010a.js";import"./htmlTemplateTag-dcfc1724.js";function e(e){t("hubspot",e,(t=>{const e=document.createElement("script");e.src="https://js.hsforms.net/forms/v2.js",e.type="text/javascript",e.onload=()=>{window.hbspt.forms.create({portalId:"3937475",formId:"4d3174fb-0e39-4596-b6a8-4b63caeae340"})},t.append(e)}))}export{e as default};
