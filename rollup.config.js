@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 const dynamicImportVars = require('@rollup/plugin-dynamic-import-vars');
 const terser = require('@rollup/plugin-terser');
 
