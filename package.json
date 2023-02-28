@@ -6,7 +6,7 @@
   "scripts": {
     "test": "wtr \"./test/**/*.test.js\" --node-resolve --port=2000 --coverage",
     "test:watch": "npm test -- --watch",
-    "test:browserCompatibilityTests": "node browserCompatibilityTests/testCss.js",
+    "test:browserCompatibility": "node tools/browserCompatibilityCheck/browserCompatibilityCheck.js",
     "lint:js": "eslint .",
     "lint:css": "stylelint blocks/**/*.css styles/*.css",
     "lint": "npm run lint:js && npm run lint:css"
@@ -24,6 +24,7 @@
   "devDependencies": {
     "@babel/core": "7.20.12",
     "@babel/eslint-parser": "7.19.1",
+    "@babel/preset-env": "7.20.2",
     "@esm-bundle/chai": "4.3.4-fix.0",
     "@web/test-runner": "0.15.0",
     "@web/test-runner-commands": "0.6.5",
@@ -35,6 +36,7 @@
     "globby": "11.0.4",
     "postcss": "8.4.21",
     "postcss-preset-env": "8.0.1",
+    "recast": "0.22.0",
     "sinon": "15.0.1",
     "stylelint": "14.16.1",
     "stylelint-config-prettier": "9.0.4",
