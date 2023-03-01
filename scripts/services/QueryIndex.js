@@ -6,7 +6,7 @@ const siteRootRegex = /^\/\d\d\d\d\/$/;
 const speakerPathRegex = /^\/speakers\/.*$/;
 const talkPageRegex = /^\/\d\d\d\d\/schedule\/.+$/;
 const defaultMetaImage = '/default-meta-image.png?width=1200&format=pjpg&optimize=medium';
-let queryIndexInstance;
+let queryIndexInstancePromise;
 
 /**
  * Gets a distinct sorted list of speaker names from all talks in given year.
@@ -172,30 +172,37 @@ export default class QueryIndex {
  * The response is cached, multiple requests to this method return ths same instance.
  */
 export async function getQueryIndex() {
-  if (!queryIndexInstance) {
-    let data;
-    const resp = await fetch('/query-index.json', getFetchCacheOptions());
-    if (resp.ok) {
-      const json = await resp.json();
-      data = json.data;
-    }
-    data = data || [];
-    const items = data.map((item) => {
-      const queryIndexItem = Object.assign(new QueryIndexItem(), item);
-      // remove default-meta-image.png references
-      if (queryIndexItem.image === defaultMetaImage) {
-        queryIndexItem.image = undefined;
+  if (!queryIndexInstancePromise) {
+    // eslint-disable-next-line no-async-promise-executor
+    queryIndexInstancePromise = new Promise(async (resolve, reject) => {
+      try {
+        let data;
+        const resp = await fetch('/query-index.json', getFetchCacheOptions());
+        if (resp.ok) {
+          const json = await resp.json();
+          data = json.data;
+        }
+        data = data || [];
+        const items = data.map((item) => {
+          const queryIndexItem = Object.assign(new QueryIndexItem(), item);
+          // remove default-meta-image.png references
+          if (queryIndexItem.image === defaultMetaImage) {
+            queryIndexItem.image = undefined;
+          }
+          return queryIndexItem;
+        });
+        resolve(new QueryIndex(items));
+      } catch (err) {
+        reject(err);
       }
-      return queryIndexItem;
     });
-    queryIndexInstance = new QueryIndex(items);
   }
-  return queryIndexInstance;
+  return queryIndexInstancePromise;
 }
 
 /**
  * Clears internal cache of query index responses.
  */
 export function clearQueryIndexCache() {
-  queryIndexInstance = undefined;
+  queryIndexInstancePromise = undefined;
 }
