@@ -1,4 +1,3 @@
+# Disable temporarily
 user-agent: *
-allow: /
-
-sitemap: https://adapt.to/sitemap.xml
+disallow: /
