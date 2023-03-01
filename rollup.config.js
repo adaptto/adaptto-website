@@ -13,6 +13,7 @@ module.exports = {
   output: {
     dir: 'target',
     format: 'esm',
+    sourcemap: true,
     plugins: [
       terser(), // minifies the JS
     ],

@@ -1,0 +1,9 @@
+import{h as e}from"./htmlTemplateTag-dcfc1724.js";const n="o544Hdz9e",t={youtube:"BJz7qNsdj-7",googleMaps:"S1pcEj_jZX",hubspot:"r1Fhc4iOoWX",pretix:"4gBcUVFgPUn-Zs"};let c=!1;const o=new Map,s=new Map;function r(e){if(!window.UC_UI)return!1;const n=t[e];return void 0!==window.UC_UI.getServicesBaseInfo().find((e=>e.id===n&&e.consent?.status))}async function i(n,c){const o=await async function(e){if(!window.UC_UI)return;const n=t[e];return(await window.UC_UI.getServicesFullInfo()).find((e=>e.id===n))}(n)||{name:n,description:""};c.innerHTML=e`
+  <div class="usercentrics-consent-dialog usercentrics-placeholder">
+    <h3>We need your consent to load the ${o.name} service!</h3>
+    <p>${o.description}</p>
+    <button class="more-info">More Information</button>
+    <button class="accept">Accept</button>
+  </div>
+  `,c.querySelector("button.more-info").addEventListener("click",(()=>{window.UC_UI.showSecondLayer(o.id)})),c.querySelector("button.accept").addEventListener("click",(()=>{window.UC_UI.acceptService(o.id)}))}function a(n,t,o){t.innerHTML="",r(n)?o(t):c?i(n,t):t.innerHTML=e`<img class="usercentrics-loading-spinner usercentrics-placeholder" src="/resources/img/spinner.svg" alt=""/>`}function d(){Object.keys(t).forEach((e=>{const n=r(e);if(n!==o.get(e)){(s.get(e)||[]).forEach((n=>{a(e,n.parent,n.decorator)}))}o.set(e,n)}))}function u(e,n,t){const c=s.get(e)||[];c.push({parent:n,decorator:t}),s.set(e,c),a(e,n,t)}function p(e){window.addEventListener("UC_UI_INITIALIZED",(()=>{c=!0,d()})),window.addEventListener("UC_UI_CMP_EVENT",(()=>{c&&d()}));const t=document.createElement("script");t.id="usercentrics-cmp",t.dataset.settingsId=n,t.src="https://app.Usercentrics.eu/browser-ui/latest/loader.js",e.append(t)}export{u as a,p as d};
+//# sourceMappingURL=usercentrics-674c010a.js.map
