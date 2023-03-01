@@ -53,7 +53,13 @@ export async function sleep(time = 1000) {
 export function stubFetchUrlMap(urlMap) {
   const originalFetch = window.fetch;
   const stub = sinon.stub(window, 'fetch');
-  stub.callsFake((url) => {
+  stub.callsFake((input) => {
+    let url;
+    if (input instanceof Request) {
+      url = input.url;
+    } else {
+      url = input;
+    }
     let urlToUse = url;
     const replaceUrl = urlMap[url];
     if (replaceUrl) {
