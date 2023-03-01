@@ -2,10 +2,10 @@
 /* global describe it */
 
 import { expect } from '@esm-bundle/chai';
-import { getQueryIndex } from '../../../scripts/services/QueryIndex.js';
+import { getQueryIndex, clearQueryIndexCache } from '../../../scripts/services/QueryIndex.js';
 import { stubFetchUrlMap } from '../test-utils.js';
 
-stubFetchUrlMap({ '/query-index.json': '/test/test-data/query-index-sample.json' });
+const fetchStub = stubFetchUrlMap({ '/query-index.json': '/test/test-data/query-index-sample.json' });
 const queryIndex = await getQueryIndex();
 
 describe('services/QueryIndex', () => {
@@ -116,5 +116,26 @@ describe('services/QueryIndex', () => {
       '/2021/schedule/panel-discussion-aem-as-a-cloud-service',
       '/2020/schedule/dummy-talk',
     ]);
+  });
+
+  it('clearQueryIndexCache', async () => {
+    clearQueryIndexCache();
+    const queryIndex2 = await getQueryIndex();
+    // shouldn't return the old instance
+    expect(queryIndex2).to.not.equal(queryIndex);
+  });
+
+  // should only fetch once, independent of the timing of multiple `getQueryIndex()` calls
+  it('getQueryIndex-caching', async () => {
+    clearQueryIndexCache();
+    fetchStub.resetHistory();
+    // request two QueryIndexIndexes at the same time
+    // without the response being returned
+    const [inst1, inst2] = await Promise.all([getQueryIndex(), getQueryIndex()]);
+
+    // should only (call) fetch once
+    expect(fetchStub.getCalls().length).to.equal(1);
+    // should return the same QueryIndex instance for both
+    expect(inst1).to.equal(inst2);
   });
 });
