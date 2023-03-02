@@ -139,7 +139,7 @@ export function decorateWithConsent(service, parent, decorator) {
  * @param {Element} head HTML Head
  */
 export function decorateConsentManagement(head) {
-  if (!enabled) {
+  if (!enabled || document.querySelector('head script[src="https://app.Usercentrics.eu/browser-ui/latest/loader.js"]')) {
     return;
   }
 
