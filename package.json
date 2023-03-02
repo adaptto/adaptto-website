@@ -10,7 +10,8 @@
     "build": "rimraf target && rollup -c",
     "lint:js": "eslint .",
     "lint:css": "stylelint blocks/**/*.css styles/*.css",
-    "lint": "npm run lint:js && npm run lint:css"
+    "lint": "npm run lint:js && npm run lint:css",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "eslint": "8.33.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.27.5",
+    "husky": "8.0.0",
     "rimraf": "4.1.2",
     "rollup": "2.79.1",
     "sinon": "15.0.1",
