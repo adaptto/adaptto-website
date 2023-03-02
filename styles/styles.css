@@ -81,13 +81,8 @@ body {
   background-color: var(--color-light);
   color: var(--color-dark);
   font-family: var(--font-light);
-  display: none;
   margin: 0 auto;
   overflow-y: scroll;
-}
-
-body.appear {
-  display: unset;
 }
 
 /* progressive section appearance */

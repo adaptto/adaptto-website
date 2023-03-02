@@ -193,7 +193,8 @@ function decorateTemplateAndThemeWithAutoDetection() {
 }
 
 /**
- * loads everything needed to get to LCP.
+ * Loads everything needed to get to LCP.
+ * @param {Element} doc The container element
  */
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
@@ -210,7 +211,8 @@ async function loadEager(doc) {
 }
 
 /**
- * loads everything that doesn't need to be delayed.
+ * Loads everything that doesn't need to be delayed.
+ * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
   const main = doc.querySelector('main');
@@ -230,8 +232,8 @@ async function loadLazy(doc) {
 }
 
 /**
- * loads everything that happens a lot later, without impacting
- * the user experience.
+ * Loads everything that happens a lot later,
+ * without impacting the user experience.
  */
 function loadDelayed() {
   // eslint-disable-next-line import/no-cycle
