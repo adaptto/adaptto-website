@@ -15,6 +15,7 @@ import {
 import { decorateAnchors } from './services/LinkHandler.js';
 import { append } from './utils/dom.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
+import { decorateConsentManagement } from './utils/usercentrics.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -226,6 +227,13 @@ async function loadLazy(doc) {
   loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
+
+  // enable UserCentrics consent management
+  // do this lazily (not delayed) if there already was a user interaction
+  if (localStorage['uc_user_interaction']) {
+    decorateConsentManagement(document.head);
+  }
+
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));
