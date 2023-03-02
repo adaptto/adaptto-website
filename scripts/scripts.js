@@ -230,7 +230,7 @@ async function loadLazy(doc) {
 
   // enable UserCentrics consent management
   // do this lazily (not delayed) if there already was a user interaction
-  if (localStorage['uc_user_interaction']) {
+  if (localStorage.uc_user_interaction) {
     decorateConsentManagement(document.head);
   }
 
