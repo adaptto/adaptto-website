@@ -6,6 +6,7 @@
   "scripts": {
     "test": "wtr \"./test/**/*.test.js\" --node-resolve --port=2000 --coverage",
     "test:watch": "npm test -- --watch",
+    "start": "concurrently \"hlx up\" \"rollup -c -w\"",
     "build": "rimraf target && rollup -c",
     "lint:js": "eslint .",
     "lint:css": "stylelint blocks/**/*.css styles/*.css",
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/adaptto/adaptto-website",
   "devDependencies": {
+    "@adobe/helix-cli": "14.21.4",
     "@babel/core": "7.20.12",
     "@babel/eslint-parser": "7.19.1",
     "@esm-bundle/chai": "4.3.4-fix.0",
@@ -30,6 +32,7 @@
     "@web/test-runner": "0.15.0",
     "@web/test-runner-commands": "0.6.5",
     "chai": "4.3.7",
+    "concurrently": "7.6.0",
     "eslint": "8.33.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.27.5",
