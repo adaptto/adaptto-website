@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# build js artefacts
+npm run build
+
+# add them to the commit
+git add 'target'
