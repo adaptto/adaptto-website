@@ -15,6 +15,7 @@ import {
 import { decorateAnchors } from './services/LinkHandler.js';
 import { append } from './utils/dom.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
+import { decorateConsentManagement } from './utils/usercentrics.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -193,7 +194,8 @@ function decorateTemplateAndThemeWithAutoDetection() {
 }
 
 /**
- * loads everything needed to get to LCP.
+ * Loads everything needed to get to LCP.
+ * @param {Element} doc The container element
  */
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
@@ -210,7 +212,8 @@ async function loadEager(doc) {
 }
 
 /**
- * loads everything that doesn't need to be delayed.
+ * Loads everything that doesn't need to be delayed.
+ * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
   const main = doc.querySelector('main');
@@ -224,14 +227,21 @@ async function loadLazy(doc) {
   loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
+
+  // enable UserCentrics consent management
+  // do this lazily (not delayed) if there already was a user interaction
+  if (localStorage.uc_user_interaction) {
+    decorateConsentManagement(document.head);
+  }
+
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));
 }
 
 /**
- * loads everything that happens a lot later, without impacting
- * the user experience.
+ * Loads everything that happens a lot later,
+ * without impacting the user experience.
  */
 function loadDelayed() {
   // eslint-disable-next-line import/no-cycle

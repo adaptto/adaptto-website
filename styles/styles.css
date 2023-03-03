@@ -81,13 +81,8 @@ body {
   background-color: var(--color-light);
   color: var(--color-dark);
   font-family: var(--font-light);
-  display: none;
   margin: 0 auto;
   overflow-y: scroll;
-}
-
-body.appear {
-  display: unset;
 }
 
 /* progressive section appearance */
@@ -139,6 +134,17 @@ a:hover {
 
 a:active {
   text-decoration: underline;
+}
+
+.icon {
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+
+.icon svg {
+  height: 100%;
+  width: 100%;
 }
 
 /* --- header static elements --- */
