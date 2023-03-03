@@ -19,22 +19,31 @@ async function executeRequest(url) {
 
 async function assertRedirect(givenPath, expectedPath, expectedCode = 301) {
   const response = await executeRequest(`https://host${givenPath}`);
-  expect(response.code, expectedCode);
-  expect(response.headers.location, `https://host${expectedPath}`);
+  expect(response.status, `return code for ${givenPath}`).to.eq(expectedCode);
+  expect(response.headers.get('location'), `redirect url for ${givenPath}`).to.eq(`https://host${expectedPath}`);
 }
 
-describe('tools/cloudflare-helix-worker', () => {
-  it('rewrite', async () => {
-    await assertRedirect('/1999', '/1999/');
-    await assertRedirect('/2021', '/2021/');
-    await assertRedirect('/', `/${currentYear}/`);
-    await assertRedirect('/cfp', `/${currentYear}/sign-up/call-for-papers`);
-    await assertRedirect('/tickets', `/${currentYear}/sign-up/tickets`);
-    await assertRedirect('/gallery', `/${currentYear}/conference/gallery`);
-    await assertRedirect('/archive', `/${currentYear}/archive`);
-    await assertRedirect('/privacy', `/${currentYear}/privacy/privacy`);
-    await assertRedirect('/2020/en.html', `/${currentYear}/2020/`);
-    await assertRedirect('/2020/en/conference.html', `/${currentYear}/2020/conference`);
+describe('tools/cloudflare/helix-worker', () => {
+  it('rewriteShortUrls', async () => {
+    await assertRedirect('/1999', '/1999/', 301);
+    await assertRedirect('/2021', '/2021/', 301);
+    await assertRedirect('/', `/${currentYear}/`, 302);
+    await assertRedirect('/cfp', `/${currentYear}/sign-up/call-for-papers`, 302);
+    await assertRedirect('/tickets', `/${currentYear}/sign-up/tickets`, 302);
+    await assertRedirect('/gallery', `/${currentYear}/conference/gallery`, 302);
+    await assertRedirect('/archive', `/${currentYear}/archive`, 302);
+    await assertRedirect('/privacy', `/${currentYear}/privacy/privacy`, 302);
+  });
+
+  it('rewriteLegacyUrlsWithSanitizing', async () => {
+    await assertRedirect('/2020/en.html', '/2020/', 301);
+    await assertRedirect('/2020/en/conference.html', '/2020/conference', 301);
+    await assertRedirect('/2020/en/conference/Test__Abc.html', '/2020/conference/test-abc', 301);
+    await assertRedirect(
+      '/content/dam/adaptto/production/presentations/2021/adaptTo2021-AEM-Cloud-Service-from-a-Developer-Perspective-Carsten-Ziegeler.pdf/_jcr_content/renditions/original.media_file.download_attachment.file/adaptTo2021-AEM-Cloud-Service-from-a-Developer-Perspective-Carsten-Ziegeler.pdf',
+      '/2021/presentations/adaptto2021-aem-cloud-service-from-a-developer-perspective-carsten-ziegeler.pdf',
+      301,
+    );
   });
 
   it('forwardHelix', async () => {
