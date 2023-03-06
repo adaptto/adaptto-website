@@ -1,4 +1,5 @@
-.social-teaser p {
+.social-teaser p,
+.social-teaser a {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
