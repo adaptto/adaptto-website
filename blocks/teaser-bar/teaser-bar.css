@@ -44,12 +44,12 @@
     flex-direction: column;
     height: 100%;
   }
-  
+
   .teaser-bar > div > div > * {
     flex-grow: 1;
     margin: var(--base-unit) 0 0 0;
   }
-  
+
   .teaser-bar > div p.text {
     flex-grow: 100;
   }
@@ -60,7 +60,7 @@
 }
 
 .teaser-bar > div p.link a {
-  background: url('/resources/img/link_icon.png') 0 0.15em no-repeat transparent;
+  background: url("/resources/img/link_icon.png") 0 0.15em no-repeat transparent;
   background-size: 0.8em 0.8em;
   padding-left: 1em;
 }

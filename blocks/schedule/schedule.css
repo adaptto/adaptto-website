@@ -53,7 +53,8 @@
   border-collapse: collapse;
 }
 
-.schedule th, .schedule td {
+.schedule th,
+.schedule td {
   margin: 0;
   padding: 0.5em;
   vertical-align: top;
@@ -75,13 +76,15 @@
 }
 
 @media screen and (max-width: 600px) {
-  .schedule th, .schedule td {
+  .schedule th,
+  .schedule td {
     font-size: 0.8em;
   }
 }
 
 @media screen and (max-width: 320px) {
-  .schedule th:nth-child(2), .schedule td:nth-child(2) {
+  .schedule th:nth-child(2),
+  .schedule td:nth-child(2) {
     border-right: none;
   }
 

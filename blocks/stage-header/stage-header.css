@@ -45,7 +45,10 @@
   display: inline-block;
 }
 
-.stage-header .stage-cta:link, .stage-header .stage-cta:visited, .stage-header .stage-cta:hover, .stage-header .stage-cta:active {
+.stage-header .stage-cta:link,
+.stage-header .stage-cta:visited,
+.stage-header .stage-cta:hover,
+.stage-header .stage-cta:active {
   color: #fff;
 }
 
