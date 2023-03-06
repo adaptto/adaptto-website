@@ -23,6 +23,7 @@ function createSpeakerImage(speakerItem, eager) {
   // fallback image
   const img = document.createElement('img');
   img.src = '/resources/img/speaker_placeholder.svg';
+  img.alt = speakerItem.title;
   return img;
 }
 

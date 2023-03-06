@@ -76,8 +76,12 @@ function displayImage(parent, imageUrls, index, fullscreen) {
   if (nextIndex > imageUrls.length - 1) {
     nextIndex = 0;
   }
-  parent.querySelector('.gallery-prev').href = buildHash(previousIndex, fullscreen);
-  parent.querySelector('.gallery-next').href = buildHash(nextIndex, fullscreen);
+  const prefLink = parent.querySelector('.gallery-prev');
+  prefLink.ariaLabel = `Image ${previousIndex + 1}`;
+  prefLink.href = buildHash(previousIndex, fullscreen);
+  const nextLink = parent.querySelector('.gallery-next');
+  nextLink.href = buildHash(nextIndex, fullscreen);
+  nextLink.ariaLabel = `Image ${nextIndex + 1}`;
 
   // full screen mode open/close buttons
   const fullscreenButton = parent.querySelector('.gallery-fullscreen-btn');
@@ -169,6 +173,7 @@ export default function decorate(block) {
     const li = append(thumbList, 'li');
     const a = append(li, 'a', 'gallery-thumb');
     a.href = buildHash(index, false);
+    a.ariaLabel = `Image ${index + 1}`;
     const eager = (index <= 7);
     a.append(createOptimizedPicture(imageUrl, '', eager, [{ width: '100' }]));
   });

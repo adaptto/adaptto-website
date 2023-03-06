@@ -168,6 +168,7 @@ function addStaticHeaderElements(header) {
   const container = append(header, 'div', 'header-container');
   const logoLink = append(container, 'a', 'logo');
   logoLink.id = 'top';
+  logoLink.ariaLabel = 'Go to homepage';
   append(logoLink, 'div');
   append(header, 'div', 'nav-background');
 }
