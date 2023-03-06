@@ -8,23 +8,53 @@ const pageRegex = /^\/content\/adaptto(.+)\/en(.+)?\.html$/;
 const speakerRegex = /^\/content\/dam\/adaptto\/production\/speaker\/(.+)\.helix(\.(.+))?\.html$/;
 const presentationRegex = /^\/content\/dam\/adaptto\/production\/presentations\/([^/]+)\/(.+?)(\/_jcr_content\/renditions\/original\..+)?$/;
 const suffixFragmentRegex = /^fragment-(.+)$/;
-const multipleDashes = /-{2,}/g;
 
 /**
- * Ensure presentation file name does not contain invalid chars and is used lowercase.
- * @param {string} filename File name
- * @returns Sanitized file name
+ * Sanitizes the given string by :
+ * - convert to lower case
+ * - normalize all unicode characters
+ * - replace all non-alphanumeric characters with a dash
+ * - remove all consecutive dashes
+ * - remove all leading and trailing dashes
+ * (taken over from https://github.com/adobe/helix-onedrive-support/blob/8af8195badcd9ce2bfe90d01108c5d84685a54e3/src/utils.js)
+ *
+ * @param {string} name
+ * @returns {string} sanitized name
  */
-function sanitizeFilename(filename) {
-  const extensionIndex = filename.lastIndexOf('.');
-  if (extensionIndex >= 0) {
-    let name = filename.substring(0, extensionIndex);
-    const extension = filename.substring(extensionIndex + 1);
-    // replace dots in filename
-    name = name.replaceAll(/(\.)/g, '-');
-    return `${name}.${extension}`.toLowerCase();
-  }
-  return filename;
+function sanitizeName(name) {
+  return name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+/**
+ * Sanitizes the file path by:
+ * - convert to lower case
+ * - normalize all unicode characters
+ * - replace all non-alphanumeric characters with a dash
+ * - remove all consecutive dashes
+ * - remove all leading and trailing dashes
+ *
+ * Note that only the basename of the file path is sanitized. i.e. The ancestor path and the
+ * extension is not affected.
+ * (taken over from https://github.com/adobe/helix-onedrive-support/blob/8af8195badcd9ce2bfe90d01108c5d84685a54e3/src/utils.js)
+ *
+ * @param {string} filepath the file path
+ * @param {object} opts Options
+ * @param {boolean} [opts.ignoreExtension] if {@code true} ignores the extension
+ * @returns {string} sanitized file path
+ */
+function sanitizePath(filepath, opts = {}) {
+  const idx = filepath.lastIndexOf('/') + 1;
+  const extIdx = opts.ignoreExtension ? -1 : filepath.lastIndexOf('.');
+  const pfx = filepath.substring(0, idx);
+  const basename = extIdx < idx ? filepath.substring(idx) : filepath.substring(idx, extIdx);
+  const ext = extIdx < idx ? '' : filepath.substring(extIdx);
+  const name = sanitizeName(basename);
+  return `${pfx}${name}${ext}`;
 }
 
 /**
@@ -39,9 +69,7 @@ function transformUrlToPath(url) {
   if (url.includes('://')) {
     pathname = new URL(url).pathname;
   }
-
-  // replace multiple "-" by a single "-"
-  pathname = pathname.replaceAll(multipleDashes, '-');
+  pathname = decodeURI(pathname);
 
   const pageHelixMatch = pathname.match(pageHelixRegex);
   if (pageHelixMatch) {
@@ -56,7 +84,7 @@ function transformUrlToPath(url) {
       }
       return `${year}/${suffix}`;
     }
-    return `${year}${localPath}`;
+    return sanitizePath(`${year}${localPath}`);
   }
 
   const pageMatch = pathname.match(pageRegex);
@@ -64,7 +92,7 @@ function transformUrlToPath(url) {
     const year = pageMatch[1];
     let localPath = pageMatch[2] ?? '/index';
     localPath = localPath.replaceAll('tools/navigation/footermetanav/', 'privacy/');
-    return `${year}${localPath}`;
+    return sanitizePath(`${year}${localPath}`);
   }
 
   const speakerMatch = pathname.match(speakerRegex);
@@ -72,16 +100,16 @@ function transformUrlToPath(url) {
     const speaker = speakerMatch[1];
     const variation = speakerMatch[3];
     if (variation) {
-      return `/speakers/${speaker}-${variation}`;
+      return sanitizePath(`/speakers/${speaker}-${variation}`);
     }
-    return `/speakers/${speaker}`;
+    return sanitizePath(`/speakers/${speaker}`);
   }
 
   const presentationMatch = pathname.match(presentationRegex);
   if (presentationMatch) {
     const year = presentationMatch[1];
     const file = presentationMatch[2];
-    return `/${year}/presentations/${sanitizeFilename(file)}`;
+    return sanitizePath(`/${year}/presentations/${file}`);
   }
 
   return url;
