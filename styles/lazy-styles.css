@@ -1,1 +1,31 @@
-/* below the fold CSS goes here */
+@font-face {
+  font-family: SignikaLight;
+  src: url("/resources/font/Signika-Light-webfont.woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: SignikaRegular;
+  src: url("/resources/font/Signika-Regular-webfont.woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: SignikaSemibold;
+  src: url("/resources/font/Signika-Semibold-webfont.woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: SignikaBold;
+  src: url("/resources/font/Signika-Bold-webfont.woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}

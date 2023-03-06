@@ -16,10 +16,10 @@
   --color-cta: #00a0ee;
 
   /* fonts */
-  --font-bold: "SignikaBold", helvetica, arial, sans-serif;
-  --font-semi: "SignikaSemibold", helvetica, arial, sans-serif;
-  --font-light: "SignikaLight", helvetica, arial, sans-serif;
-  --font-regular: "SignikaRegular", helvetica, arial, sans-serif;
+  --font-bold: "SignikaBold", "ArialBoldFallback", "ArialFallback", arial, sans-serif;
+  --font-semi: "SignikaSemibold", "ArialBoldFallback", "ArialFallback", arial, sans-serif;
+  --font-light: "SignikaLight", "ArialFallback", arial, sans-serif;
+  --font-regular: "SignikaRegular", "ArialFallback", arial, sans-serif;
 
   /*
   --break-small: 320px;
@@ -28,37 +28,22 @@
   */
 }
 
-/* Deliberately defining web fonts here and not in lazy-styles.css to avoid Flash of unstyled text (FOUT) */
 @font-face {
-  font-family: SignikaLight;
-  src: url("/resources/font/Signika-Light-webfont.woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+  font-family: ArialBoldFallback;
+  src: local(arial bold);
+  size-adjust: 94%;
+  ascent-override: 92%;
+  descent-override: 26%;
+  line-gap-override: 10.25%;
 }
 
 @font-face {
-  font-family: SignikaRegular;
-  src: url("/resources/font/Signika-Regular-webfont.woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: SignikaSemibold;
-  src: url("/resources/font/Signika-Semibold-webfont.woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: SignikaBold;
-  src: url("/resources/font/Signika-Bold-webfont.woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+  font-family: ArialFallback;
+  src: local(arial);
+  size-adjust: 94%;
+  ascent-override: 92%;
+  descent-override: 26%;
+  line-gap-override: 10.25%;
 }
 
 body {
