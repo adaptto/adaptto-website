@@ -1,9 +1,9 @@
- :root {
+:root {
   /* dimensions */
   --base-unit: 0.625em; /* ^= 10px; */
   --nav-height: 177px;
   --content-width: 1000px;
-  
+
   /* colors */
   --color-light: #fafafa;
   --color-dark: #333;
@@ -11,15 +11,15 @@
   --color-medium-gray: #666;
   --color-light-gray: #ccc;
   --color-font: #333;
-  --color-highlight-1: #00A0EE;
-  --color-highlight-2: #66CEF5;
-  --color-cta: #00A0EE;
-  
+  --color-highlight-1: #00a0ee;
+  --color-highlight-2: #66cef5;
+  --color-cta: #00a0ee;
+
   /* fonts */
-  --font-bold: 'SignikaBold', helvetica, arial, sans-serif;
-  --font-semi: 'SignikaSemibold', helvetica, arial, sans-serif;
-  --font-light: 'SignikaLight', helvetica, arial, sans-serif;
-  --font-regular: 'SignikaRegular', helvetica, arial, sans-serif;
+  --font-bold: "SignikaBold", helvetica, arial, sans-serif;
+  --font-semi: "SignikaSemibold", helvetica, arial, sans-serif;
+  --font-light: "SignikaLight", helvetica, arial, sans-serif;
+  --font-regular: "SignikaRegular", helvetica, arial, sans-serif;
 
   /*
   --break-small: 320px;
@@ -31,11 +31,12 @@
 /* Deliberately defining web fonts here and not in lazy-styles.css to avoid Flash of unstyled text (FOUT) */
 @font-face {
   font-family: SignikaLight;
-  src: url('/resources/font/Signika-Light-webfont.eot');
-  src: url('/resources/font/Signika-Light-webfont.eot?#iefix') format('embedded-opentype'),
-       url('/resources/font/Signika-Light-webfont.woff') format('woff'),
-       url('/resources/font/Signika-Light-webfont.ttf') format('truetype'),
-       url('/resources/font/Signika-Light-webfont.svg#SignikaLight') format('svg');
+  src: url("/resources/font/Signika-Light-webfont.eot");
+  src:
+    url("/resources/font/Signika-Light-webfont.eot?#iefix") format("embedded-opentype"),
+    url("/resources/font/Signika-Light-webfont.woff") format("woff"),
+    url("/resources/font/Signika-Light-webfont.ttf") format("truetype"),
+    url("/resources/font/Signika-Light-webfont.svg#SignikaLight") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -43,11 +44,12 @@
 
 @font-face {
   font-family: SignikaRegular;
-  src: url('/resources/font/Signika-Regular-webfont.eot');
-  src: url('/resources/font/Signika-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-       url('/resources/font/Signika-Regular-webfont.woff') format('woff'),
-       url('/resources/font/Signika-Regular-webfont.ttf') format('truetype'),
-       url('/resources/font/Signika-Regular-webfont.svg#SignikaRegular') format('svg');
+  src: url("/resources/font/Signika-Regular-webfont.eot");
+  src:
+    url("/resources/font/Signika-Regular-webfont.eot?#iefix") format("embedded-opentype"),
+    url("/resources/font/Signika-Regular-webfont.woff") format("woff"),
+    url("/resources/font/Signika-Regular-webfont.ttf") format("truetype"),
+    url("/resources/font/Signika-Regular-webfont.svg#SignikaRegular") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -55,11 +57,12 @@
 
 @font-face {
   font-family: SignikaSemibold;
-  src: url('/resources/font/Signika-Semibold-webfont.eot');
-  src: url('/resources/font/Signika-Semibold-webfont.eot?#iefix') format('embedded-opentype'),
-       url('/resources/font/Signika-Semibold-webfont.woff') format('woff'),
-       url('/resources/font/Signika-Semibold-webfont.ttf') format('truetype'),
-       url('/resources/font/Signika-Semibold-webfont.svg#SignikaSemibold') format('svg');
+  src: url("/resources/font/Signika-Semibold-webfont.eot");
+  src:
+    url("/resources/font/Signika-Semibold-webfont.eot?#iefix") format("embedded-opentype"),
+    url("/resources/font/Signika-Semibold-webfont.woff") format("woff"),
+    url("/resources/font/Signika-Semibold-webfont.ttf") format("truetype"),
+    url("/resources/font/Signika-Semibold-webfont.svg#SignikaSemibold") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -67,11 +70,12 @@
 
 @font-face {
   font-family: SignikaBold;
-  src: url('/resources/font/Signika-Bold-webfont.eot');
-  src: url('/resources/font/Signika-Bold-webfont.eot?#iefix') format('embedded-opentype'),
-       url('/resources/font/Signika-Bold-webfont.woff') format('woff'),
-       url('/resources/font/Signika-Bold-webfont.ttf') format('truetype'),
-       url('/resources/font/Signika-Bold-webfont.svg#SignikaBold') format('svg');
+  src: url("/resources/font/Signika-Bold-webfont.eot");
+  src:
+    url("/resources/font/Signika-Bold-webfont.eot?#iefix") format("embedded-opentype"),
+    url("/resources/font/Signika-Bold-webfont.woff") format("woff"),
+    url("/resources/font/Signika-Bold-webfont.ttf") format("truetype"),
+    url("/resources/font/Signika-Bold-webfont.svg#SignikaBold") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -86,8 +90,8 @@ body {
 }
 
 /* progressive section appearance */
-main .section[data-section-status='loading'],
-main .section[data-section-status='initialized'] {
+main .section[data-section-status="loading"],
+main .section[data-section-status="initialized"] {
   display: none;
 }
 
@@ -96,11 +100,14 @@ html {
   box-sizing: border-box;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
-p, li {
+p,
+li {
   line-height: 1.6em;
 }
 
@@ -108,7 +115,12 @@ ul {
   padding-left: calc(2 * var(--base-unit));
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-semi);
   font-weight: normal;
 }
@@ -155,7 +167,7 @@ header {
   background-color: #fff;
   background-position: 0 0;
   background-repeat: no-repeat;
-  background-image: url('/resources/img/header_bg.webp');
+  background-image: url("/resources/img/header_bg.webp");
 }
 
 @media screen and (max-width: 320px) {
@@ -166,7 +178,7 @@ header {
 
 header .nav-background {
   position: absolute;
-  background-color: #00A0EE;
+  background-color: #00a0ee;
   top: calc(var(--nav-height) - 36px);
   height: 36px;
   width: 100%;
@@ -206,7 +218,7 @@ header .header-container .logo {
 header .header-container .logo div {
   width: 103px;
   height: 100px;
-  background: url('/resources/img/logo.svg') 0 0 no-repeat;
+  background: url("/resources/img/logo.svg") 0 0 no-repeat;
   background-size: 103px 100px;
   background-repeat: no-repeat;
 }
@@ -225,7 +237,8 @@ header .header-container .logo div {
     padding: 0 var(--base-unit);
   }
 
-  main .section.stage-header-section, main .section.teaser-bar-section {
+  main .section.stage-header-section,
+  main .section.teaser-bar-section {
     padding: 0;
   }
 }

@@ -31,7 +31,7 @@
   top: 0;
   bottom: 0;
   margin: auto;
-  background-image: url('/icons/youtube.svg');
+  background-image: url("/icons/youtube.svg");
   background-size: cover;
   background-repeat: no-repeat;
   background-color: transparent;

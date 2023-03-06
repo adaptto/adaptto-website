@@ -40,11 +40,11 @@
 }
 
 .talk-detail-after-outline ul.talk-links .download a {
-  background: url('/resources/img/download.svg') no-repeat left center;
+  background: url("/resources/img/download.svg") no-repeat left center;
   padding-left: 30px;
 }
 
 .talk-detail-after-outline ul.talk-links .code a {
-  background: url('/resources/img/code.svg') no-repeat left center;
+  background: url("/resources/img/code.svg") no-repeat left center;
   padding-left: 30px;
 }
