@@ -38,6 +38,7 @@ function buildSpeakers(parent, siteRootPath, queryIndex) {
     } else {
       const img = append(imageAnchor, 'img');
       img.src = '/resources/img/speaker_placeholder.svg';
+      img.alt = speakerItem.title;
     }
 
     const a = append(li, 'a');

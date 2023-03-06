@@ -23,6 +23,7 @@ function createSpeakerImage(speakerItem, eager) {
   // fallback image
   const img = document.createElement('img');
   img.src = '/resources/img/speaker_placeholder.svg';
+  img.alt = speakerItem.title;
   return img;
 }
 
@@ -49,7 +50,7 @@ function addSpeaker(parent, speaker, speakerIndex, siteRootPath, queryIndex) {
   imageAnchor.href = speakerUrl;
   const eagerImage = (speakerIndex <= 3); // use eager loading for first 4 speaker images
   imageAnchor.append(createSpeakerImage(speakerItem, eagerImage));
-
+  
   const nameDiv = append(div, 'div', 'name');
   const a = append(nameDiv, 'a');
   a.href = speakerUrl;
