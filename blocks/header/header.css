@@ -31,15 +31,13 @@
   position: absolute;
   z-index: 100;
   top: calc(var(--nav-height) - 36px);
-  left: 0;
   font-family: var(--font-semi);
   font-weight: normal;
   list-style: none;
   list-style-type: none;
   margin: 0 auto;
-  padding: 1px 0 0;
+  padding: 0;
   background-color: var(--color-highlight-1);
-  width: 100%;
 }
 
 .header nav > ul li {
@@ -73,6 +71,9 @@
   .header nav > ul {
     display: none;
     top: var(--nav-height);
+    left: 0;
+    padding: 1px 0 0;
+    width: 100%;
   }
 
   .header nav > ul.active {
