@@ -1,7 +1,7 @@
 {
   "project": "adaptTo()",
-  "outerHost": "adaptto-website--adaptto.hlx.live",
-  "host": "main--adaptto-website--adaptto.hlx.live",
-  "byocdn": false,
-  "pushDownSelector": "header"
+  "host": "adapt.to",
+  "byocdn": true,
+  "pushDown": true,
+  "pushDownSelector": "header, div[role=dialog]"
 }
