@@ -6,12 +6,12 @@ adaptTo() Website based on AEM Franklin.
 
 ## Environments
 - Preview: https://main--adaptto-website--adaptto.hlx.page/
-- Live: https://main--adaptto-website--adaptto.hlx.live/
+- Live: https://adapt.to/ (https://main--adaptto-website--adaptto.hlx.live/)
 
 ## Installation
 
 ```sh
-npm i
+npm install
 ```
 
 ## Tests
