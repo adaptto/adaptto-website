@@ -175,7 +175,7 @@ header {
 
 header .nav-background {
   position: absolute;
-  background-color: #00a0ee;
+  background-color: var(--color-highlight-1);
   top: calc(var(--nav-height) - 36px);
   height: 36px;
   width: 100%;
