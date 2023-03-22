@@ -84,12 +84,11 @@ body {
   font-family: var(--font-light);
   margin: 0 auto;
   overflow-y: scroll;
+  display: none;
 }
 
-/* progressive section appearance */
-main .section[data-section-status="loading"],
-main .section[data-section-status="initialized"] {
-  display: none;
+body.appear {
+  display: unset;
 }
 
 /* --- basic styling --- */
