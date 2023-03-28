@@ -174,7 +174,7 @@ function handleKeyboardNavigation(block, imageUrls) {
   window.addEventListener('keydown', (e) => {
     const { index, fullscreen } = getStateFromHash(imageUrls);
     if (e.key === 'Escape' && fullscreen) {
-      window.location = buildHash(index, !fullscreen);
+      window.location = buildHash(index, false);
     } else if (e.key === 'ArrowLeft') {
       window.location = buildHash(getPreviousIndex(index, imageUrls), fullscreen);
     } else if (e.key === 'ArrowRight') {
