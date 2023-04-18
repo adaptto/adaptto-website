@@ -18,7 +18,6 @@ import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
 import { decorateConsentManagement } from './utils/usercentrics.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
-window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
 
 /**
  * Extracts the stage header block and prepends a new section for it.
