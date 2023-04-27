@@ -21,7 +21,7 @@ const LCP_BLOCKS = [
   'stage-header',
   'schedule',
   'image-gallery',
-  'talk-detail-before-outline'
+  'talk-detail-before-outline',
 ];
 
 /**
