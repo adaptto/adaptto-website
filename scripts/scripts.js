@@ -17,7 +17,12 @@ import { append } from './utils/dom.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
 import { decorateConsentManagement } from './utils/usercentrics.js';
 
-const LCP_BLOCKS = []; // add your LCP blocks to the list
+const LCP_BLOCKS = [
+  'stage-header',
+  'schedule',
+  'image-gallery',
+  'talk-detail-before-outline'
+];
 
 /**
  * Extracts the stage header block and prepends a new section for it.
