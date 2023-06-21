@@ -7,7 +7,7 @@
     / 100%;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (width > 600px) {
   .talk-archive {
     grid-template:
       "search search"
@@ -50,7 +50,7 @@
   padding: 0;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (width <= 600px) {
   .talk-archive .filter ul li {
     display: inline;
     margin-right: 5px;
@@ -75,7 +75,7 @@
   grid-area: result;
 }
 
-@media screen and (max-width: 799px) {
+@media screen and (width <= 799px) {
   .talk-archive .result {
     font-size: small;
   }

@@ -166,7 +166,7 @@ header {
   background-image: url("/resources/img/header_bg.webp");
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (width <= 320px) {
   header {
     height: 110px;
   }
@@ -180,7 +180,7 @@ header .nav-background {
   width: 100%;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (width <= 320px) {
   header .nav-background {
     top: 77px;
   }
@@ -193,13 +193,13 @@ header .header-container {
   padding: 0 var(--base-unit) 0;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (width <= 320px) {
   header .header-container {
     padding: 0;
   }
 }
 
-@media screen and (min-width: 799px) {
+@media screen and (width > 799px) {
   header .header-container {
     width: var(--content-width);
   }
@@ -219,7 +219,7 @@ header .header-container .logo div {
   background-repeat: no-repeat;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (width <= 320px) {
   header .header-container .logo div {
     width: 36px;
     height: 35px;
@@ -228,7 +228,7 @@ header .header-container .logo div {
 }
 
 /* --- grid layout for main area --- */
-@media screen and (max-width: 799px) {
+@media screen and (width <= 799px) {
   main .section {
     padding: 0 var(--base-unit);
   }
@@ -247,7 +247,7 @@ header .header-container .logo div {
   flex: 1 0;
 }
 
-@media screen and (min-width: 600px) and (max-width: 799px) {
+@media screen and (width > 600px) and (width <= 799px) {
   main .section.aside-bar-section {
     display: flex;
   }
@@ -257,7 +257,7 @@ header .header-container .logo div {
   }
 }
 
-@media screen and (min-width: 799px) {
+@media screen and (width > 799px) {
   main {
     display: grid;
     grid-template-columns: 0 repeat(4, 25%) 0;
@@ -299,7 +299,7 @@ header .header-container .logo div {
   }
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (width > 1000px) {
   main {
     grid-template-columns: 1fr repeat(4, 250px) 1fr;
   }
