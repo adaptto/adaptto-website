@@ -5,14 +5,14 @@
   gap: calc(2 * var(--base-unit));
 }
 
-@media screen and (min-width: 600px) and (max-width: 799px) {
+@media screen and (width > 600px) and (width <= 799px) {
   .teaser-bar {
     display: flex;
     flex-wrap: wrap;
   }
 }
 
-@media screen and (min-width: 799px) {
+@media screen and (width > 799px) {
   .teaser-bar {
     display: flex;
     border-top: 1px solid var(--color-medium-dark-gray);
@@ -25,14 +25,14 @@
   padding: 0 var(--base-unit) var(--base-unit);
 }
 
-@media screen and (min-width: 600px) and (max-width: 799px) {
+@media screen and (width > 600px) and (width <= 799px) {
   .teaser-bar > div {
     flex: 0 calc(50% - var(--base-unit));
     padding: 0 0 var(--base-unit);
   }
 }
 
-@media screen and (min-width: 799px) {
+@media screen and (width > 799px) {
   .teaser-bar > div {
     flex: 1 0;
     border-top: none;

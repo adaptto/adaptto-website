@@ -13,7 +13,7 @@
   padding-right: calc(2 *var(--base-unit));
 }
 
-@media screen and (min-width: 799px) {
+@media screen and (width > 799px) {
   .footer .section-footernav,
   .footer .section-footertext {
     width: var(--content-width);
@@ -49,7 +49,7 @@
   text-transform: uppercase;
 }
 
-@media screen and (min-width: 799px) {
+@media screen and (width > 799px) {
   .footer .section-footernav > ul {
     display: flex;
     gap: calc(2 * var(--base-unit));

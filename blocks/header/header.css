@@ -6,7 +6,7 @@
   padding: 0.5em 0 0;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (width <= 320px) {
   .header h1 {
     font-size: 1.6em;
     padding: 0.5em 0;
@@ -20,7 +20,7 @@
   font-size: 1.2em;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (width <= 320px) {
   .header h2 {
     display: none;
   }
@@ -46,7 +46,7 @@
   margin: 0.3em 0.75em;
 }
 
-@media screen and (min-width: 799px) {
+@media screen and (width > 799px) {
   .header nav > ul li:hover ul {
     display: block;
   }
@@ -67,7 +67,7 @@
   white-space: nowrap;
 }
 
-@media screen and (max-width: 799px) {
+@media screen and (width <= 799px) {
   .header nav > ul {
     display: none;
     top: var(--nav-height);
@@ -95,7 +95,7 @@
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (width <= 320px) {
   .header nav > ul {
     top: 110px;
   }
@@ -120,7 +120,7 @@
   display: none;
 }
 
-@media screen and (max-width: 799px) {
+@media screen and (width <= 799px) {
   .header nav .mobile-nav {
     position: absolute;
     z-index: 100;
@@ -144,7 +144,7 @@
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (width <= 320px) {
   .header nav .mobile-nav {
     top: 76px;
     margin-left: 5px;
