@@ -21,17 +21,17 @@
   },
   "homepage": "https://github.com/adaptto/adaptto-website",
   "devDependencies": {
-    "@babel/core": "7.21.0",
-    "@babel/eslint-parser": "7.19.1",
+    "@babel/core": "7.22.5",
+    "@babel/eslint-parser": "7.22.5",
     "chai": "4.3.7",
-    "eslint": "8.35.0",
+    "eslint": "8.43.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.27.5",
     "@esm-bundle/chai": "4.3.4-fix.0",
-    "@web/test-runner": "0.15.1",
-    "@web/test-runner-commands": "0.6.5",
-    "sinon": "15.0.1",
-    "stylelint": "15.2.0",
+    "@web/test-runner": "0.16.1",
+    "@web/test-runner-commands": "0.7.0",
+    "sinon": "15.2.0",
+    "stylelint": "15.8.0",
     "stylelint-config-standard": "30.0.1"
   }
 }
