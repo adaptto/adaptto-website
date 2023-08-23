@@ -183,7 +183,7 @@ async function renderSchedule(block, activeDay, forceReload) {
 
 /**
  * Enabled an auto-refresh of the schedule data once each minute (if fullscreen mode is active).
- * @param {Element} block 
+ * @param {Element} block
  */
 function enableAutoRefresh(block) {
   window.setInterval(() => {
@@ -197,7 +197,6 @@ function enableAutoRefresh(block) {
  * @param {Element} block
  */
 export default async function decorate(block) {
-
   // detect active day
   let activeDay = getActiveDayFromHash();
   if (!activeDay) {
