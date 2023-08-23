@@ -9,6 +9,7 @@
  * themselves with a decorate method and the block parent element. If consent
  * status changes (event triggered), the block is re-rendered automatically.
  */
+import { isFullscreen } from './fullscreen.js';
 import html from './htmlTemplateTag.js';
 
 const settingsId = 'o544Hdz9e';
@@ -139,7 +140,8 @@ export function decorateWithConsent(service, parent, decorator) {
  * @param {Element} head HTML Head
  */
 export function decorateConsentManagement(head) {
-  if (!enabled || document.querySelector('head script[src="https://app.Usercentrics.eu/browser-ui/latest/loader.js"]')) {
+  if (!enabled || isFullscreen()
+      || document.querySelector('head script[src="https://app.Usercentrics.eu/browser-ui/latest/loader.js"]')) {
     return;
   }
 

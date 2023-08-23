@@ -115,3 +115,7 @@
 .schedule td > div.speaker {
   font-size: 80%;
 }
+
+body.fullscreen .schedule {
+  margin-top: 10px;
+}

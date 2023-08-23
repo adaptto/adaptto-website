@@ -1,5 +1,5 @@
 import { convertSheetDateValue } from '../utils/datetime.js';
-import { getFetchCacheOptions } from '../utils/fetch.js';
+import { getFetchCacheOptions, getFetchCacheOptionsForceReload } from '../utils/fetch.js';
 import { parseCSVArray, removeTitleSuffix } from '../utils/metadata.js';
 import { getPathName, isUrlOrPath } from '../utils/path.js';
 import { getQueryIndex } from './QueryIndex.js';
@@ -149,10 +149,12 @@ function toDays(scheduleData, queryIndex) {
 
 /**
  * @param {string} scheduleDataUrl Url to schedule-data.json
+ * @param {boolean} forceReload Force reload of data
  */
-export async function getScheduleData(scheduleDataUrl) {
+export async function getScheduleData(scheduleDataUrl, forceReload) {
   let scheduleData;
-  const resp = await fetch(scheduleDataUrl, getFetchCacheOptions());
+  const cacheOptions = forceReload ? getFetchCacheOptionsForceReload() : getFetchCacheOptions();
+  const resp = await fetch(scheduleDataUrl, cacheOptions);
   if (resp.ok) {
     const json = await resp.json();
     scheduleData = json.data;
