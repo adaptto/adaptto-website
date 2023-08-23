@@ -213,7 +213,7 @@ export default async function decorate(block) {
   });
 
   // render schedule
-  renderSchedule(block, activeDay, false);
+  await renderSchedule(block, activeDay, false);
 
   // enable auto-refresh in fullscreen mode
   if (isFullscreen()) {
