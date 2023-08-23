@@ -8,7 +8,15 @@
 export function getFetchCacheOptions() {
   const navigationType = window.performance.getEntriesByType('navigation')[0]?.type;
   if (navigationType === 'reload') {
-    return { cache: 'reload' };
+    return getFetchCacheOptionsForceReload();
   }
   return {};
+}
+
+/**
+ * Returns Fetch API cache options that force a reload.
+ * @returns Force reload cache options.
+ */
+export function getFetchCacheOptionsForceReload() {
+  return { cache: 'reload' };
 }

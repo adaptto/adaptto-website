@@ -2,6 +2,7 @@ import { append } from '../../scripts/utils/dom.js';
 import { getScheduleData } from '../../scripts/services/ScheduleData.js';
 import { getSiteRootPath } from '../../scripts/utils/site.js';
 import { formatDateFull, formatTime } from '../../scripts/utils/datetime.js';
+import { isFullscreen } from '../../scripts/utils/fullscreen.js';
 
 const dayIdPattern = /^#day-(\d)$/;
 
@@ -161,15 +162,41 @@ function buildDaySchedule(parent, day, activeDay) {
 }
 
 /**
+ * Render schedule.
+ * @param {Element} block Block
+ * @param {number} activeDay Active day
+ * @param {boolean} forceReload Force data reload
+ */
+async function renderSchedule(block, activeDay, forceReload) {
+  // load schedule data
+  const siteRoot = getSiteRootPath(document.location.pathname);
+  const scheduleData = await getScheduleData(`${siteRoot}schedule-data.json`, forceReload);
+
+  // render schedule
+  block.textContent = '';
+  const days = scheduleData.getDays();
+  if (days.length > 0) {
+    buildTabNavigation(block, days, activeDay);
+    days.forEach((day) => buildDaySchedule(block, day, activeDay));
+  }
+}
+
+/**
+ * Enabled an auto-refresh of the schedule data once each minute (if fullscreen mode is active).
+ * @param {Element} block 
+ */
+function enableAutoRefresh(block) {
+  window.setInterval(() => {
+    const activeDay = getActiveDayFromHash() ?? 1;
+    renderSchedule(block, activeDay, true);
+  }, 60000);
+}
+
+/**
  * Builds schedule based on schedule-data sheet.
  * @param {Element} block
  */
 export default async function decorate(block) {
-  block.textContent = '';
-
-  // load schedule data
-  const siteRoot = getSiteRootPath(document.location.pathname);
-  const scheduleData = await getScheduleData(`${siteRoot}schedule-data.json`);
 
   // detect active day
   let activeDay = getActiveDayFromHash();
@@ -187,9 +214,10 @@ export default async function decorate(block) {
   });
 
   // render schedule
-  const days = scheduleData.getDays();
-  if (days.length > 0) {
-    buildTabNavigation(block, days, activeDay);
-    days.forEach((day) => buildDaySchedule(block, day, activeDay));
+  renderSchedule(block, activeDay, false);
+
+  // enable auto-refresh in fullscreen mode
+  if (isFullscreen()) {
+    enableAutoRefresh(block);
   }
 }

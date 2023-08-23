@@ -14,6 +14,7 @@ import {
 } from './lib-franklin.js';
 import { decorateAnchors } from './services/LinkHandler.js';
 import { append } from './utils/dom.js';
+import { isFullscreen } from './utils/fullscreen.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
 import { decorateConsentManagement } from './utils/usercentrics.js';
 
@@ -184,6 +185,7 @@ function addStaticHeaderElements(header) {
  * - content-3col (default)
  * - content-4col (default with include-aside-bar=false)
  * - content-2col
+ * - fullscreen
  */
 function decorateTemplateAndThemeWithAutoDetection() {
   decorateTemplateAndTheme();
@@ -204,6 +206,11 @@ function decorateTemplateAndThemeWithAutoDetection() {
  */
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
+  if (isFullscreen()) {
+    // remove header and footer in fullscreen mode
+    doc.querySelector('header')?.remove();
+    doc.querySelector('footer')?.remove();
+  }
   const header = doc.querySelector('header');
   if (header) {
     addStaticHeaderElements(header);
@@ -222,7 +229,10 @@ async function loadEager(doc) {
  * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
-  loadHeader(doc.querySelector('header .header-container'));
+  const headerContainer = doc.querySelector('header .header-container');
+  if (headerContainer) {
+    loadHeader(headerContainer);
+  }
 
   const main = doc.querySelector('main');
   await loadBlocks(main);
@@ -231,7 +241,10 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadFooter(doc.querySelector('footer'));
+  const footer = doc.querySelector('footer');
+  if (footer) {
+    loadFooter(doc.querySelector('footer'));
+  }
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
 
