@@ -22,6 +22,7 @@ describe('utils/metadata', () => {
 
   it('removeTitleSuffix', () => {
     expect(removeTitleSuffix('My Title - adaptTo() 2021')).to.eq('My Title');
+    expect(removeTitleSuffix('My Title, adaptTo() 2021')).to.eq('My Title');
     expect(removeTitleSuffix('My Title - Second One  -   adaptTo()  2020 ')).to.eq('My Title - Second One');
     expect(removeTitleSuffix('adaptTo()  2021')).to.eq('adaptTo()  2021');
     expect(removeTitleSuffix('')).to.eq('');
