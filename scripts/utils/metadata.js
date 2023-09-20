@@ -1,4 +1,6 @@
-const titleSuffixPattern = /^(.+)\s-\s+adaptTo\(\)\s+\d+\s*$/;
+// match e.g. with " - adaptTo() 2023"
+// but also with ", adaptTo() 2023" which seems to be generated sometimes due to a bug
+const titleSuffixPattern = /^(.+)(\s-|,)\s+adaptTo\(\)\s+\d+\s*$/;
 
 /**
  * Splits a comma-separated value to array (trimming the values).
