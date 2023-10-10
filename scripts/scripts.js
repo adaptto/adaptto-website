@@ -83,6 +83,11 @@ function decorateTalkDetailPage(main) {
     const talkDetailFooter = document.createElement('div');
     talkDetailFooter.classList.add('talk-detail-footer');
     footerSection.append(talkDetailFooter);
+    // move Q&A to bottom of page
+    const qa = main.querySelector(':scope div.talk-qa');
+    if (qa) {
+      footerSection.append(qa);
+    }
   }
 }
 
