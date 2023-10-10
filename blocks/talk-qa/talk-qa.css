@@ -1,11 +1,8 @@
-.talk-qa {
-  font-size: smaller;
-}
-
 .talk-qa > div {
   border-top: 2px solid var(--color-highlight-1);
   margin-top: 10px;
   padding-top: 5px;
+  font-size: smaller;
 }
 
 .talk-qa > div > div:nth-child(2) {
@@ -22,6 +19,7 @@
 }
 
 .talk-qa p em {
+  font-style: normal;
   font-weight: bold;
   color: var(--color-medium-gray);
 }
