@@ -62,7 +62,7 @@ function buildVideo(parent) {
  * @returns true if any "p" or "li" element is found in the default content.
  */
 function isOutlinePresent() {
-  return document.querySelectorAll('main .default-content-wrapper p, main .default-content-wrapper li').length > 0
+  return document.querySelectorAll('main .default-content-wrapper p, main .default-content-wrapper li').length > 0;
 }
 
 /**
