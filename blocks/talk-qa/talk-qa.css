@@ -1,0 +1,27 @@
+.talk-qa {
+  font-size: smaller;
+}
+
+.talk-qa > div {
+  border-top: 2px solid var(--color-highlight-1);
+  margin-top: 10px;
+  padding-top: 5px;
+}
+
+.talk-qa > div > div:nth-child(2) {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding-left: 10px;
+  border-left: 2px solid var(--color-medium-gray);
+}
+
+.talk-qa p {
+  margin-top: 3px;
+  margin-bottom: 3px;
+  line-height: 1.1rem;
+}
+
+.talk-qa p em {
+  font-weight: bold;
+  color: var(--color-medium-gray);
+}
