@@ -1,4 +1,4 @@
-import { append, prepend } from '../../scripts/utils/dom.js';
+import { prepend } from '../../scripts/utils/dom.js';
 
 /**
  * Talk Q&A
