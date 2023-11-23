@@ -1,5 +1,5 @@
 import { append } from '../../scripts/utils/dom.js';
-import { createOptimizedPicture, getMetadata } from '../../scripts/lib-franklin.js';
+import { createOptimizedPicture, getMetadata } from '../../scripts/aem.js';
 import { getQueryIndex } from '../../scripts/services/QueryIndex.js';
 import { parseCSVArray } from '../../scripts/utils/metadata.js';
 import { getSiteRootPath, getSpeakerDetailPath } from '../../scripts/utils/site.js';

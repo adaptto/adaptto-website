@@ -1,4 +1,4 @@
-import { decorateBlock, getMetadata, loadBlocks } from '../../scripts/lib-franklin.js';
+import { decorateBlock, getMetadata, loadBlocks } from '../../scripts/aem.js';
 import { getScheduleData } from '../../scripts/services/ScheduleData.js';
 import { formatDateFull, formatTime } from '../../scripts/utils/datetime.js';
 import { append } from '../../scripts/utils/dom.js';

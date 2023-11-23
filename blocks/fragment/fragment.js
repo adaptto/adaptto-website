@@ -4,7 +4,7 @@
  * https://www.hlx.live/developer/block-collection/fragment
  */
 import { decorateMain } from '../../scripts/scripts.js';
-import { loadBlocks } from '../../scripts/lib-franklin.js';
+import { loadBlocks } from '../../scripts/aem.js';
 import { getFetchCacheOptions } from '../../scripts/utils/fetch.js';
 
 /**

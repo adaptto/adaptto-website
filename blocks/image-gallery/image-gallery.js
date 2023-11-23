@@ -1,4 +1,4 @@
-import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
+import { createOptimizedPicture } from '../../scripts/aem.js';
 import { append } from '../../scripts/utils/dom.js';
 import html from '../../scripts/utils/htmlTemplateTag.js';
 

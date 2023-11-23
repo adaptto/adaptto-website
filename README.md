@@ -21,8 +21,14 @@ npm install
 npm test
 ```
 
+## Linting
+
+```sh
+npm run lint
+```
+
 ## Local development
 
-1. Install the [Helix CLI](https://github.com/adobe/helix-cli): `npm install -g @adobe/helix-cli`
-2. Start Franklin Proxy: `hlx up` (opens your browser at `http://localhost:3000`)
-3. Open the `adaptto-website` directory in your favorite IDE and start coding :)
+1. Install the [AEM CLI](https://github.com/adobe/aem-cli): `npm install -g @adobe/aem-cli`
+2. Start AEM Proxy: `aem up` (opens your browser at `http://localhost:3000`)
+3. Open the `{repo}` directory in your favorite IDE and start coding :)

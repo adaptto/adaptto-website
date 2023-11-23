@@ -1,4 +1,4 @@
-import { readBlockConfig } from '../../scripts/lib-franklin.js';
+import { readBlockConfig } from '../../scripts/aem.js';
 import html from '../../scripts/utils/htmlTemplateTag.js';
 import { append } from '../../scripts/utils/dom.js';
 import { decorateWithConsent } from '../../scripts/utils/usercentrics.js';

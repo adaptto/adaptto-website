@@ -1,4 +1,4 @@
-import { getMetadata } from '../../scripts/lib-franklin.js';
+import { getMetadata } from '../../scripts/aem.js';
 import { getQueryIndex } from '../../scripts/services/QueryIndex.js';
 import { append } from '../../scripts/utils/dom.js';
 import { removeTitleSuffix } from '../../scripts/utils/metadata.js';
