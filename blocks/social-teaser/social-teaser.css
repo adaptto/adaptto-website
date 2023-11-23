@@ -11,3 +11,8 @@
   height: 45px;
   margin-right: 3px;
 }
+
+.social-teaser .icon img {
+  height: auto;
+  width: 100%;
+}

@@ -11,7 +11,7 @@ import {
   loadBlocks,
   loadCSS,
   getMetadata,
-} from './lib-franklin.js';
+} from './aem.js';
 import { decorateAnchors } from './services/LinkHandler.js';
 import { append } from './utils/dom.js';
 import { isFullscreen } from './utils/fullscreen.js';
