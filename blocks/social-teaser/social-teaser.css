@@ -7,6 +7,8 @@
 }
 
 .social-teaser .icon {
+  display: flex;
+  align-items: center; 
   width: 45px;
   height: 45px;
   margin-right: 3px;
@@ -15,4 +17,5 @@
 .social-teaser .icon img {
   height: auto;
   width: 100%;
+  vertical-align: middle;
 }
