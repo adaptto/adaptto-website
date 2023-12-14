@@ -3,7 +3,7 @@
 
 import { expect } from '@esm-bundle/chai';
 import decorate from '../../../blocks/embed-youtube/embed-youtube.js';
-import { buildBlock } from '../../../scripts/lib-franklin.js';
+import { buildBlock } from '../../../scripts/aem.js';
 import { setConsentManagementEnabled } from '../../../scripts/utils/usercentrics.js';
 
 /**

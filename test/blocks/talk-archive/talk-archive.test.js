@@ -2,7 +2,7 @@
 /* global describe it */
 
 import { expect } from '@esm-bundle/chai';
-import { buildBlock } from '../../../scripts/lib-franklin.js';
+import { buildBlock } from '../../../scripts/aem.js';
 import decorate from '../../../blocks/talk-archive/talk-archive.js';
 import { stubFetchUrlMap } from '../../scripts/test-utils.js';
 

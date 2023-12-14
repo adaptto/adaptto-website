@@ -3,7 +3,7 @@
 
 import { expect } from '@esm-bundle/chai';
 import decorate from '../../../blocks/embed-google-maps/embed-google-maps.js';
-import { buildBlock } from '../../../scripts/lib-franklin.js';
+import { buildBlock } from '../../../scripts/aem.js';
 import { decorateConsentManagement, setConsentManagementEnabled } from '../../../scripts/utils/usercentrics.js';
 import { sleep } from '../../scripts/test-utils.js';
 

@@ -1,4 +1,4 @@
-import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
+import { createOptimizedPicture } from '../../scripts/aem.js';
 import { append } from '../../scripts/utils/dom.js';
 import html from '../../scripts/utils/htmlTemplateTag.js';
 
@@ -52,6 +52,32 @@ function buildHash(index, fullscreen) {
 }
 
 /**
+ * Get index for next image (jumping to first one on last image).
+ * @param {number} index Current index
+ * @param {string[]} imageUrls Image URLs
+ */
+function getNextIndex(index, imageUrls) {
+  let nextIndex = index + 1;
+  if (nextIndex > imageUrls.length - 1) {
+    nextIndex = 0;
+  }
+  return nextIndex;
+}
+
+/**
+ * Get index for previous image (jumping to last one on first image).
+ * @param {number} index Current index
+ * @param {string[]} imageUrls Image URLs
+ */
+function getPreviousIndex(index, imageUrls) {
+  let previousIndex = index - 1;
+  if (previousIndex < 0) {
+    previousIndex = imageUrls.length - 1;
+  }
+  return previousIndex;
+}
+
+/**
  * Display selected image in given container (page or fullscreen).
  * @param {Element} parent Parent element
  * @param {string[]} imageUrls Image URLs
@@ -68,16 +94,14 @@ function displayImage(parent, imageUrls, index, fullscreen) {
   parent.querySelector('.gallery-placeholder').replaceChildren(picture);
 
   // navigation links
-  let previousIndex = index - 1;
-  if (previousIndex < 0) {
-    previousIndex = imageUrls.length - 1;
-  }
-  let nextIndex = index + 1;
-  if (nextIndex > imageUrls.length - 1) {
-    nextIndex = 0;
-  }
-  parent.querySelector('.gallery-prev').href = buildHash(previousIndex, fullscreen);
-  parent.querySelector('.gallery-next').href = buildHash(nextIndex, fullscreen);
+  const previousIndex = getPreviousIndex(index, imageUrls);
+  const nextIndex = getNextIndex(index, imageUrls);
+  const prefLink = parent.querySelector('.gallery-prev');
+  prefLink.ariaLabel = `Image ${previousIndex + 1}`;
+  prefLink.href = buildHash(previousIndex, fullscreen);
+  const nextLink = parent.querySelector('.gallery-next');
+  nextLink.href = buildHash(nextIndex, fullscreen);
+  nextLink.ariaLabel = `Image ${nextIndex + 1}`;
 
   // full screen mode open/close buttons
   const fullscreenButton = parent.querySelector('.gallery-fullscreen-btn');
@@ -142,6 +166,24 @@ function displayCurrentStateImage(block, imageUrls) {
 }
 
 /**
+ * Keyboard navigation: ESC to close full screen, arrow left and right to navigation between images.
+ * @param {Element} block Block
+ * @param {string[]} imageUrls Image URLs
+ */
+function handleKeyboardNavigation(block, imageUrls) {
+  window.addEventListener('keydown', (e) => {
+    const { index, fullscreen } = getStateFromHash(imageUrls);
+    if (e.key === 'Escape' && fullscreen) {
+      window.location = buildHash(index, false);
+    } else if (e.key === 'ArrowLeft') {
+      window.location = buildHash(getPreviousIndex(index, imageUrls), fullscreen);
+    } else if (e.key === 'ArrowRight') {
+      window.location = buildHash(getNextIndex(index, imageUrls), fullscreen);
+    }
+  });
+}
+
+/**
  * Image Gallery.
  * @param {Element} block
  */
@@ -169,6 +211,7 @@ export default function decorate(block) {
     const li = append(thumbList, 'li');
     const a = append(li, 'a', 'gallery-thumb');
     a.href = buildHash(index, false);
+    a.ariaLabel = `Image ${index + 1}`;
     const eager = (index <= 7);
     a.append(createOptimizedPicture(imageUrl, '', eager, [{ width: '100' }]));
   });
@@ -176,4 +219,7 @@ export default function decorate(block) {
   // react to stage changes via hash
   window.addEventListener('hashchange', () => displayCurrentStateImage(block, imageUrls));
   displayCurrentStateImage(block, imageUrls);
+
+  // keyboard navigation
+  handleKeyboardNavigation(block, imageUrls);
 }

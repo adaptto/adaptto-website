@@ -5,14 +5,14 @@
   gap: calc(2 * var(--base-unit));
 }
 
-@media screen and (min-width: 600px) and (max-width: 799px) {
+@media screen and (width > 600px) and (width <= 799px) {
   .teaser-bar {
     display: flex;
     flex-wrap: wrap;
   }
 }
 
-@media screen and (min-width: 799px) {
+@media screen and (width > 799px) {
   .teaser-bar {
     display: flex;
     border-top: 1px solid var(--color-medium-dark-gray);
@@ -25,14 +25,14 @@
   padding: 0 var(--base-unit) var(--base-unit);
 }
 
-@media screen and (min-width: 600px) and (max-width: 799px) {
+@media screen and (width > 600px) and (width <= 799px) {
   .teaser-bar > div {
     flex: 0 calc(50% - var(--base-unit));
     padding: 0 0 var(--base-unit);
   }
 }
 
-@media screen and (min-width: 799px) {
+@media screen and (width > 799px) {
   .teaser-bar > div {
     flex: 1 0;
     border-top: none;
@@ -44,12 +44,12 @@
     flex-direction: column;
     height: 100%;
   }
-  
+
   .teaser-bar > div > div > * {
     flex-grow: 1;
     margin: var(--base-unit) 0 0 0;
   }
-  
+
   .teaser-bar > div p.text {
     flex-grow: 100;
   }
@@ -60,7 +60,7 @@
 }
 
 .teaser-bar > div p.link a {
-  background: url('/resources/img/link_icon.png') 0 0.15em no-repeat transparent;
+  background: url("/resources/img/link_icon.png") 0 0.15em no-repeat transparent;
   background-size: 0.8em 0.8em;
   padding-left: 1em;
 }

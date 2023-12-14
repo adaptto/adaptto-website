@@ -6,7 +6,7 @@
   padding: 0.5em 0 0;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (width <= 320px) {
   .header h1 {
     font-size: 1.6em;
     padding: 0.5em 0;
@@ -20,7 +20,7 @@
   font-size: 1.2em;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (width <= 320px) {
   .header h2 {
     display: none;
   }
@@ -31,15 +31,13 @@
   position: absolute;
   z-index: 100;
   top: calc(var(--nav-height) - 36px);
-  left: 0;
   font-family: var(--font-semi);
   font-weight: normal;
   list-style: none;
   list-style-type: none;
   margin: 0 auto;
-  padding: 1px 0 0;
+  padding: 0;
   background-color: var(--color-highlight-1);
-  width: 100%;
 }
 
 .header nav > ul li {
@@ -48,7 +46,7 @@
   margin: 0.3em 0.75em;
 }
 
-@media screen and (min-width: 799px) {
+@media screen and (width > 799px) {
   .header nav > ul li:hover ul {
     display: block;
   }
@@ -69,10 +67,13 @@
   white-space: nowrap;
 }
 
-@media screen and (max-width: 799px) {
+@media screen and (width <= 799px) {
   .header nav > ul {
     display: none;
     top: var(--nav-height);
+    left: 0;
+    padding: 1px 0 0;
+    width: 100%;
   }
 
   .header nav > ul.active {
@@ -94,7 +95,7 @@
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (width <= 320px) {
   .header nav > ul {
     top: 110px;
   }
@@ -108,7 +109,8 @@
   color: var(--color-light);
 }
 
-.header nav a:hover, .header nav a:active {
+.header nav a:hover,
+.header nav a:active {
   color: var(--color-light);
   text-decoration: underline;
 }
@@ -118,7 +120,7 @@
   display: none;
 }
 
-@media screen and (max-width: 799px) {
+@media screen and (width <= 799px) {
   .header nav .mobile-nav {
     position: absolute;
     z-index: 100;
@@ -137,15 +139,14 @@
     word-wrap: nowrap;
     width: 100%;
     height: 100%;
-    background: url('/resources/img/menu.png') 0 3px no-repeat transparent;
+    background: url("/resources/img/menu.png") 0 3px no-repeat transparent;
     text-indent: 100%;
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (width <= 320px) {
   .header nav .mobile-nav {
     top: 76px;
     margin-left: 5px;
   }
 }
-

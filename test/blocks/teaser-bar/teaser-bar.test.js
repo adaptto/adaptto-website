@@ -11,10 +11,18 @@ describe('blocks/teaser-bar', () => {
     const block = document.querySelector('.teaser-bar');
     decorate(block);
 
-    const teaser = block.querySelector('div > div');
-    expect(teaser.querySelector('h1')).to.exist;
-    expect(teaser.querySelector('p.image:has(a img)')).to.exist;
-    expect(teaser.querySelector('p.text')).to.exist;
-    expect(teaser.querySelector('p.link:has(a)')).to.exist;
+    // 1st teaser already has anchor around image
+    const teaser1 = block.querySelector('div > div:nth-child(1)');
+    expect(teaser1.querySelector('h1')).to.exist;
+    expect(teaser1.querySelector('p.image:has(a img)')).to.exist;
+    expect(teaser1.querySelector('p.text')).to.exist;
+    expect(teaser1.querySelector('p.link:has(a)')).to.exist;
+
+    // 2nd teaser has not anchor around image, ensure block has added it
+    const teaser2 = block.querySelector('div > div:nth-child(2)');
+    expect(teaser2.querySelector('h1')).to.exist;
+    expect(teaser2.querySelector('p.image:has(a img)')).to.exist;
+    expect(teaser2.querySelector('p.text')).to.exist;
+    expect(teaser2.querySelector('p.link:has(a)')).to.exist;
   });
 });

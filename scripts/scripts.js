@@ -11,14 +11,19 @@ import {
   loadBlocks,
   loadCSS,
   getMetadata,
-} from './lib-franklin.js';
+} from './aem.js';
 import { decorateAnchors } from './services/LinkHandler.js';
 import { append } from './utils/dom.js';
+import { isFullscreen } from './utils/fullscreen.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
 import { decorateConsentManagement } from './utils/usercentrics.js';
 
-const LCP_BLOCKS = []; // add your LCP blocks to the list
-window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
+const LCP_BLOCKS = [
+  'stage-header',
+  'schedule',
+  'image-gallery',
+  'talk-detail-before-outline',
+];
 
 /**
  * Extracts the stage header block and prepends a new section for it.
@@ -78,6 +83,11 @@ function decorateTalkDetailPage(main) {
     const talkDetailFooter = document.createElement('div');
     talkDetailFooter.classList.add('talk-detail-footer');
     footerSection.append(talkDetailFooter);
+    // move Q&A to bottom of page
+    const qa = main.querySelector(':scope div.talk-qa');
+    if (qa) {
+      footerSection.append(qa);
+    }
   }
 }
 
@@ -168,6 +178,7 @@ function addStaticHeaderElements(header) {
   const container = append(header, 'div', 'header-container');
   const logoLink = append(container, 'a', 'logo');
   logoLink.id = 'top';
+  logoLink.ariaLabel = 'Go to homepage';
   append(logoLink, 'div');
   append(header, 'div', 'nav-background');
 }
@@ -179,6 +190,7 @@ function addStaticHeaderElements(header) {
  * - content-3col (default)
  * - content-4col (default with include-aside-bar=false)
  * - content-2col
+ * - fullscreen
  */
 function decorateTemplateAndThemeWithAutoDetection() {
   decorateTemplateAndTheme();
@@ -199,6 +211,11 @@ function decorateTemplateAndThemeWithAutoDetection() {
  */
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
+  if (isFullscreen()) {
+    // remove header and footer in fullscreen mode
+    doc.querySelector('header')?.remove();
+    doc.querySelector('footer')?.remove();
+  }
   const header = doc.querySelector('header');
   if (header) {
     addStaticHeaderElements(header);
@@ -207,6 +224,7 @@ async function loadEager(doc) {
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
+    document.body.classList.add('appear');
     await waitForLCP(LCP_BLOCKS);
   }
 }
@@ -216,6 +234,11 @@ async function loadEager(doc) {
  * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
+  const headerContainer = doc.querySelector('header .header-container');
+  if (headerContainer) {
+    loadHeader(headerContainer);
+  }
+
   const main = doc.querySelector('main');
   await loadBlocks(main);
 
@@ -223,8 +246,10 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header .header-container'));
-  loadFooter(doc.querySelector('footer'));
+  const footer = doc.querySelector('footer');
+  if (footer) {
+    loadFooter(doc.querySelector('footer'));
+  }
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
 
