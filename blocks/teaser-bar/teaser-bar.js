@@ -18,11 +18,12 @@ export default async function decorate(block) {
     const img = div.querySelector('.image > picture');
     const link = div.querySelector('.link a');
     if (img && link) {
+      const imgContainer = img.parentElement;
       const imgAnchor = document.createElement('a');
       imgAnchor.href = link.href;
       imgAnchor.target = link.target;
       imgAnchor.append(img);
-      div.querySelector('.image').append(imgAnchor);
+      imgContainer.append(imgAnchor);
     }
   });
 }
