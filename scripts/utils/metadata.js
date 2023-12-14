@@ -48,3 +48,17 @@ export function removeTitleSuffix(title) {
   }
   return title;
 }
+
+/**
+ * Builds a link URL to twitter e.g. https://twitter.com/@user
+ * @param {string} twitterHandle Twitter handle (with or without "@" prefix)
+ * @returns {string} Twitter URL
+ */
+export function buildTwitterUrl(twitterHandle) {
+  if (twitterHandle.startsWith('@')) {
+    return `https://twitter.com/${twitterHandle}`
+  }
+  else {
+    return `https://twitter.com/@${twitterHandle}`
+  }
+}

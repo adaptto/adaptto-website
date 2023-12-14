@@ -2,7 +2,7 @@
 /* global describe it */
 
 import { expect } from '@esm-bundle/chai';
-import { parseCSVArray, parseJsonArray, removeTitleSuffix } from '../../../scripts/utils/metadata.js';
+import { buildTwitterUrl, parseCSVArray, parseJsonArray, removeTitleSuffix } from '../../../scripts/utils/metadata.js';
 
 describe('utils/metadata', () => {
   it('parseCSVArray', () => {
@@ -27,5 +27,11 @@ describe('utils/metadata', () => {
     expect(removeTitleSuffix('adaptTo()  2021')).to.eq('adaptTo()  2021');
     expect(removeTitleSuffix('')).to.eq('');
     expect(removeTitleSuffix(undefined)).to.not.exist;
+  });
+
+
+  it('buildTwitterUrl', () => {
+    expect(buildTwitterUrl('@user1')).to.eq('https://twitter.com/@user1');
+    expect(buildTwitterUrl('user2')).to.eq('https://twitter.com/@user2');
   });
 });
