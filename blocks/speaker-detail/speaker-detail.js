@@ -1,7 +1,7 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { getQueryIndex } from '../../scripts/services/QueryIndex.js';
 import { append } from '../../scripts/utils/dom.js';
-import { buildTwitterUrl, removeTitleSuffix } from '../../scripts/utils/metadata.js';
+import { buildTwitterHandle, buildTwitterUrl, removeTitleSuffix } from '../../scripts/utils/metadata.js';
 import { getYearFromPath } from '../../scripts/utils/path.js';
 import { getSiteRootPathAlsoForSpeakerPath, getSpeakerOverviewPath } from '../../scripts/utils/site.js';
 
@@ -23,9 +23,9 @@ function addSpeakerMetadata(parent) {
   if (twitter) {
     const twitterDiv = append(div, 'div', 'twitter');
     const a = append(twitterDiv, 'a');
-    a.href = buildTwitterUrl(speakerItem.twitter);
+    a.href = buildTwitterUrl(twitter);
     a.target = '_blank';
-    a.textContent = twitter;
+    a.textContent = buildTwitterHandle(twitter);
   }
 
   const affiliation = getMetadata('affiliation');

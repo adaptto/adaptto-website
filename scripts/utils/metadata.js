@@ -50,15 +50,22 @@ export function removeTitleSuffix(title) {
 }
 
 /**
+ * Prefixes a twitter user name with "@" if not present already.
+ * @param {string} twitterHandle Twitter handle (with or without "@" prefix)
+ * @returns {string} Twitter Handle with @ prefix
+ */
+export function buildTwitterHandle(twitterHandle) {
+  if (twitterHandle.startsWith('@')) {
+    return twitterHandle;
+  }
+  return `@${twitterHandle}`;
+}
+
+/**
  * Builds a link URL to twitter e.g. https://twitter.com/@user
  * @param {string} twitterHandle Twitter handle (with or without "@" prefix)
  * @returns {string} Twitter URL
  */
 export function buildTwitterUrl(twitterHandle) {
-  if (twitterHandle.startsWith('@')) {
-    return `https://twitter.com/${twitterHandle}`
-  }
-  else {
-    return `https://twitter.com/@${twitterHandle}`
-  }
+  return `https://twitter.com/${buildTwitterHandle(twitterHandle)}`;
 }
