@@ -61,6 +61,7 @@ function addSpeaker(parent, speaker, speakerIndex, siteRootPath, queryIndex) {
     const twitterAnchor = append(twitterDiv, 'a');
     twitterAnchor.textContent = speakerItem.twitter;
     twitterAnchor.href = `https://twitter.com/${speakerItem.twitter}`;
+    twitterAnchor.target = '_blank';
   }
 
   if (speakerItem.affiliation) {

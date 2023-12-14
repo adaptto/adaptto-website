@@ -24,6 +24,7 @@ function addSpeakerMetadata(parent) {
     const twitterDiv = append(div, 'div', 'twitter');
     const a = append(twitterDiv, 'a');
     a.href = `https://twitter.com/${twitter}`;
+    a.target = '_blank';
     a.textContent = twitter;
   }
 
