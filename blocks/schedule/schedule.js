@@ -19,6 +19,20 @@ function getActiveDayFromHash() {
 }
 
 /**
+ * Checks if the current date matches with one of the schedule dates and returns
+ * that date as active day.
+ * @returns Active day or undefined.
+ */
+async function getActiveDateFromCurrentDate() {
+  // load schedule data
+  const siteRoot = getSiteRootPath(document.location.pathname);
+  const scheduleData = await getScheduleData(`${siteRoot}schedule-data.json`, false);
+
+  const currentDate = new Date().toDateString();
+  return scheduleData.getDays().filter((day) => day.start.toDateString() === currentDate)[0]?.day;
+}
+
+/**
  * Displays schedule for given day.
  * @param {Element} block
  * @param {number} day
@@ -200,7 +214,7 @@ export default async function decorate(block) {
   // detect active day
   let activeDay = getActiveDayFromHash();
   if (!activeDay) {
-    activeDay = 1;
+    activeDay = await getActiveDateFromCurrentDate() ?? 1;
     window.history.replaceState(null, null, `#day-${activeDay}`);
   }
 
