@@ -132,6 +132,10 @@ a:link {
   text-decoration: none;
 }
 
+a u {
+  text-decoration: none;
+}
+
 a:visited {
   color: var(--color-cta);
 }
