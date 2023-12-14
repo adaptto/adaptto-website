@@ -1,7 +1,7 @@
 import { createOptimizedPicture, readBlockConfig } from '../../scripts/aem.js';
 import { getQueryIndex } from '../../scripts/services/QueryIndex.js';
 import { append } from '../../scripts/utils/dom.js';
-import { parseCSVArray } from '../../scripts/utils/metadata.js';
+import { buildTwitterHandle, buildTwitterUrl, parseCSVArray } from '../../scripts/utils/metadata.js';
 import { getSiteRootPath, getSpeakerDetailPath } from '../../scripts/utils/site.js';
 
 /**
@@ -59,8 +59,9 @@ function addSpeaker(parent, speaker, speakerIndex, siteRootPath, queryIndex) {
   if (speakerItem.twitter) {
     const twitterDiv = append(div, 'div', 'twitter');
     const twitterAnchor = append(twitterDiv, 'a');
-    twitterAnchor.textContent = speakerItem.twitter;
-    twitterAnchor.href = `https://twitter.com/${speakerItem.twitter}`;
+    twitterAnchor.textContent = buildTwitterHandle(speakerItem.twitter);
+    twitterAnchor.href = buildTwitterUrl(speakerItem.twitter);
+    twitterAnchor.target = '_blank';
   }
 
   if (speakerItem.affiliation) {
