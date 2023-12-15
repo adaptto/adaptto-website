@@ -232,7 +232,7 @@ header .header-container .logo div {
 }
 
 /* horizontal line in content */
-main > div:nth-child(n+2) + div:not(.stage-header-section, .aside-bar-section, .teaser-bar-section) {
+main > div:nth-child(n+2) + div:not(.stage-header-section, .aside-bar-section, .teaser-bar-section, .talk-detail-footer-container) {
   border-top: 1px solid var(--color-medium-dark-gray);
 }
 
