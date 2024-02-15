@@ -213,6 +213,8 @@ function decorateTemplateAndThemeWithAutoDetection() {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   if (getYearFromPath(window.location.pathname) < 2024) {
+    // switch to old design from 2023
+    document.body.classList.add('design-2023');
     loadCSS(`${window.hlx.codeBasePath}/styles/styles-design-2023.css`);
   }
   if (isFullscreen()) {
