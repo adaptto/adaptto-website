@@ -6,20 +6,20 @@
 
   /* colors */
   --color-light: #fafafa;
-  --color-dark: #333;
+  --color-dark: #081235;
   --color-medium-dark-gray: #999;
   --color-medium-gray: #666;
   --color-light-gray: #ccc;
   --color-font: #333;
-  --color-highlight-1: #00a0ee;
+  --color-highlight-1: #1b31ff;
   --color-highlight-2: #66cef5;
-  --color-cta: #00a0ee;
+  --color-cta: #1b31ff;
 
   /* fonts */
-  --font-bold: "SignikaBold", "ArialBoldFallback", "ArialFallback", arial, sans-serif;
-  --font-semi: "SignikaSemibold", "ArialBoldFallback", "ArialFallback", arial, sans-serif;
-  --font-light: "SignikaLight", "ArialFallback", arial, sans-serif;
-  --font-regular: "SignikaRegular", "ArialFallback", arial, sans-serif;
+  --font-bold: arial, sans-serif;
+  --font-semi: arial, sans-serif;
+  --font-light: arial, sans-serif;
+  --font-regular: arial, sans-serif;
 
   /*
   --break-small: 320px;
