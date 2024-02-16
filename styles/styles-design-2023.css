@@ -66,3 +66,11 @@
   font-style: normal;
   font-display: optional;
 }
+
+header .header-container .logo div {
+  width: 103px;
+  height: 100px;
+  background: url("/resources/img/design-2023/logo.svg") 0 0 no-repeat;
+  background-size: 103px 100px;
+  background-repeat: no-repeat;
+}
