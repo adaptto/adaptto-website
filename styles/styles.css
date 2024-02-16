@@ -161,15 +161,15 @@ header .header-container {
 
 header .header-container .logo {
   background-color: var(--color-dark);
-  padding: var(--base-unit) var(--base-unit) 2em;
+  padding: 0 0 2em;
   float: right;
 }
 
 header .header-container .logo div {
-  width: 103px;
-  height: 100px;
-  background: url("/resources/img/logo.svg") 0 0 no-repeat;
-  background-size: 103px 100px;
+  width: 123px;
+  height: 130px;
+  background: url("/resources/img/logo.svg") 0 10px no-repeat;
+  background-size: 123px 120px;
   background-repeat: no-repeat;
 }
 

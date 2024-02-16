@@ -67,6 +67,12 @@
   font-display: optional;
 }
 
+header .header-container .logo {
+  background-color: var(--color-dark);
+  padding: var(--base-unit) var(--base-unit) 2em;
+  float: right;
+}
+
 header .header-container .logo div {
   width: 103px;
   height: 100px;
