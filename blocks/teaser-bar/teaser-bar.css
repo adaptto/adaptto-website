@@ -64,3 +64,8 @@
   background-size: 0.8em 0.8em;
   padding-left: 1em;
 }
+
+.design-2023 .teaser-bar > div p.link a {
+  background: url("/resources/img/design-2023/link_icon.png") 0 0.15em no-repeat transparent;
+  background-size: 0.8em 0.8em;
+}
