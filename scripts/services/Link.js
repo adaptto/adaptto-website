@@ -1,5 +1,5 @@
 const adaptToSiteUrlRegex = /^https?:\/\/([^/.]+--adaptto-website--adaptto.(hlx|aem).(page|live)|adapt.to|localhost:\d+)(\/.+)$/;
-const adaptToSiteUrlPathnameGroup = 3;
+const adaptToSiteUrlPathnameGroup = 4;
 const downloadUrlRegex = /^.+\.(pdf|zip)$/;
 
 /**
