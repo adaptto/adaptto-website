@@ -12,7 +12,7 @@ const datePatternWithoutComma = /^(\w+) (\d+ \w+ \d+)$/;
 export function formatDateFull(date) {
   const formattedDate = date.toLocaleDateString(locale, dateFullOptions);
   // insert comma after day name if not already present
-  const match = formattedDate.match(datePatternWithoutComma);
+  const match = datePatternWithoutComma.exec(formattedDate);
   if (match) {
     return `${match[1]}, ${match[2]}`;
   }
