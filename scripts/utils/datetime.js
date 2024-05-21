@@ -1,6 +1,7 @@
 const locale = 'en-GB';
 const timeOptions = { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' };
 const dateFullOptions = { dateStyle: 'full' };
+const datePatternWithoutComma = /^(\w+) (\d+ \w+ \d+)$/;
 
 /**
  * Format date in full format.
@@ -9,7 +10,13 @@ const dateFullOptions = { dateStyle: 'full' };
  * @returns {string} Formatted date
  */
 export function formatDateFull(date) {
-  return date.toLocaleDateString(locale, dateFullOptions);
+  const formattedDate = date.toLocaleDateString(locale, dateFullOptions);
+  // insert comma after day name if not already present
+  const match = formattedDate.match(datePatternWithoutComma);
+  if (match) {
+    return `${match[1]}, ${match[2]}`;
+  }
+  return formattedDate;
 }
 
 /**
