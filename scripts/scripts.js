@@ -15,6 +15,7 @@ import {
 import { decorateAnchors } from './services/LinkHandler.js';
 import { append } from './utils/dom.js';
 import { isFullscreen } from './utils/fullscreen.js';
+import { getYearFromPath } from './utils/path.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
 import { decorateConsentManagement } from './utils/usercentrics.js';
 
@@ -211,6 +212,11 @@ function decorateTemplateAndThemeWithAutoDetection() {
  */
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
+  if (getYearFromPath(window.location.pathname) < 2024) {
+    // switch to old design from 2023
+    document.body.classList.add('design-2023');
+    loadCSS(`${window.hlx.codeBasePath}/styles/styles-design-2023.css`);
+  }
   if (isFullscreen()) {
     // remove header and footer in fullscreen mode
     doc.querySelector('header')?.remove();
