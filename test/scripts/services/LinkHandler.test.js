@@ -9,6 +9,7 @@ describe('services/LinkHandler', () => {
   it('rewriteUrl', () => {
     expect(rewriteUrl('https://adapt.to/mypath')).to.eq('/mypath');
     expect(rewriteUrl('https://experimental-download-links--adaptto-website--adaptto.hlx.page/2021/schedule')).to.eq('/2021/schedule');
+    expect(rewriteUrl('https://experimental-download-links--adaptto-website--adaptto.aem.page/2021/schedule')).to.eq('/2021/schedule');
     expect(rewriteUrl('https://main--adaptto-website--adaptto.hlx.live/2021/schedule#day1')).to.eq('/2021/schedule#day1');
     expect(rewriteUrl('https://localhost:2000/2021/schedule#day1')).to.eq('/2021/schedule#day1');
     expect(rewriteUrl('https://my.host.com/mypath')).to.eq('https://my.host.com/mypath');
