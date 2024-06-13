@@ -11,9 +11,9 @@
   --color-medium-gray: #666;
   --color-light-gray: #ccc;
   --color-font: #333;
-  --color-highlight-1: #00a0ee;
+  --color-highlight-1: #f00;
   --color-highlight-2: #66cef5;
-  --color-cta: #00a0ee;
+  --color-cta: #f00;
 
   /* fonts */
   --font-bold: "SignikaBold", "ArialBoldFallback", "ArialFallback", arial, sans-serif;
