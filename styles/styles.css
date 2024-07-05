@@ -168,8 +168,8 @@ header .header-container .logo {
 header .header-container .logo div {
   width: 123px;
   height: 130px;
-  background: url("/resources/img/logo.svg") 3px 10px no-repeat;
-  background-size: 123px 120px;
+  background: url("/resources/img/logo.svg") 10px 10px no-repeat;
+  background-size: 108px 108px;
   background-repeat: no-repeat;
 }
 
