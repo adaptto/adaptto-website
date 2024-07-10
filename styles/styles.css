@@ -6,76 +6,26 @@
 
   /* colors */
   --color-light: #fafafa;
-  --color-dark: #333;
+  --color-dark: #081235;
   --color-medium-dark-gray: #999;
   --color-medium-gray: #666;
   --color-light-gray: #ccc;
   --color-font: #333;
-  --color-highlight-1: #00a0ee;
+  --color-highlight-1: #3e52fe;
   --color-highlight-2: #66cef5;
-  --color-cta: #00a0ee;
+  --color-cta: #3e52fe;
 
   /* fonts */
-  --font-bold: "SignikaBold", "ArialBoldFallback", "ArialFallback", arial, sans-serif;
-  --font-semi: "SignikaSemibold", "ArialBoldFallback", "ArialFallback", arial, sans-serif;
-  --font-light: "SignikaLight", "ArialFallback", arial, sans-serif;
-  --font-regular: "SignikaRegular", "ArialFallback", arial, sans-serif;
+  --font-bold: arial, sans-serif;
+  --font-semi: arial, sans-serif;
+  --font-light: arial, sans-serif;
+  --font-regular: arial, sans-serif;
 
   /*
   --break-small: 320px;
   --break-medium: 600px;
   --break-large: 799px;
   */
-}
-
-@font-face {
-  font-family: ArialBoldFallback;
-  src: local(arial bold);
-  size-adjust: 94%;
-  ascent-override: 92%;
-  descent-override: 26%;
-  line-gap-override: 10.25%;
-}
-
-@font-face {
-  font-family: ArialFallback;
-  src: local(arial);
-  size-adjust: 94%;
-  ascent-override: 92%;
-  descent-override: 26%;
-  line-gap-override: 10.25%;
-}
-
-@font-face {
-  font-family: SignikaLight;
-  src: url("/resources/font/Signika-Light-webfont.woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: optional;
-}
-
-@font-face {
-  font-family: SignikaRegular;
-  src: url("/resources/font/Signika-Regular-webfont.woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: optional;
-}
-
-@font-face {
-  font-family: SignikaSemibold;
-  src: url("/resources/font/Signika-Semibold-webfont.woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: optional;
-}
-
-@font-face {
-  font-family: SignikaBold;
-  src: url("/resources/font/Signika-Bold-webfont.woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: optional;
 }
 
 body {
@@ -211,15 +161,15 @@ header .header-container {
 
 header .header-container .logo {
   background-color: var(--color-dark);
-  padding: var(--base-unit) var(--base-unit) 2em;
+  padding: 0 0 2em;
   float: right;
 }
 
 header .header-container .logo div {
-  width: 103px;
-  height: 100px;
-  background: url("/resources/img/logo.svg") 0 0 no-repeat;
-  background-size: 103px 100px;
+  width: 123px;
+  height: 130px;
+  background: url("/resources/img/logo.svg") 10px 10px no-repeat;
+  background-size: 108px 108px;
   background-repeat: no-repeat;
 }
 
