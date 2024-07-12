@@ -80,3 +80,13 @@ header .header-container .logo div {
   background-size: 103px 100px;
   background-repeat: no-repeat;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-semi);
+  font-weight: normal;
+}
