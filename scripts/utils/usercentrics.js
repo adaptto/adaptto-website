@@ -20,7 +20,7 @@ const serviceIds = {
   pretix: '4gBcUVFgPUn-Zs',
 };
 
-let enabled = true;
+let enabled = false;
 let isInitialized = false;
 const lastServiceConsentStatus = new Map();
 const serviceElementDecorators = new Map();

@@ -29,7 +29,7 @@
 }
 
 body {
-  background-color: var(--color-light);
+  background-color: #081235 !important;
   color: var(--color-dark);
   font-family: var(--font-light);
   margin: 0 auto;

@@ -50,7 +50,7 @@ function addSpeaker(parent, speaker, speakerIndex, siteRootPath, queryIndex) {
   imageAnchor.href = speakerUrl;
   const eagerImage = (speakerIndex <= 3); // use eager loading for first 4 speaker images
   imageAnchor.append(createSpeakerImage(speakerItem, eagerImage));
-
+/*
   const nameDiv = append(div, 'div', 'name');
   const a = append(nameDiv, 'a');
   a.href = speakerUrl;
@@ -59,7 +59,7 @@ function addSpeaker(parent, speaker, speakerIndex, siteRootPath, queryIndex) {
   if (speakerItem.affiliation) {
     const affiliationDiv = append(div, 'div', 'affiliation');
     affiliationDiv.textContent = speakerItem.affiliation;
-  }
+  }*/
 }
 
 /**
