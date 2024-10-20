@@ -48,6 +48,12 @@
   margin: 0.3em 0.75em;
 }
 
+@media screen and (width > 799px) and (width <= 899px) {
+  .header nav > ul li {
+    margin: 0.3em;
+  }
+}
+
 @media screen and (width > 799px) {
   .header nav > ul li:hover ul {
     display: block;
