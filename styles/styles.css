@@ -315,3 +315,21 @@ main .usercentrics-loading-spinner {
   width: 100%;
   height: 100%;
 }
+
+body.fullscreen .aside-bar-section {
+  position: absolute;
+  top: 0;
+  right: -70px;
+}
+
+body.fullscreen .social-teaser-wrapper {
+  display: none;
+}
+
+body.fullscreen {
+  overflow-x: hidden;
+}
+
+body.fullscreen .schedule .tab-navigation {
+  display: none;
+}
