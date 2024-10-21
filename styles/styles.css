@@ -316,20 +316,7 @@ main .usercentrics-loading-spinner {
   height: 100%;
 }
 
-body.fullscreen .aside-bar-section {
-  position: absolute;
-  top: 0;
-  right: -70px;
-}
-
-body.fullscreen .social-teaser-wrapper {
-  display: none;
-}
-
-body.fullscreen {
-  overflow-x: hidden;
-}
-
-body.fullscreen .schedule .tab-navigation {
-  display: none;
+body.fullscreen   main .section.aside-bar-section {
+  grid-column: 6;
+  grid-row: 2 / 999;
 }

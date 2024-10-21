@@ -119,3 +119,7 @@
 body.fullscreen .schedule {
   margin-top: 10px;
 }
+
+body.fullscreen .schedule .tab-navigation {
+  display: none;
+}
