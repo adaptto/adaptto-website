@@ -77,16 +77,16 @@ img {
 }
 
 a:link {
-  color: var(--color-cta);
-  text-decoration: none;
+  color: var(--color-dark);
+  text-decoration: underline;
 }
 
 a u {
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 a:visited {
-  color: var(--color-cta);
+  color: var(--color-dark);
 }
 
 a:hover {
@@ -95,6 +95,10 @@ a:hover {
 
 a:active {
   text-decoration: underline;
+}
+
+nav a:link {
+  text-decoration: none;
 }
 
 .icon {
