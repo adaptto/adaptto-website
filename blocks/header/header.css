@@ -7,7 +7,7 @@
   padding: 0.5em 0 0;
 }
 
-@media screen and (width <= 320px) {
+@media screen and (width <= 360px) {
   .header h1 {
     font-size: 1.6em;
     padding: 0.5em 0;
@@ -22,7 +22,7 @@
   font-size: 1.2em;
 }
 
-@media screen and (width <= 320px) {
+@media screen and (width <= 360px) {
   .header h2 {
     display: none;
   }
@@ -103,7 +103,7 @@
   }
 }
 
-@media screen and (width <= 320px) {
+@media screen and (width <= 360px) {
   .header nav > ul {
     top: 110px;
   }
@@ -152,7 +152,7 @@
   }
 }
 
-@media screen and (width <= 320px) {
+@media screen and (width <= 360px) {
   .header nav .mobile-nav {
     top: 76px;
     margin-left: 5px;

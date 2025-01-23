@@ -6,7 +6,7 @@
   width: 100%;
 }
 
-@media screen and (width > 320px) and (width <= 799px) {
+@media screen and (width > 360px) and (width <= 799px) {
   .stage-header .stage-title {
     width: 50%;
     float: left;
@@ -23,7 +23,7 @@
   width: 100%;
 }
 
-@media screen and (width > 320px) and (width <= 799px) {
+@media screen and (width > 360px) and (width <= 799px) {
   .stage-header .stage-cta-box {
     width: 50%;
     float: right;
