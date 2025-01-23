@@ -67,6 +67,14 @@
   font-display: optional;
 }
 
+header {
+  color: #000;
+  background-color: #fff;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-image: url("/resources/img/header_bg.webp");
+}
+
 header .header-container .logo {
   background-color: var(--color-dark);
   padding: var(--base-unit) var(--base-unit) 2em;
@@ -79,6 +87,10 @@ header .header-container .logo div {
   background: url("/resources/img/design-2023/logo.svg") 0 0 no-repeat;
   background-size: 103px 100px;
   background-repeat: no-repeat;
+}
+
+header .nav-background, nav ul {
+  border-top: none;
 }
 
 h1,

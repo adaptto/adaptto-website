@@ -5,15 +5,15 @@
   --content-width: 1000px;
 
   /* colors */
-  --color-light: #fafafa;
+  --color-light: #edf0fb;
   --color-dark: #081235;
   --color-medium-dark-gray: #999;
   --color-medium-gray: #666;
   --color-light-gray: #ccc;
   --color-font: #333;
-  --color-highlight-1: #3e52fe;
+  --color-highlight-1: #081235;
   --color-highlight-2: #66cef5;
-  --color-cta: #3e52fe;
+  --color-cta: #081235;
 
   /* fonts */
   --font-bold: arial, sans-serif;
@@ -113,10 +113,8 @@ header {
   position: relative;
   height: var(--nav-height);
   width: 100%;
-  background-color: #fff;
-  background-position: 0 0;
-  background-repeat: no-repeat;
-  background-image: url("/resources/img/header_bg.webp");
+  color: #edf0fb;
+  background-color: #081235;
 }
 
 @media screen and (width <= 320px) {
@@ -131,6 +129,10 @@ header .nav-background {
   top: calc(var(--nav-height) - 36px);
   height: 36px;
   width: 100%;
+}
+
+header .nav-background, nav > ul {
+  border-top: 1px solid #1b31ff;
 }
 
 @media screen and (width <= 320px) {
