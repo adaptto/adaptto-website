@@ -11,6 +11,7 @@ import {
   loadBlocks,
   loadCSS,
   getMetadata,
+  decorateButtons,
 } from './aem.js';
 import { decorateAnchors } from './services/LinkHandler.js';
 import { append } from './utils/dom.js';
@@ -162,6 +163,7 @@ function buildAutoBlocks(main) {
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main, insideFragment) {
+  decorateButtons(main);
   decorateIcons(main);
   decorateAnchors(main);
   if (!insideFragment) {

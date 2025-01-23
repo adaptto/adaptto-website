@@ -12,7 +12,7 @@
   --color-light-gray: #ccc;
   --color-font: #333;
   --color-highlight-1: #081235;
-  --color-highlight-2: #66cef5;
+  --color-highlight-2: #1b31ff;
   --color-cta: #081235;
 
   /* fonts */
@@ -112,6 +112,22 @@ nav a:link, .section-footernav a:link {
   width: 100%;
 }
 
+/* --- buttons --- */
+a.button:not(.social-teaser a.button, .stage-header a.button, .teaser-bar a.button) {
+  background-color: var(--color-highlight-2);
+  color: var(--color-light);
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+p.button-container:not(.social-teaser p.button-container, .stage-header p.button-container, .teaser-bar p.button-container) {
+  display: inline-block;
+  margin-right: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 /* --- header static elements --- */
 header {
   position: relative;
@@ -136,7 +152,7 @@ header .nav-background {
 }
 
 header .nav-background, nav > ul {
-  border-top: 1px solid #1b31ff;
+  border-top: 1px solid var(--color-highlight-2);
 }
 
 @media screen and (width <= 360px) {
