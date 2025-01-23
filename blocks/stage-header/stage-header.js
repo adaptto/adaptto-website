@@ -8,7 +8,7 @@ export default function decorate(block) {
   const img = block.querySelector('picture');
   const h2 = block.querySelector('h2');
   const links = Array.from(block.querySelectorAll('p > a'));
-  const content = Array.from(block.children);
+  const content = Array.from(block.children).filter((element) => element.textContent.trim() !== '');
   block.textContent = '';
 
   // rebuild markup
@@ -20,22 +20,24 @@ export default function decorate(block) {
     stage.append(img);
   }
 
-  const overlay = append(stage, 'div', 'stage-overlay');
+  if (h2 || content.length > 0 || links.length > 0) {
+    const overlay = append(stage, 'div', 'stage-overlay');
 
-  // title and text
-  const title = append(overlay, 'div', 'stage-title');
-  if (h2) {
-    title.append(h2);
+    // title and text
+    const title = append(overlay, 'div', 'stage-title');
+    if (h2) {
+      title.append(h2);
+    }
+    content.forEach((p) => title.append(p));
+
+    // cta links
+    const ctaBox = append(overlay, 'div', 'stage-cta-box');
+    links.forEach((link) => {
+      const ctaP = append(ctaBox, 'p');
+      link.classList.add('stage-cta');
+      ctaP.append(link);
+    });
   }
-  content.forEach((p) => title.append(p));
-
-  // cta links
-  const ctaBox = append(overlay, 'div', 'stage-cta-box');
-  links.forEach((link) => {
-    const ctaP = append(ctaBox, 'p');
-    link.classList.add('stage-cta');
-    ctaP.append(link);
-  });
 
   block.append(fragment);
 }
