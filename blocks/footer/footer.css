@@ -24,6 +24,7 @@
 
 .footer a:link {
   color: var(--color-light);
+  text-decoration: none;
 }
 
 .footer a:visited {
@@ -75,9 +76,27 @@
 /* --- Footer Text --- */
 .footer .section-footertext {
   padding-bottom: var(--base-unit);
+  font-size: 0.8em;
 }
 
 .footer .section-footertext p {
-  font-size: 0.8em;
   line-height: 1.2em;
+}
+
+/* --- Footer Links --- */
+.footer .footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer .footer-links div {
+  white-space: nowrap;
+}
+
+.footer .footer-links .icon {
+  margin: 0.25rem;
+  height: 1rem;
 }

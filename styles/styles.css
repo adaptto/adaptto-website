@@ -97,7 +97,7 @@ a:active {
   text-decoration: underline;
 }
 
-nav a:link, .section-footernav a:link {
+nav a:link {
   text-decoration: none;
 }
 

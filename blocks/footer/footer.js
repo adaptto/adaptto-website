@@ -2,6 +2,7 @@ import { append } from '../../scripts/utils/dom.js';
 import { addArchiveLinks, getSiteRootPathAlsoForSpeakerPath } from '../../scripts/utils/site.js';
 import { decorateAnchors } from '../../scripts/services/LinkHandler.js';
 import { getFetchCacheOptions } from '../../scripts/utils/fetch.js';
+import { decorateIcons } from '../../scripts/aem.js';
 
 /**
  * @param {Element} footerNav
@@ -38,6 +39,8 @@ function replaceInText(element, pattern, replacement) {
  */
 function decorateFooterText(footerText) {
   footerText.classList.add('section-footertext');
+
+  decorateIcons(footerText);
 
   // replace placeholder for current year
   replaceInText(footerText, /\$currentYear\$/g, new Date().getFullYear());
