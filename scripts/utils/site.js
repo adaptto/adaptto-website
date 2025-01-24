@@ -145,11 +145,29 @@ export async function addArchiveLinks(nav) {
       ul = append(lastNavItem, 'ul');
     }
     const queryIndex = await getQueryIndex();
+    let siteIndex = 0;
     queryIndex.getAllSiteRoots().forEach((siteRoot) => {
+      siteIndex += 1;
       const listItem = append(ul, 'li');
       const link = append(listItem, 'a');
       link.href = siteRoot.path;
       link.textContent = siteRoot.title;
+      if (siteIndex === 4) {
+        const moreListItem = append(ul, 'li');
+        const moreLink = append(moreListItem, 'a');
+        moreLink.href = '#';
+        moreLink.textContent = 'Previous years';
+        moreLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          moreListItem.remove();
+          Array.from(ul.children).forEach((li) => {
+            li.style.display = 'block';
+          });
+        });
+      }
+      if (siteIndex >= 4) {
+        listItem.style.display = 'none';
+      }
     });
   }
 }
