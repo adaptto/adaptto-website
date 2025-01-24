@@ -77,6 +77,6 @@ describe('utils/site', () => {
     expect(ul.children.length).to.eq(2);
     const archiveUl = li2.querySelector(':scope > ul');
     expect(archiveUl).to.not.undefined;
-    expect(archiveUl.children.length).to.eq(2);
+    expect(archiveUl.children.length).to.eq(6);
   });
 });
