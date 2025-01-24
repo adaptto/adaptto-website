@@ -108,7 +108,7 @@
 }
 
 .schedule tr.break td {
-  background-color: #eee;
+  background-color: #dce0fc;;
   font-style: italic;
 }
 
@@ -122,4 +122,8 @@ body.fullscreen .schedule {
 
 body.fullscreen .schedule .tab-navigation {
   display: none;
+}
+
+.design-2023 tr.break td {
+  background-color: #eee;
 }
