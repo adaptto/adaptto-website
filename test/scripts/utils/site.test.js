@@ -4,6 +4,7 @@
 import { expect } from '@esm-bundle/chai';
 import { stubFetchUrlMap } from '../test-utils.js';
 import {
+  addArchiveLinks,
   getArchivePath,
   getParentPath,
   getSchedulePath,
@@ -13,6 +14,7 @@ import {
   getSpeakerOverviewPath,
   isSpeakerDetailPath,
 } from '../../../scripts/utils/site.js';
+import { append } from '../../../scripts/utils/dom.js';
 
 stubFetchUrlMap({ '/query-index.json': '/test/test-data/query-index-sample.json' });
 
@@ -60,5 +62,21 @@ describe('utils/site', () => {
   it('isSpeakerDetailPath', () => {
     expect(isSpeakerDetailPath('/speakers/xyz')).to.true;
     expect(isSpeakerDetailPath('/2021/schedule')).to.false;
+  });
+
+  it('addArchiveLinks', async () => {
+    const nav = document.createElement('nav');
+    const ul = append(nav, 'ul');
+    const li1 = append(ul, 'li');
+    li1.textContent = 'Item 1';
+    const li2 = append(ul, 'li');
+    li2.textContent = 'Item 2';
+
+    await addArchiveLinks(nav);
+
+    expect(ul.children.length).to.eq(2);
+    const archiveUl = li2.querySelector(':scope > ul');
+    expect(archiveUl).to.not.undefined;
+    expect(archiveUl.children.length).to.eq(2);
   });
 });
