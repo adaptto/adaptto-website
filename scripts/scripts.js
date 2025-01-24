@@ -148,8 +148,8 @@ function buildAutoBlocks(main) {
     decorateSpeakerPage(main);
     decorateTalkDetailPage(main);
     extractStageHeader(main);
-    appendAsideBar(main);
     appendTeaserBar(main);
+    appendAsideBar(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);

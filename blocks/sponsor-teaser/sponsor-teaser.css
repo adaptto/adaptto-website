@@ -1,5 +1,25 @@
+.sponsor-teaser {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
 .sponsor-teaser img {
   object-fit: contain;
-  max-width: 80%;
+  width: 180px;
+  height: auto;
+  max-height: 120px;
+}
+
+.design-2023 .sponsor-teaser {
+  display: block;
+}
+
+.design-2023 .sponsor-teaser img {
+  width: 80%;
+  max-width: 200px;
+  height: auto;
   max-height: 120px;
 }
