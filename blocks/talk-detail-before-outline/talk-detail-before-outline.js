@@ -1,4 +1,4 @@
-import { decorateBlock, getMetadata, loadSections } from '../../scripts/aem.js';
+import { decorateBlock, getMetadata, loadBlock } from '../../scripts/aem.js';
 import { getScheduleData } from '../../scripts/services/ScheduleData.js';
 import { formatDateFull, formatTime } from '../../scripts/utils/datetime.js';
 import { append } from '../../scripts/utils/dom.js';
@@ -55,7 +55,7 @@ function buildVideo(parent) {
   a.href = video;
   a.textContent = video;
   decorateBlock(block);
-  loadSections(parent);
+  loadBlock(block);
 }
 
 /**
