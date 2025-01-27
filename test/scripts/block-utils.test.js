@@ -102,7 +102,7 @@ describe('Sections and blocks', () => {
       'prop-1': 'Paragraph',
       'prop-2': ['First paragraph', 'Second paragraph'],
       'prop-3': 'https://www.adobe.com/',
-      'prop-4': ['https://www.adobe.com/', 'https://www.hlx.live/'],
+      'prop-4': ['https://www.adobe.com/', 'https://www.aem.live/'],
     });
   });
 });
