@@ -44,9 +44,9 @@ describe('tools/importer/import', () => {
 
     const links = result.querySelectorAll('a');
     expect(links.length).to.eq(2);
-    expect(links[0].href).to.eq('https://main--adaptto-website--adaptto.hlx.page/2021/');
+    expect(links[0].href).to.eq('https://main--adaptto-website--adaptto.aem.page/2021/');
     expect(links[0].text).to.eq('Link 1');
-    expect(links[1].href).to.eq('https://main--adaptto-website--adaptto.hlx.page/2021/schedule');
-    expect(links[1].text).to.eq('https://main--adaptto-website--adaptto.hlx.page/2021/schedule');
+    expect(links[1].href).to.eq('https://main--adaptto-website--adaptto.aem.page/2021/schedule');
+    expect(links[1].text).to.eq('https://main--adaptto-website--adaptto.aem.page/2021/schedule');
   });
 });
