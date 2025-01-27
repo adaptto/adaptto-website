@@ -50,6 +50,17 @@ describe('services/LinkHandler', () => {
     expect(a.hasAttribute('download')).to.false;
   });
 
+  it('decorateAnchorLink_linkedin', () => {
+    const a = document.createElement('a');
+    a.href = 'https://adapt.to/linkedin';
+
+    decorateAnchor(a);
+
+    expect(a.href).to.eq('https://adapt.to/linkedin');
+    expect(a.target).to.eq('_blank');
+    expect(a.hasAttribute('download')).to.false;
+  });
+
   it('decorateAnchorLinks', () => {
     const container = append(document.body, 'div');
     const internalLink = append(container, 'a');

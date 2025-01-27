@@ -1,6 +1,7 @@
 const adaptToSiteUrlRegex = /^https?:\/\/([^/.]+--adaptto-website--adaptto.(hlx|aem).(page|live)|adapt.to|localhost:\d+)(\/.+)$/;
 const adaptToSiteUrlPathnameGroup = 4;
 const downloadUrlRegex = /^.+\.(pdf|zip)$/;
+const socialLinkShortcutRegex = /^.*\/linkedin$/;
 
 /**
  * Encapsulates a link URL to inspect it parts.
@@ -12,13 +13,14 @@ export default class Link {
   constructor(url) {
     this.url = url;
     this.adaptToSiteUrlMatch = this.url.match(adaptToSiteUrlRegex);
+    this.socialLinkShortcutMatch = this.url.match(socialLinkShortcutRegex);
   }
 
   /**
    * @returns {boolean} true if URL points to adaptTo() site.
    */
   isAdaptToSiteUrl() {
-    return this.adaptToSiteUrlMatch != null;
+    return this.adaptToSiteUrlMatch != null && this.socialLinkShortcutMatch == null;
   }
 
   /**
