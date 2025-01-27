@@ -102,7 +102,7 @@
 }
 
 .talk-archive .result table th:nth-child(2) {
-  width: 1fr;
+  width: auto;
 }
 
 .talk-archive .result table th:last-child {
