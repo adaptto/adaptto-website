@@ -12,8 +12,8 @@ export default class Link {
    */
   constructor(url) {
     this.url = url;
-    this.adaptToSiteUrlMatch = this.url.match(adaptToSiteUrlRegex);
-    this.socialLinkShortcutMatch = this.url.match(socialLinkShortcutRegex);
+    this.adaptToSiteUrlMatch = adaptToSiteUrlRegex.exec(this.url);
+    this.socialLinkShortcutMatch = socialLinkShortcutRegex.exec(this.url);
   }
 
   /**
