@@ -1,7 +1,7 @@
 /* global */
 /* eslint-disable no-console, class-methods-use-this */
 
-const targetHostName = 'https://main--adaptto-website--adaptto.hlx.page';
+const targetHostName = 'https://main--adaptto-website--adaptto.aem.page';
 
 const pageHelixRegex = /^\/content\/adaptto(.+)\/en(.+)?\.helix(-(.+))?\.html$/;
 const pageRegex = /^\/content\/adaptto(.+)\/en(.+)?\.html$/;

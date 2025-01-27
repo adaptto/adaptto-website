@@ -6,8 +6,8 @@
 adaptTo() Website based on Edge Delivery Services (AEM Franklin).
 
 ## Environments
-- Preview: https://main--adaptto-website--adaptto.hlx.page/
-- Live: https://adapt.to/ (https://main--adaptto-website--adaptto.hlx.live/)
+- Preview: https://main--adaptto-website--adaptto.aem.page/
+- Live: https://adapt.to/ (https://main--adaptto-website--adaptto.aem.live/)
 
 ## Installation
 
