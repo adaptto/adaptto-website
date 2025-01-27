@@ -1,5 +1,4 @@
 import {
-  sampleRUM,
   buildBlock,
   loadHeader,
   loadFooter,
@@ -7,10 +6,11 @@ import {
   decorateSections,
   decorateBlocks,
   decorateTemplateAndTheme,
-  waitForLCP,
-  loadBlocks,
   loadCSS,
   getMetadata,
+  loadSections,
+  loadSection,
+  waitForFirstImage,
 } from './aem.js';
 import { decorateAnchors } from './services/LinkHandler.js';
 import { append } from './utils/dom.js';
@@ -18,13 +18,6 @@ import { isFullscreen } from './utils/fullscreen.js';
 import { getYearFromPath } from './utils/path.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
 import { decorateConsentManagement } from './utils/usercentrics.js';
-
-const LCP_BLOCKS = [
-  'stage-header',
-  'schedule',
-  'image-gallery',
-  'talk-detail-before-outline',
-];
 
 /**
  * Extracts the stage header block and prepends a new section for it.
@@ -231,7 +224,7 @@ async function loadEager(doc) {
   if (main) {
     decorateMain(main);
     document.body.classList.add('appear');
-    await waitForLCP(LCP_BLOCKS);
+    await loadSection(main.querySelector('.section'), waitForFirstImage);
   }
 }
 
@@ -246,7 +239,7 @@ async function loadLazy(doc) {
   }
 
   const main = doc.querySelector('main');
-  await loadBlocks(main);
+  await loadSections(main);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
@@ -264,10 +257,6 @@ async function loadLazy(doc) {
   if (localStorage.uc_user_interaction) {
     decorateConsentManagement(document.head);
   }
-
-  sampleRUM('lazy');
-  sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
-  sampleRUM.observe(main.querySelectorAll('picture > img'));
 }
 
 /**
