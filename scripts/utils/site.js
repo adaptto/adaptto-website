@@ -156,7 +156,7 @@ export async function addArchiveLinks(nav) {
         const moreListItem = append(ul, 'li');
         const moreLink = append(moreListItem, 'a');
         moreLink.href = '#';
-        moreLink.textContent = 'Previous years';
+        moreLink.textContent = 'Previous years...';
         moreLink.addEventListener('click', (e) => {
           e.preventDefault();
           moreListItem.remove();
