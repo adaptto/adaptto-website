@@ -52,7 +52,7 @@ describe('services/QueryIndex', () => {
 
   it('getAllSiteRoots', () => {
     const result = queryIndex.getAllSiteRoots();
-    expect(result.map((item) => item.path)).to.eql(['/2021/', '/2020/']);
+    expect(result.map((item) => item.path)).to.eql(['/2021/', '/2020/', '/2019/', '/2018/', '/2017/']);
   });
 
   it('getSpeaker-by-name', () => {

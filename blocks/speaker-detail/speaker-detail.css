@@ -2,7 +2,7 @@
   width: 100%;
 }
 
-@media screen and (width > 320px) {
+@media screen and (width > 360px) {
   .speaker-detail img {
     width: 70%;
   }

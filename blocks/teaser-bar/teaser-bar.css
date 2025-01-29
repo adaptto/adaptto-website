@@ -59,6 +59,11 @@
   font-size: 1.15em;
 }
 
+.teaser-bar img {
+  aspect-ratio: 2/1;
+  object-fit: contain;
+}
+
 .teaser-bar > div p.link a {
   background: url("/resources/img/link_icon.png") 0 0.15em no-repeat transparent;
   background-size: 0.8em 0.8em;

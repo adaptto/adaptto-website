@@ -2,6 +2,7 @@ import {
   buildBlock,
   loadHeader,
   loadFooter,
+  decorateButtons,
   decorateIcons,
   decorateSections,
   decorateBlocks,
@@ -140,8 +141,8 @@ function buildAutoBlocks(main) {
     decorateSpeakerPage(main);
     decorateTalkDetailPage(main);
     extractStageHeader(main);
-    appendAsideBar(main);
     appendTeaserBar(main);
+    appendAsideBar(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
@@ -155,6 +156,7 @@ function buildAutoBlocks(main) {
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main, insideFragment) {
+  decorateButtons(main);
   decorateIcons(main);
   decorateAnchors(main);
   if (!insideFragment) {

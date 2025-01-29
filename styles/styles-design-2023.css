@@ -67,6 +67,35 @@
   font-display: optional;
 }
 
+a:link {
+  color: var(--color-cta);
+  text-decoration: none;
+}
+
+a u {
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--color-cta);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:active {
+  text-decoration: underline;
+}
+
+header {
+  color: #000;
+  background-color: #fff;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-image: url("/resources/img/design-2023/header_bg.webp");
+}
+
 header .header-container .logo {
   background-color: var(--color-dark);
   padding: var(--base-unit) var(--base-unit) 2em;
@@ -76,9 +105,22 @@ header .header-container .logo {
 header .header-container .logo div {
   width: 103px;
   height: 100px;
-  background: url("/resources/img/design-2023/logo.svg") 0 0 no-repeat;
+  background: url("/resources/img/design-2023/logo.svg") 0 0 no-repeat;  
   background-size: 103px 100px;
+  background-position: 0 0;
   background-repeat: no-repeat;
+}
+
+@media screen and (width <= 360px) {
+  header .header-container .logo div {
+    width: 36px;
+    height: 35px;
+    background-size: 36px 35px;
+  }
+}
+
+header .nav-background, nav ul {
+  border-top: none;
 }
 
 h1,
@@ -89,4 +131,45 @@ h5,
 h6 {
   font-family: var(--font-semi);
   font-weight: normal;
+}
+
+/* --- grid layout for main area --- */
+@media screen and (width > 799px) {
+  /* assign no row - there may be multiple "default content" sections, the aide bar flows parallel to all of them */
+  main .section {
+    grid-column: 2 / 6;
+    padding: 0 var(--base-unit);
+  }
+
+  .content-3col main .section {
+    grid-column: 2 / 5;
+  }
+
+  .content-2col main .section {
+    grid-column: 2 / 4;
+  }
+
+  .content-3col main > .section:not(.stage-header-section, .aside-bar-section, .teaser-bar-section) {
+    margin-right: 20px;
+  }
+
+  main .section.stage-header-section {
+    grid-column: 2 / 6;
+    grid-row: 1;
+    padding: 0;
+  }
+
+  main .section.aside-bar-section {
+    grid-column: 5 / 6;
+    grid-row: 2 / 999;
+  }
+
+  .content-2col main .section.aside-bar-section {
+    grid-column: 4 / 6;
+  }
+
+  main .section.teaser-bar-section {
+    grid-column: 2 / 6;
+    padding: 0;
+  }
 }

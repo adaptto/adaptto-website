@@ -82,7 +82,7 @@
   }
 }
 
-@media screen and (width <= 320px) {
+@media screen and (width <= 360px) {
   .schedule th:nth-child(2),
   .schedule td:nth-child(2) {
     border-right: none;
@@ -108,7 +108,7 @@
 }
 
 .schedule tr.break td {
-  background-color: #eee;
+  background-color: #dce0fc;
   font-style: italic;
 }
 
@@ -122,4 +122,8 @@ body.fullscreen .schedule {
 
 body.fullscreen .schedule .tab-navigation {
   display: none;
+}
+
+.design-2023 tr.break td {
+  background-color: #eee;
 }

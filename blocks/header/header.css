@@ -7,7 +7,7 @@
   padding: 0.5em 0 0;
 }
 
-@media screen and (width <= 320px) {
+@media screen and (width <= 360px) {
   .header h1 {
     font-size: 1.6em;
     padding: 0.5em 0;
@@ -22,7 +22,7 @@
   font-size: 1.2em;
 }
 
-@media screen and (width <= 320px) {
+@media screen and (width <= 360px) {
   .header h2 {
     display: none;
   }
@@ -103,7 +103,7 @@
   }
 }
 
-@media screen and (width <= 320px) {
+@media screen and (width <= 360px) {
   .header nav > ul {
     top: 110px;
   }
@@ -138,13 +138,13 @@
     padding: 0;
     width: 30px;
     height: 36px;
-    word-wrap: nowrap;
+    white-space: nowrap;
   }
 
   .header nav .mobile-nav a {
     display: block;
     overflow: hidden;
-    word-wrap: nowrap;
+    white-space: nowrap;
     width: 100%;
     height: 100%;
     background: url("/resources/img/menu.png") 0 3px no-repeat transparent;
@@ -152,7 +152,7 @@
   }
 }
 
-@media screen and (width <= 320px) {
+@media screen and (width <= 360px) {
   .header nav .mobile-nav {
     top: 76px;
     margin-left: 5px;

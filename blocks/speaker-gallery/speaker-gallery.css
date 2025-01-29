@@ -11,7 +11,7 @@
   padding: 10px;
 }
 
-@media screen and (width > 320px) {
+@media screen and (width > 360px) {
   .speaker-gallery .speaker {
     width: calc(100% / 2);
   }

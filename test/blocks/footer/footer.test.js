@@ -30,7 +30,7 @@ describe('blocks/footer', () => {
 
     // archive links dynamically added
     const archiveLinks = footerNavItems[1].querySelectorAll(':scope > ul > li > a');
-    expect(archiveLinks.length, 'archiveLinks').to.eq(3);
+    expect(archiveLinks.length, 'archiveLinks').to.eq(7);
     expect(archiveLinks[0].href).to.equal('http://localhost:2000/2021/archive');
     expect(archiveLinks[1].href).to.equal('http://localhost:2000/2021/');
     expect(archiveLinks[1].textContent).to.equal('adaptTo() 2021');
