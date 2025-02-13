@@ -22,7 +22,6 @@ const main = document.body.querySelector('main');
 describe('blocks/speaker-detail', () => {
   it('speakerMetadata', async () => {
     expect(main.querySelector('h1')?.textContent).to.eq('Speaker Name');
-    expect(main.querySelector('.speaker-data .twitter')?.textContent).to.eq('@speaker');
     expect(main.querySelector('.speaker-data .affiliation')?.textContent).to.eq('The Company');
   });
 
