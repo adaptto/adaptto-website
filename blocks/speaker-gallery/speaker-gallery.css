@@ -40,10 +40,6 @@
   margin-top: 5px;
 }
 
-.speaker-gallery .speaker .twitter {
-  font-size: smaller;
-}
-
 .speaker-gallery .speaker .affiliation {
   margin-top: 5px;
 }
@@ -75,8 +71,4 @@
 
 .speaker-gallery .speakers.lightning-talk .speaker .name {
   font-family: var(--font-light);
-}
-
-.speaker-gallery .speakers.lightning-talk .speaker .twitter {
-  display: none;
 }
