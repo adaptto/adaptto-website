@@ -2,6 +2,7 @@ import { append, prepend } from '../../scripts/utils/dom.js';
 import { addArchiveLinks, getSiteRootPathAlsoForSpeakerPath } from '../../scripts/utils/site.js';
 import { decorateAnchors } from '../../scripts/services/LinkHandler.js';
 import { getFetchCacheOptions } from '../../scripts/utils/fetch.js';
+import { decorateButtons } from '../../scripts/aem.js';
 
 /**
  * @param {Element} nav
@@ -36,6 +37,18 @@ function decorateMainNav(nav) {
 
   // add archive links to last mainnav item
   addArchiveLinks(nav);
+
+  // wrap buttons in main navigation in a shared div element
+  decorateButtons(nav);
+  const buttons = [];
+  nav.querySelectorAll('.button-container').forEach((container) => {
+    buttons.push(container);
+    container.remove();
+  });
+  if (buttons.length > 0) {
+    const buttonsContainer = append(nav, 'div', 'buttons-container');
+    buttons.forEach((button) => buttonsContainer.append(button));
+  }
 }
 
 /**

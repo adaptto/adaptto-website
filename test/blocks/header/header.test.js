@@ -57,5 +57,11 @@ describe('blocks/header', () => {
     expect(archiveLinks[1].textContent).to.equal('adaptTo() 2021');
     expect(archiveLinks[2].href).to.equal('http://localhost:2000/2020/');
     expect(archiveLinks[2].textContent).to.equal('adaptTo() 2020');
+
+    // navigation buttons
+    const buttonsContainer = mainNav.querySelector('.buttons-container');
+    expect(buttonsContainer).to.exist;
+    const buttons = buttonsContainer.querySelectorAll('.button-container');
+    expect(buttons.length).to.eq(2);
   });
 });

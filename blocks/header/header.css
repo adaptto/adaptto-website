@@ -158,3 +158,23 @@
     margin-left: 5px;
   }
 }
+
+/* --- Main Navigation Buttons --- */
+.header nav .buttons-container {
+  position: absolute;
+  z-index: 100;
+  top: calc(var(--nav-height) - 36px);
+  width: 1000px;
+  max-width: 100%;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.header nav a.button:not(.social-teaser a.button, .stage-header a.button, .teaser-bar a.button) {
+  padding: 5px 15px;
+  border-radius: 15px;
+}
+
+.header nav p.button-container:not(.social-teaser p.button-container, .stage-header p.button-container, .teaser-bar p.button-container) {
+  font-size: 0.9rem;
+}
