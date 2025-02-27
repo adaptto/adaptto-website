@@ -1,25 +1,24 @@
+.social-teaser > div > div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-self: center;
+  gap: 25px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .social-teaser p,
 .social-teaser a {
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-flex;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 3px;
+  gap: 5px;
+  margin: 0;
 }
 
 .social-teaser .icon {
-  display: flex;
-  align-items: center; 
-  width: 45px;
-  height: 45px;
-  margin-right: 3px;
-}
-
-.social-teaser .icon img {
-  height: auto;
-  width: 100%;
+  height: 20px;
+  width: auto;
   vertical-align: middle;
-}
-
-body.fullscreen .social-teaser-wrapper {
-  display: none;
 }
