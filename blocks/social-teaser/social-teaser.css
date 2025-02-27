@@ -1,6 +1,6 @@
 .social-teaser > div > div {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   flex-wrap: wrap;
   justify-self: center;
   gap: 25px;
