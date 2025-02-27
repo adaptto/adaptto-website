@@ -162,7 +162,7 @@
 /* --- Main Navigation Buttons --- */
 .header nav .buttons-container {
   position: absolute;
-  z-index: 100;
+  z-index: 90;
   top: calc(var(--nav-height) - 36px);
   width: 1000px;
   max-width: 100%;
