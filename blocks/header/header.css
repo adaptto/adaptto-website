@@ -189,7 +189,7 @@
 .header nav .buttons-container {
   position: absolute;
   z-index: 90;
-  top: calc(var(--nav-height) - 36px);
+  top: calc(var(--nav-height) - 34px);
   width: 1000px;
   max-width: 100%;
   text-align: right;
@@ -197,7 +197,7 @@
 }
 
 .header nav a.button:not(.social-teaser a.button, .stage-header a.button, .teaser-bar a.button) {
-  padding: 5px 15px;
+  padding: 6px 15px;
   border-radius: 15px;
 }
 
