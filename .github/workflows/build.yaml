@@ -22,14 +22,14 @@ jobs:
 
     - uses: actions/setup-node@v4
       with:
-        node-version: 20
+        node-version: lts/*
         cache: npm
 
     - run: npm install
     - run: npm run lint
     - run: npm test
 
-    - uses: SonarSource/sonarcloud-github-action@master
+    - uses: SonarSource/sonarqube-scan-action@v5
       if: env.SONAR_TOKEN != null
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
