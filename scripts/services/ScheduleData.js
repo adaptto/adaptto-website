@@ -6,7 +6,7 @@ import { getQueryIndex } from './QueryIndex.js';
 import ScheduleDay from './ScheduleDay.js';
 import ScheduleEntry from './ScheduleEntry.js';
 
-const validEntryTypes = ['day', 'talk', 'break', 'other'];
+const validEntryTypes = ['day', 'talk', 'break', 'other', 'other_rating'];
 
 /**
  * Calculate scheduling data bases on yearly schedule-data.json and query-index.json.

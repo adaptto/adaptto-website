@@ -27,7 +27,7 @@ describe('services/ScheduleData', () => {
     expect(other11.title).to.eq('Opening Words / Status Apache Sling');
     expect(other11.duration).to.eq(30);
     expect(other11.durationFAQ).to.eq(0);
-    expect(other11.type).to.eq('other');
+    expect(other11.type).to.eq('other_rating');
     expect(other11.speakers).to.eql(['Robert Munteanu', 'Stefan Seifert']);
     expect(other11.talkPath).to.undefined;
 
