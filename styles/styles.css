@@ -253,7 +253,7 @@ main > div:nth-child(n+2) + div:not(.stage-header-section, .aside-bar-section, .
   }
 
   .content-3col main .section {
-    grid-column: 2 / 6;
+    grid-column: 2 / 5;
   }
 
   .content-2col main .section {
@@ -271,7 +271,8 @@ main > div:nth-child(n+2) + div:not(.stage-header-section, .aside-bar-section, .
   }
 
   main .section.aside-bar-section {
-    grid-column: 2 / 6;
+    grid-column: 5 / 6;
+    grid-row: 2 / 999;
   }
 
   .content-2col main .section.aside-bar-section {
