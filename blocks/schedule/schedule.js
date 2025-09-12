@@ -2,7 +2,6 @@ import { append } from '../../scripts/utils/dom.js';
 import { getScheduleData } from '../../scripts/services/ScheduleData.js';
 import { getSiteRootPath } from '../../scripts/utils/site.js';
 import { formatDateFull, formatTime } from '../../scripts/utils/datetime.js';
-import { isFullscreen } from '../../scripts/utils/fullscreen.js';
 
 const dayIdPattern = /^#day-(\d)$/;
 
@@ -10,7 +9,7 @@ const dayIdPattern = /^#day-(\d)$/;
  * Gets the active day from current location hash.
  * @returns {number} Active day or undefined.
  */
-function getActiveDayFromHash() {
+export function getActiveDayFromHash() {
   const dayIdMatch = window.location.hash.match(dayIdPattern);
   if (dayIdMatch) {
     return parseInt(dayIdMatch[1], 10);
@@ -23,7 +22,7 @@ function getActiveDayFromHash() {
  * that date as active day.
  * @returns Active day or undefined.
  */
-async function getActiveDateFromCurrentDate() {
+export async function getActiveDateFromCurrentDate() {
   // load schedule data
   const siteRoot = getSiteRootPath(document.location.pathname);
   const scheduleData = await getScheduleData(`${siteRoot}schedule-data.json`, false);
@@ -77,16 +76,17 @@ function buildTabNavigation(parent, days, activeDay) {
  * @param {ScheduleEntry} entry
  * @param {number} colSpan
  * @param {boolean} speakerColumn
+ * @param {string} cellTag Cell tag, e.g. 'td'
  */
-function buildDayEntryCells(tr, entry, colSpan, speakerColumn) {
+function buildDayEntryCells(tr, entry, colSpan, speakerColumn, cellTag) {
   // time
-  const tdTime = append(tr, 'td', 'time');
+  const tdTime = append(tr, cellTag, 'time');
   append(tdTime, 'time').textContent = formatTime(entry.start);
   tdTime.append(' - ');
   append(tdTime, 'time').textContent = formatTime(entry.end);
 
   // title & link
-  const tdTitle = append(tr, 'td', 'title');
+  const tdTitle = append(tr, cellTag, 'title');
   if (colSpan > 1) {
     tdTitle.setAttribute('colspan', colSpan);
   }
@@ -100,7 +100,7 @@ function buildDayEntryCells(tr, entry, colSpan, speakerColumn) {
 
   // speaker
   if (speakerColumn) {
-    append(tr, 'td', 'speaker').textContent = entry.speakers.join(', ');
+    append(tr, cellTag, 'speaker').textContent = entry.speakers.join(', ');
   } else {
     append(tdTitle, 'div', 'speaker').textContent = entry.speakers.join(', ');
   }
@@ -112,14 +112,41 @@ function buildDayEntryCells(tr, entry, colSpan, speakerColumn) {
  * @param {Element} tbody
  * @param {ScheduleEntry[]} entries Entries, possible multiple parallel
  * @param {number} trackCount Max. number of parallel tracks this day
+ * @param {string} rowTag Row tag, e.g. 'tr'
+ * @param {string} cellTag Cell tag, e.g. 'td'
  */
-function buildDayEntryRow(tbody, entries, trackCount) {
-  const tr = append(tbody, 'tr', entries[0].type);
+export function buildDayEntryRow(tbody, entries, trackCount, rowTag = 'tr', cellTag = 'td') {
+  const tr = append(tbody, rowTag, entries[0].type);
 
   entries.forEach((entry) => {
     const colSpan = (trackCount - entries.length) * 2 + 1;
-    buildDayEntryCells(tr, entry, colSpan, trackCount === 1);
+    buildDayEntryCells(tr, entry, colSpan, trackCount === 1, cellTag);
   });
+}
+
+/**
+ * Build grouped entries for a schedule day.
+ * @param {ScheduleEntry[]} entries
+ * @returns {ScheduleEntry[][]}
+ */
+export function buildGroupedEntries(entries) {
+  let trackCount = 1;
+  const groupedEntries = [];
+  entries.forEach((entry) => {
+    if (entry.track > 0) {
+      if (entry.track === 1) {
+        const parallelEntries = [entry,
+          ...entries.filter((e) => e.start.getTime() === entry.start.getTime() && e.track > 1)];
+        if (parallelEntries.length > trackCount) {
+          trackCount = parallelEntries.length;
+        }
+        groupedEntries.push(parallelEntries);
+      }
+    } else {
+      groupedEntries.push([entry]);
+    }
+  });
+  return groupedEntries;
 }
 
 /**
@@ -137,22 +164,8 @@ function buildDaySchedule(parent, day, activeDay) {
   }
 
   // parallelize entries with multiple tracks
-  let trackCount = 1;
-  const groupedEntries = [];
-  day.entries.forEach((entry) => {
-    if (entry.track > 0) {
-      if (entry.track === 1) {
-        const parallelEntries = [entry,
-          ...day.entries.filter((e) => e.start.getTime() === entry.start.getTime() && e.track > 1)];
-        if (parallelEntries.length > trackCount) {
-          trackCount = parallelEntries.length;
-        }
-        groupedEntries.push(parallelEntries);
-      }
-    } else {
-      groupedEntries.push([entry]);
-    }
-  });
+  const groupedEntries = buildGroupedEntries(day.entries);
+  const trackCount = Math.max(...groupedEntries.map((e) => e.length));
 
   // show date
   const h4 = append(tabContent, 'h4');
@@ -196,14 +209,17 @@ async function renderSchedule(block, activeDay, forceReload) {
 }
 
 /**
- * Enabled an auto-refresh of the schedule data once each minute (if fullscreen mode is active).
- * @param {Element} block
+ * Detect active day from hash. If no hash is present, derive active day from current date
+ * and update hash.
+ * @returns {number} Active day
  */
-function enableAutoRefresh(block) {
-  window.setInterval(() => {
-    const activeDay = getActiveDayFromHash() ?? 1;
-    renderSchedule(block, activeDay, true);
-  }, 60000);
+export async function detectActiveDay() {
+  let activeDay = getActiveDayFromHash();
+  if (!activeDay) {
+    activeDay = await getActiveDateFromCurrentDate() ?? 1;
+    window.history.replaceState(null, null, `#day-${activeDay}`);
+  }
+  return activeDay;
 }
 
 /**
@@ -212,11 +228,7 @@ function enableAutoRefresh(block) {
  */
 export default async function decorate(block) {
   // detect active day
-  let activeDay = getActiveDayFromHash();
-  if (!activeDay) {
-    activeDay = await getActiveDateFromCurrentDate() ?? 1;
-    window.history.replaceState(null, null, `#day-${activeDay}`);
-  }
+  const activeDay = await detectActiveDay();
 
   // react to stage changes via hash
   window.addEventListener('hashchange', () => {
@@ -228,9 +240,4 @@ export default async function decorate(block) {
 
   // render schedule
   await renderSchedule(block, activeDay, false);
-
-  // enable auto-refresh in fullscreen mode
-  if (isFullscreen()) {
-    enableAutoRefresh(block);
-  }
 }
