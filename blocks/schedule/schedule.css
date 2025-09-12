@@ -116,14 +116,6 @@
   font-size: 80%;
 }
 
-body.fullscreen .schedule {
-  margin-top: 10px;
-}
-
-body.fullscreen .schedule .tab-navigation {
-  display: none;
-}
-
 .design-2023 tr.break td {
   background-color: #eee;
 }

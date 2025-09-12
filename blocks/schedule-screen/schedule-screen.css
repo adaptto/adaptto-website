@@ -1,0 +1,79 @@
+/* --- Tab Content --- */
+.schedule-screen .tab-content {
+  display: none;
+  position: relative;
+  padding: 1em 1em 2em;
+}
+
+.schedule-screen .tab-content.active {
+  display: block;
+}
+
+/* --- Schedule Table --- */
+.schedule-screen table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schedule-screen th,
+.schedule-screen td {
+  margin: 0;
+  padding: 0.5em;
+  vertical-align: top;
+  text-align: left;
+  color: var(--color-dark);
+}
+
+.schedule-screen td {
+  border: 3px solid var(--color-light-gray);
+  background-color: var(--color-light);
+}
+
+.schedule-screen td:first-child {
+  border-left: none;
+}
+
+.schedule-screen td:last-child {
+  border-right: none;
+}
+
+@media screen and (width <= 600px) {
+  .schedule-screen th,
+  .schedule-screen td {
+    font-size: 0.8em;
+  }
+}
+
+@media screen and (width <= 360px) {
+  .schedule-screen th:nth-child(2),
+  .schedule-screen td:nth-child(2) {
+    border-right: none;
+  }
+
+  .schedule-screen .speaker {
+    display: none;
+  }
+}
+
+@media screen and (width > 600px) {
+  .schedule-screen td.time {
+    white-space: nowrap;
+  }
+
+  .schedule-screen td.speaker {
+    max-width: 10em;
+  }
+}
+
+.schedule-screen td.title {
+  width: auto;
+}
+
+.schedule-screen tr.break td {
+  background-color: #dce0fc;
+  font-style: italic;
+}
+
+.schedule-screen td > div.speaker {
+  font-size: 80%;
+}
