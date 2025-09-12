@@ -66,14 +66,14 @@ function buildDaySchedule(parent, day, activeDay) {
   // current entry
   if (groupedEntries[0]) {
     const divCurrent = append(tabContent, 'div', 'current-entry');
-    append(divCurrent, 'h2').textContent = 'Current running';
+    append(divCurrent, 'h3').textContent = 'Current running';
     buildDayEntryRow(divCurrent, groupedEntries[0], trackCount, 'div', 'div');
   }
 
   // next entry
   if (groupedEntries[1]) {
     const divNext = append(tabContent, 'div', 'next-entry');
-    append(divNext, 'h2').textContent = 'Next up';
+    append(divNext, 'h3').textContent = 'Next up';
     buildDayEntryRow(divNext, groupedEntries[1], trackCount, 'div', 'div');
   }
 }
@@ -98,14 +98,14 @@ async function renderSchedule(block, activeDay, forceReload) {
 }
 
 /**
- * Enabled an auto-refresh of the schedule data once each minute (if fullscreen mode is active).
+ * Enabled an auto-refresh of the schedule data twice each minute.
  * @param {Element} block
  */
 function enableAutoRefresh(block) {
   window.setInterval(() => {
     const activeDay = getActiveDayFromHash() ?? 1;
     renderSchedule(block, activeDay, true);
-  }, 60000);
+  }, 30000);
 }
 
 /**
