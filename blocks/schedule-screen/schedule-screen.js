@@ -2,7 +2,12 @@ import { append } from '../../scripts/utils/dom.js';
 import { getScheduleData } from '../../scripts/services/ScheduleData.js';
 import { getSiteRootPath } from '../../scripts/utils/site.js';
 import { formatDateFull } from '../../scripts/utils/datetime.js';
-import { buildDayEntryRow, buildGroupedEntries, detectActiveDay, getActiveDayFromHash } from '../schedule/schedule.js';
+import {
+  buildDayEntryRow,
+  buildGroupedEntries,
+  detectActiveDay,
+  getActiveDayFromHash,
+} from '../schedule/schedule.js';
 
 /**
  * Displays schedule for given day.
@@ -15,14 +20,16 @@ function displayDay(block, day) {
   block.querySelectorAll('.tab-content.active').forEach((div) => div.classList.remove('active'));
   block.querySelector(`#id-day-${day}`)?.classList.add('active');
 }
-  
+
 /**
  * Gets a timestamp for the given day without date information.
  * @param {Date} date Date
  * @returns {number} Timestamp in seconds from start of the day
  */
 function getDayTime(date) {
-  const time = date.getHours() * 3600 + (date.getMinutes() + date.getTimezoneOffset()) * 60 + date.getSeconds();
+  const time = date.getHours() * 3600
+    + (date.getMinutes() + date.getTimezoneOffset()) * 60
+    + date.getSeconds();
   return time;
 }
 
@@ -44,19 +51,21 @@ function buildDaySchedule(parent, day, activeDay) {
   const currentDate = new Date();
   currentDate.setHours(currentDate.getHours() - (currentDate.getTimezoneOffset() / 60));
   const currentTime = getDayTime(currentDate);
-  const currentEntries = day.entries.filter((e) => getDayTime(e.start) <= currentTime && getDayTime(e.end) > currentTime);
+  const currentEntries = day.entries
+    .filter((e) => getDayTime(e.start) <= currentTime && getDayTime(e.end) > currentTime);
 
   // parallelize entries with multiple tracks
   let groupedEntries = buildGroupedEntries(day.entries);
   const trackCount = Math.max(...groupedEntries.map((e) => e.length));
 
   // detect current grouped entries slot and keep only it and the next one
-  let currentSlot = groupedEntries.findIndex((entries) => currentEntries.some((ce) => entries.includes(ce)));
+  let currentSlot = groupedEntries
+    .findIndex((entries) => currentEntries.some((ce) => entries.includes(ce)));
   if (currentSlot < 0) {
     currentSlot = 0;
   }
   groupedEntries = groupedEntries.slice(currentSlot, currentSlot + 2);
-    
+
   // show date
   const h4 = append(tabContent, 'h4');
   const date = append(h4, 'date');

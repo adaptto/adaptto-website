@@ -209,7 +209,8 @@ async function renderSchedule(block, activeDay, forceReload) {
 }
 
 /**
- * Detect active day from hash. If no hash is present, derive active day from current date and update hash.
+ * Detect active day from hash. If no hash is present, derive active day from current date
+ * and update hash.
  * @returns {number} Active day
  */
 export async function detectActiveDay() {

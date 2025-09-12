@@ -18,24 +18,28 @@
 .schedule-screen .current-entry {
   background-color: #dce0fc;
 }
+
 .schedule-screen .current-entry div {
   font-size: 2rem;
   margin-top: 0.5rem;
   font-weight: normal;
 }
-.schedule-screen .current-entry div:nth-child(2) {
-  font-size: 3rem;
-  font-weight: bold;
-}
 
 .schedule-screen .next-entry {
   background-color: var(--color-light-gray);
 }
+
 .schedule-screen .next-entry div {
   font-size: 1.25rem;
   margin-top: 0.5rem;
   font-weight: normal;
 }
+
+.schedule-screen .current-entry div:nth-child(2) {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
 .schedule-screen .next-entry div:nth-child(2) {
   font-size: 1.5rem;
   font-weight: bold;
