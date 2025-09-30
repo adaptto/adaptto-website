@@ -53,6 +53,8 @@ function buildDaySchedule(parent, day, activeDay) {
   const currentTime = getDayTime(currentDate);
   const currentEntries = day.entries
     .filter((e) => getDayTime(e.start) <= currentTime && getDayTime(e.end) > currentTime);
+  const futureEntries = day.entries
+    .filter((e) => getDayTime(e.start) > currentTime);
 
   // parallelize entries with multiple tracks
   let groupedEntries = buildGroupedEntries(day.entries);
@@ -61,7 +63,7 @@ function buildDaySchedule(parent, day, activeDay) {
   // detect current grouped entries slot and keep only it and the next one
   let currentSlot = groupedEntries
     .findIndex((entries) => currentEntries.some((ce) => entries.includes(ce)));
-  if (currentSlot < 0) {
+  if (currentSlot < 0 && futureEntries.length > 0) {
     currentSlot = 0;
   }
   groupedEntries = groupedEntries.slice(currentSlot, currentSlot + 2);
