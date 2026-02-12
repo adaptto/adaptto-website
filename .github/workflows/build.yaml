@@ -29,7 +29,7 @@ jobs:
     - run: npm run lint
     - run: npm test
 
-    - uses: SonarSource/sonarqube-scan-action@v7
+    - uses: SonarSource/sonarqube-scan-action@v6
       if: env.SONAR_TOKEN != null
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
