@@ -9,7 +9,7 @@ stubFetchUrlMap({
   'https://origin/2021/': '/test/scripts/dummy.html',
 });
 
-const currentYear = 2025;
+const currentYear = 2026;
 const env = { ORIGIN_HOSTNAME: 'origin' };
 
 async function executeRequest(url) {
