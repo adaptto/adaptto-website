@@ -2,7 +2,7 @@
 
 'use strict';
 
-const currentYear = 2025;
+const currentYear = 2026;
 const redirectMap = [
   // year redirects
   [new RegExp('^/(\\d\\d\\d\\d)$'), '/$1/', 301],
