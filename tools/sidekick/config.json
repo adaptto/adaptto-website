@@ -1,7 +1,0 @@
-{
-  "project": "adaptTo()",
-  "host": "adapt.to",
-  "byocdn": true,
-  "pushDown": true,
-  "pushDownSelector": "header, div[role=\"dialog\"]"
-}
