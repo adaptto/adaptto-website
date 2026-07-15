@@ -1,5 +1,6 @@
 import { removeTitleSuffix } from '../utils/metadata.js';
 import { getYearFromPath } from '../utils/path.js';
+import { getSiteRootPath } from '../utils/site.js';
 import { getQueryIndex } from './QueryIndex.js';
 import TalkArchiveFullTextIndex from './TalkArchiveFullTextIndex.js';
 import TalkArchiveItem from './TalkArchiveItem.js';
@@ -13,6 +14,26 @@ function getDistinctSortedList(items) {
   const distinctItems = [...new Set(items)]
     .filter((item) => item !== undefined);
   return distinctItems.sort();
+}
+
+/**
+ * Resolves the speaker references of a talk to their display names.
+ * Speaker references may be display names or internal speaker document/path names
+ * (used to disambiguate speakers that share the same display name). Each reference
+ * is resolved to the actual speaker display name; unresolved references are kept as-is.
+ * @typedef {import('./QueryIndex').default} QueryIndex
+ * @typedef {import('./QueryIndexItem').default} QueryIndexItem
+ * @param {QueryIndex} queryIndex Query index
+ * @param {QueryIndexItem} talkItem Talk query index item
+ * @returns {string[]} Speaker display names
+ */
+function getSpeakerDisplayNames(queryIndex, talkItem) {
+  const siteRootPath = getSiteRootPath(talkItem.path);
+  return talkItem.getSpeakers()
+    .map((speaker) => {
+      const speakerItem = queryIndex.getSpeaker(speaker, siteRootPath);
+      return speakerItem?.title ?? speaker;
+    });
 }
 
 /**
@@ -55,7 +76,7 @@ export default class TalkArchive {
         talk.description = item.description;
         talk.keywords = item.getKeywords();
         talk.tags = item.getTags();
-        talk.speakers = item.getSpeakers();
+        talk.speakers = getSpeakerDisplayNames(queryIndex, item);
         return talk;
       })
       .filter((talk) => talk.speakers.length > 0);

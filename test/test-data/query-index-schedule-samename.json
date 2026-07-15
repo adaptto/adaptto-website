@@ -1,0 +1,33 @@
+{
+  "data": [
+    {
+      "path": "/2024/"
+    },
+    {
+      "path": "/speakers/nitin-gupta",
+      "title": "Nitin Gupta"
+    },
+    {
+      "path": "/speakers/nitin-gupta-nitigupt",
+      "title": "Nitin Gupta"
+    },
+    {
+      "path": "/2024/schedule/talk-one",
+      "title": "Talk One - adaptTo() 2024",
+      "speakers": "nitin-gupta",
+      "tags": "[\"AEM\"]"
+    },
+    {
+      "path": "/2024/schedule/talk-two",
+      "title": "Talk Two - adaptTo() 2024",
+      "speakers": "nitin-gupta-nitigupt",
+      "tags": "[\"AEM\"]"
+    },
+    {
+      "path": "/2024/schedule/talk-three",
+      "title": "Talk Three - adaptTo() 2024",
+      "speakers": "Konrad Windszus",
+      "tags": "[\"Sling\"]"
+    }
+  ]
+}
