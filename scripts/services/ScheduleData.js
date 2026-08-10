@@ -60,6 +60,24 @@ function getTalkQueryIndexItem(talkDetailRef, year, queryIndex) {
 }
 
 /**
+ * Resolves speaker references to their display names.
+ * Speaker references may be display names or internal speaker document/path names
+ * (used to disambiguate speakers that share the same display name). Each reference
+ * is resolved to the actual speaker display name; unresolved references are kept as-is.
+ * @typedef {import('./QueryIndex').default} QueryIndex
+ * @param {string[]} speakers Speaker references
+ * @param {string} siteRootPath Site root path of current year
+ * @param {QueryIndex} queryIndex
+ * @returns {string[]} Speaker display names
+ */
+function getSpeakerDisplayNames(speakers, siteRootPath, queryIndex) {
+  return speakers.map((speaker) => {
+    const speakerItem = queryIndex.getSpeaker(speaker, siteRootPath);
+    return speakerItem?.title ?? speaker;
+  });
+}
+
+/**
  * Transforms schedule data item to schedule entry.
  * @typedef {import('./QueryIndex').default} QueryIndex
  * @param {object} item
@@ -100,6 +118,9 @@ function toEntry(item, queryIndex) {
       speakers = indexItem.getSpeakers();
     }
   }
+
+  // resolve speaker references to display names
+  speakers = getSpeakerDisplayNames(speakers, `/${start.getFullYear()}/`, queryIndex);
 
   return Object.assign(new ScheduleEntry(), {
     day,
