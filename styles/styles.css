@@ -340,7 +340,8 @@ main .usercentrics-loading-spinner {
   height: 100%;
 }
 
-body.fullscreen   main .section.aside-bar-section {
+body.fullscreen main .section.aside-bar-section {
   grid-column: 6;
   grid-row: 2 / 999;
+  max-width: 300px;
 }
