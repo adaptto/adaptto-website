@@ -9,17 +9,23 @@ const defaultMetaImage = '/default-meta-image.png?width=1200&format=pjpg&optimiz
 let queryIndexInstancePromise;
 
 /**
- * Gets a distinct sorted list of speaker names from all talks in given year.
- * @param {QueryIndexItem[]} items
- * @param {RegExp} filter
+ * Gets a distinct list of speaker names/references from all talks in given year,
+ * sorted by their resolved display name.
+ * @param {QueryIndex} queryIndex Query index
+ * @param {RegExp} pathFilter Talk path filter
+ * @param {string} siteRootPath Site root path
  */
-function getFilteredDistinctSortedTalkSpeakers(items, pathFilter) {
+function getFilteredDistinctSortedTalkSpeakers(queryIndex, pathFilter, siteRootPath) {
   const speakerSet = new Set();
-  items.filter((item) => item.path.match(pathFilter))
+  queryIndex.items.filter((item) => item.path.match(pathFilter))
     .forEach((item) => {
       item.getSpeakers().forEach((speaker) => speakerSet.add(speaker));
     });
-  return Array.from(speakerSet).sort();
+  return Array.from(speakerSet).sort((speaker1, speaker2) => {
+    const title1 = queryIndex.getSpeaker(speaker1, siteRootPath)?.title ?? speaker1;
+    const title2 = queryIndex.getSpeaker(speaker2, siteRootPath)?.title ?? speaker2;
+    return title1.localeCompare(title2);
+  });
 }
 
 /**
@@ -113,7 +119,7 @@ export default class QueryIndex {
    */
   getTalkSpeakerNames(siteRootPath) {
     const pathFilter = new RegExp(`^${siteRootPath}schedule/[^/]+$`);
-    return getFilteredDistinctSortedTalkSpeakers(this.items, pathFilter);
+    return getFilteredDistinctSortedTalkSpeakers(this, pathFilter, siteRootPath);
   }
 
   /**
@@ -125,7 +131,11 @@ export default class QueryIndex {
   getLightningTalkSpeakerNames(siteRootPath) {
     // lightning talks are always stored at sub pages one level deeper than the main talks
     const pathFilter = new RegExp(`^${siteRootPath}schedule/[^/]+/[^/]+$`);
-    const lightningTalkSpeakerNames = getFilteredDistinctSortedTalkSpeakers(this.items, pathFilter);
+    const lightningTalkSpeakerNames = getFilteredDistinctSortedTalkSpeakers(
+      this,
+      pathFilter,
+      siteRootPath,
+    );
 
     // subtract main talk speaker names
     const talkSpeakerNames = this.getTalkSpeakerNames(siteRootPath);
