@@ -89,7 +89,7 @@ export default class QueryIndex {
   getAllSiteRoots() {
     return this.items
       .filter((item) => item.path && siteRootRegex.exec(item.path))
-      .sort((item1, item2) => item1.path && item2.path && item2.path.localeCompare(item1.path));
+      .sort((item1, item2) => item2.path.localeCompare(item1.path));
   }
 
   /**
