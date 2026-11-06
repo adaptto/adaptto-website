@@ -17,7 +17,7 @@ function addSpeakerMetadata(parent) {
 
   const div = document.createElement('div');
   div.classList.add('speaker-data');
-  h1.insertAdjacentElement('afterend', div);
+  h1.after(div);
 
   const affiliation = getMetadata('affiliation');
   if (affiliation) {
@@ -87,10 +87,11 @@ async function addTalkOverview(parent) {
  */
 export default async function decorate(block) {
   addSpeakerMetadata(block);
-  addTalkOverview(block);
 
   // react to stage changes via hash
   window.addEventListener('hashchange', () => {
     window.location.reload();
   });
+
+  await addTalkOverview(block);
 }

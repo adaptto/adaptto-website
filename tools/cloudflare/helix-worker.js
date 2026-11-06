@@ -5,7 +5,7 @@
 const currentYear = 2026;
 const redirectMap = [
   // year redirects
-  [new RegExp('^/(\\d\\d\\d\\d)$'), '/$1/', 301],
+  [new RegExp(String.raw`^/(\d\d\d\d)$`), '/$1/', 301],
   // shortcuts for current year
   [new RegExp('^/$'), `/${currentYear}/`, 302],
   [new RegExp('^/cfp$'), `/${currentYear}/sign-up/call-for-papers`, 302],
@@ -14,8 +14,8 @@ const redirectMap = [
   [new RegExp('^/(conference|schedule|newsletter|archive)$'), `/${currentYear}/$1`, 302],
   [new RegExp('^/(privacy|email-privacy)$'), `/${currentYear}/privacy/$1`, 302],
   // rewrite old AEM URI schema
-  [new RegExp('^/(\\d\\d\\d\\d)/en/?(.*)\\.html$'), '/$1/$2', 301, true],
-  [new RegExp('^/content/dam/adaptto/production/presentations/([^/]+)/(.+?)(/_jcr_content/renditions/original\\..+)?$'), '/$1/presentations/$2', 301, true],
+  [new RegExp(String.raw`^/(\d\d\d\d)/en/?(.*)\.html$`), '/$1/$2', 301, true],
+  [new RegExp(String.raw`^/content/dam/adaptto/production/presentations/([^/]+)/(.+?)(/_jcr_content/renditions/original\..+)?$`), '/$1/presentations/$2', 301, true],
 ];
 
 /**

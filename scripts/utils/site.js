@@ -16,7 +16,7 @@ const yearHashRegex = /^#(\d\d\d\d)$/;
  * @returns {string} Site root path
  */
 export function getSiteRootPath(pathName) {
-  const siteRootMatch = pathName.match(siteRootRegex);
+  const siteRootMatch = siteRootRegex.exec(pathName);
   if (siteRootMatch) {
     return siteRootMatch[1];
   }
@@ -32,8 +32,8 @@ export function getSiteRootPath(pathName) {
  * @returns Site root path
  */
 export async function getSiteRootPathAlsoForSpeakerPath(pathName, hash) {
-  if (pathName.match(speakerPathRegex)) {
-    const yearHashMatch = hash?.match(yearHashRegex);
+  if (speakerPathRegex.exec(pathName)) {
+    const yearHashMatch = yearHashRegex.exec(hash ?? '');
     let year;
     if (yearHashMatch) {
       [, year] = yearHashMatch;
@@ -128,7 +128,7 @@ export function getSpeakerDetailPath(speakerItem, pathName) {
  * @returns true if path points to a speaker detail page
  */
 export function isSpeakerDetailPath(pathName) {
-  return pathName.match(speakerPathRegex) != null;
+  return speakerPathRegex.exec(pathName) != null;
 }
 
 /**

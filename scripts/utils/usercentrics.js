@@ -36,7 +36,7 @@ function isConsentGiven(service) {
   }
   const serviceId = serviceIds[service];
   return window.UC_UI.getServicesBaseInfo()
-    .find((item) => item.id === serviceId && item.consent?.status) !== undefined;
+    .some((item) => item.id === serviceId && item.consent?.status);
 }
 
 /**
@@ -89,7 +89,10 @@ function decorateDependingOnConsent(service, parent, decorator) {
   if (isConsentGiven(service)) {
     decorator(parent);
   } else if (isInitialized) {
-    decorateConsentDialogMessage(service, parent);
+    decorateConsentDialogMessage(service, parent).catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error('Rendering consent dialog message failed', error);
+    });
   } else {
     parent.innerHTML = html`<img class="usercentrics-loading-spinner usercentrics-placeholder" src="/resources/img/spinner.svg" alt=""/>`;
   }

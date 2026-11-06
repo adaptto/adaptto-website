@@ -83,7 +83,7 @@ function addFilterCategory(parent, categoryLabel, items, selectedItems, collapsi
     const input = append(label, 'input');
     input.type = 'checkbox';
     input.value = item;
-    if (selectedItems && selectedItems.includes(item)) {
+    if (selectedItems?.includes(item)) {
       input.checked = true;
     }
     label.append(item);
