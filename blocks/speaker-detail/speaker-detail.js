@@ -87,10 +87,11 @@ async function addTalkOverview(parent) {
  */
 export default async function decorate(block) {
   addSpeakerMetadata(block);
-  addTalkOverview(block);
 
   // react to stage changes via hash
   window.addEventListener('hashchange', () => {
     window.location.reload();
   });
+
+  await addTalkOverview(block);
 }
