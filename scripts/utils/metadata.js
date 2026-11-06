@@ -41,7 +41,7 @@ export function parseJsonArray(value) {
  */
 export function removeTitleSuffix(title) {
   if (title) {
-    const matchSuffixPattern = title.match(titleSuffixPattern);
+    const matchSuffixPattern = titleSuffixPattern.exec(title);
     if (matchSuffixPattern) {
       return matchSuffixPattern[1].trim();
     }

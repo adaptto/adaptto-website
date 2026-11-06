@@ -10,9 +10,9 @@ const dayIdPattern = /^#day-(\d)$/;
  * @returns {number} Active day or undefined.
  */
 export function getActiveDayFromHash() {
-  const dayIdMatch = window.location.hash.match(dayIdPattern);
+  const dayIdMatch = dayIdPattern.exec(window.location.hash);
   if (dayIdMatch) {
-    return parseInt(dayIdMatch[1], 10);
+    return Number.parseInt(dayIdMatch[1], 10);
   }
   return undefined;
 }
@@ -28,7 +28,7 @@ export async function getActiveDateFromCurrentDate() {
   const scheduleData = await getScheduleData(`${siteRoot}schedule-data.json`, false);
 
   const currentDate = new Date().toDateString();
-  return scheduleData.getDays().filter((day) => day.start.toDateString() === currentDate)[0]?.day;
+  return scheduleData.getDays().find((day) => day.start.toDateString() === currentDate)?.day;
 }
 
 /**
@@ -211,7 +211,7 @@ async function renderSchedule(block, activeDay, forceReload) {
 /**
  * Detect active day from hash. If no hash is present, derive active day from current date
  * and update hash.
- * @returns {number} Active day
+ * @returns {Promise<number>} Active day
  */
 export async function detectActiveDay() {
   let activeDay = getActiveDayFromHash();

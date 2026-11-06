@@ -36,7 +36,7 @@ function isConsentGiven(service) {
   }
   const serviceId = serviceIds[service];
   return window.UC_UI.getServicesBaseInfo()
-    .find((item) => item.id === serviceId && item.consent?.status) !== undefined;
+    .some((item) => item.id === serviceId && item.consent?.status);
 }
 
 /**

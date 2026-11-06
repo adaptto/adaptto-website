@@ -26,9 +26,9 @@ class State {
  */
 function getStateFromHash(imageUrls) {
   const state = new State();
-  const hashMatch = window.location.hash.match(hashPattern);
+  const hashMatch = hashPattern.exec(window.location.hash);
   if (hashMatch) {
-    state.index = parseInt(hashMatch[2], 10) - 1;
+    state.index = Number.parseInt(hashMatch[2], 10) - 1;
     state.fullscreen = hashMatch[1] !== undefined;
   } else {
     state.index = 0;
@@ -143,7 +143,7 @@ function createOverlay() {
 function removeOverlay() {
   const overlay = document.body.querySelector(':scope > #image-gallery-overlay');
   if (overlay) {
-    document.body.removeChild(overlay);
+    overlay.remove();
   }
 }
 

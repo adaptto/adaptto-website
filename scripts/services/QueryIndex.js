@@ -17,7 +17,7 @@ let queryIndexInstancePromise;
  */
 function getFilteredDistinctSortedTalkSpeakers(queryIndex, pathFilter, siteRootPath) {
   const speakerSet = new Set();
-  queryIndex.items.filter((item) => item.path.match(pathFilter))
+  queryIndex.items.filter((item) => pathFilter.exec(item.path))
     .forEach((item) => {
       item.getSpeakers().forEach((speaker) => speakerSet.add(speaker));
     });
@@ -45,7 +45,7 @@ function getMatchingSpeakerVariant(speakerItems, siteRootPath) {
     return speakerItems[0];
   }
 
-  const year = parseInt(siteRootPath.substring(1, siteRootPath.length - 1), 10);
+  const year = Number.parseInt(siteRootPath.substring(1, siteRootPath.length - 1), 10);
   // sort by uptoyear, with entry without uptoyear coming last
   speakerItems.sort((a, b) => {
     if (!a.uptoyear) {
@@ -88,7 +88,7 @@ export default class QueryIndex {
    */
   getAllSiteRoots() {
     return this.items
-      .filter((item) => item.path && item.path.match(siteRootRegex))
+      .filter((item) => item.path && siteRootRegex.exec(item.path))
       .sort((item1, item2) => item1.path && item2.path && item2.path.localeCompare(item1.path));
   }
 
@@ -101,12 +101,12 @@ export default class QueryIndex {
   getSpeaker(pathOrName, siteRootPath) {
     if (isUrlOrPath(pathOrName)) {
       const path = getPathName(pathOrName);
-      if (path.match(speakerPathRegex)) {
+      if (speakerPathRegex.exec(path)) {
         return this.getItem(path);
       }
     }
     const matchingSpeakers = this.items
-      .filter((item) => item.path.match(speakerPathRegex))
+      .filter((item) => speakerPathRegex.exec(item.path))
       // check real speaker name or page document name
       .filter((item) => (item.title === pathOrName) || (getDocumentName(item.path) === pathOrName));
     return getMatchingSpeakerVariant(matchingSpeakers, siteRootPath);
@@ -147,7 +147,7 @@ export default class QueryIndex {
    */
   getAllTalks() {
     return this.items
-      .filter((item) => item.path.match(talkPageRegex))
+      .filter((item) => talkPageRegex.exec(item.path))
       .sort((talk1, talk2) => {
         const year1 = talk1.path.substring(0, 6);
         const year2 = talk2.path.substring(0, 6);

@@ -34,6 +34,6 @@ export default class Link {
    * @returns {boolean} true if URL points to a download file.
    */
   isDownload() {
-    return this.url.match(downloadUrlRegex) != null;
+    return downloadUrlRegex.exec(this.url) != null;
   }
 }

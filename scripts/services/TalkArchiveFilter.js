@@ -1,4 +1,4 @@
-const validFilterCategory = ['tags', 'years', 'speakers'];
+const validFilterCategory = new Set(['tags', 'years', 'speakers']);
 
 /**
  * Builds list of filter options with URI encoding.
@@ -38,7 +38,7 @@ export default class TalkArchiveFilter {
    */
   matches(talk) {
     if (this.tags) {
-      if (!this.tags.find((tag) => talk.tags.includes(tag))) {
+      if (!this.tags.some((tag) => talk.tags.includes(tag))) {
         return false;
       }
     }
@@ -48,7 +48,7 @@ export default class TalkArchiveFilter {
       }
     }
     if (this.speakers) {
-      if (!this.speakers.find((speaker) => talk.speakers.includes(speaker))) {
+      if (!this.speakers.some((speaker) => talk.speakers.includes(speaker))) {
         return false;
       }
     }
@@ -87,7 +87,7 @@ export function getFilterFromHash(hash) {
     if (filterParts.length === 2) {
       const filterName = filterParts[0];
       const filterOptions = filterParts[1].split(',').map((item) => decodeURIComponent(item));
-      if (validFilterCategory.includes(filterName) && filterOptions.length > 0) {
+      if (validFilterCategory.has(filterName) && filterOptions.length > 0) {
         filter[filterName] = filterOptions;
       }
     }

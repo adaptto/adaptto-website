@@ -13,7 +13,7 @@ import TalkArchiveItem from './TalkArchiveItem.js';
 function getDistinctSortedList(items) {
   const distinctItems = [...new Set(items)]
     .filter((item) => item !== undefined);
-  return distinctItems.sort();
+  return distinctItems.sort((a, b) => a.localeCompare(b));
 }
 
 /**

@@ -8,7 +8,7 @@ const yearPathRegex = /^\/(\d\d\d\d)\/(.+)?$/;
  */
 export function isPath(value) {
   if (value) {
-    const urlPathMatch = value.match(urlPathRegex);
+    const urlPathMatch = urlPathRegex.exec(value);
     if (urlPathMatch) {
       return urlPathMatch[1] === undefined;
     }
@@ -23,7 +23,7 @@ export function isPath(value) {
  */
 export function isUrl(value) {
   if (value) {
-    const urlPathMatch = value.match(urlPathRegex);
+    const urlPathMatch = urlPathRegex.exec(value);
     if (urlPathMatch) {
       return urlPathMatch[1] !== undefined;
     }
@@ -38,7 +38,7 @@ export function isUrl(value) {
  */
 export function isUrlOrPath(value) {
   if (value) {
-    return value.match(urlPathRegex) != null;
+    return urlPathRegex.exec(value) != null;
   }
   return false;
 }
@@ -81,9 +81,9 @@ export function getDocumentName(value) {
  * @returns {number} Year or undefined
  */
 export function getYearFromPath(pathName) {
-  const yearPathMatch = pathName.match(yearPathRegex);
+  const yearPathMatch = yearPathRegex.exec(pathName);
   if (yearPathMatch) {
-    return parseInt(yearPathMatch[1], 10);
+    return Number.parseInt(yearPathMatch[1], 10);
   }
   return undefined;
 }

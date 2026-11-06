@@ -6,7 +6,7 @@ import { getQueryIndex } from './QueryIndex.js';
 import ScheduleDay from './ScheduleDay.js';
 import ScheduleEntry from './ScheduleEntry.js';
 
-const validEntryTypes = ['day', 'talk', 'break', 'other', 'other_rating'];
+const validEntryTypes = new Set(['day', 'talk', 'break', 'other', 'other_rating']);
 
 /**
  * Calculate scheduling data bases on yearly schedule-data.json and query-index.json.
@@ -85,19 +85,19 @@ function getSpeakerDisplayNames(speakers, siteRootPath, queryIndex) {
  * @returns {ScheduleEntry}
  */
 function toEntry(item, queryIndex) {
-  const day = parseInt(item.Day, 10) || 0;
-  const track = parseInt(item.Track, 10) || 0;
-  const startTime = parseFloat(item.Start) || 0;
-  const endTime = parseFloat(item.End) || 0;
+  const day = Number.parseInt(item.Day, 10) || 0;
+  const track = Number.parseInt(item.Track, 10) || 0;
+  const startTime = Number.parseFloat(item.Start) || 0;
+  const endTime = Number.parseFloat(item.End) || 0;
   let title = item.Entry;
-  const duration = parseInt(item.Duration, 10) || 0;
-  const durationFAQ = parseInt(item.FAQ, 10) || 0;
+  const duration = Number.parseInt(item.Duration, 10) || 0;
+  const durationFAQ = Number.parseInt(item.FAQ, 10) || 0;
   const type = item.Type;
   let speakers = parseCSVArray(item.Speakers);
 
   // validate entry
   if (day === 0 || startTime === 0 || endTime === 0 || !title || duration === 0
-    || !validEntryTypes.includes(type)) {
+    || !validEntryTypes.has(type)) {
     return undefined;
   }
 
@@ -162,8 +162,8 @@ function toDays(scheduleData, queryIndex) {
   return Array.from(entriesPerDay.values())
     .map((entries) => Object.assign(new ScheduleDay(), {
       day: entries[0].day,
-      start: entries.reduce((min, e) => (e.start < min ? e.start : min), entries[0].start),
-      end: entries.reduce((max, e) => (e.end > max ? e.end : max), entries[0].start),
+      start: new Date(Math.min(...entries.map((e) => e.start))),
+      end: new Date(Math.max(entries[0].start, ...entries.map((e) => e.end))),
       entries,
     }));
 }

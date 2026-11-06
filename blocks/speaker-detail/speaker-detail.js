@@ -17,7 +17,7 @@ function addSpeakerMetadata(parent) {
 
   const div = document.createElement('div');
   div.classList.add('speaker-data');
-  h1.insertAdjacentElement('afterend', div);
+  h1.after(div);
 
   const affiliation = getMetadata('affiliation');
   if (affiliation) {
