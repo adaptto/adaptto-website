@@ -2,7 +2,6 @@ import {
   buildBlock,
   loadHeader,
   loadFooter,
-  decorateButtons,
   decorateIcons,
   decorateSections,
   decorateBlocks,
@@ -14,11 +13,36 @@ import {
   waitForFirstImage,
 } from './aem.js';
 import { decorateAnchors } from './services/LinkHandler.js';
+import { decorateButtons } from './utils/buttons.js';
 import { append } from './utils/dom.js';
 import { isFullscreen } from './utils/fullscreen.js';
 import { getYearFromPath } from './utils/path.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
-import { decorateConsentManagement } from './utils/usercentrics.js';
+
+if (window.trustedTypes && window.trustedTypes.createPolicy) {
+  const innerTT = window.trustedTypes.createPolicy('tt-inner', {
+    createHTML: (s) => s, // avoid stack overflow
+  });
+
+  window.trustedTypes.createPolicy('default', {
+    createHTML: (input, type, sink) => {
+      let processedInput = input;
+      if (/srcdoc\s*=/i.test(processedInput)) {
+        const doc = new DOMParser().parseFromString(innerTT.createHTML(processedInput), 'text/html');
+        doc.querySelectorAll('iframe[srcdoc]').forEach((el) => el.removeAttribute('srcdoc'));
+        processedInput = doc.body.innerHTML;
+      }
+      if (sink.includes('createContextualFragment') || sink.includes('Document write')) {
+        const doc = new DOMParser().parseFromString(innerTT.createHTML(processedInput), 'text/html');
+        doc.querySelectorAll('script').forEach((el) => el.remove());
+        processedInput = doc.body.innerHTML;
+      }
+      return processedInput;
+    },
+    createScriptURL: (input) => input,
+    createScript: (input) => input,
+  });
+}
 
 /**
  * Extracts the stage header block and prepends a new section for it.
@@ -253,12 +277,6 @@ async function loadLazy(doc) {
   }
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
-
-  // enable UserCentrics consent management
-  // do this lazily (not delayed) if there already was a user interaction
-  if (localStorage.uc_user_interaction) {
-    decorateConsentManagement(document.head);
-  }
 }
 
 /**
@@ -266,8 +284,8 @@ async function loadLazy(doc) {
  * without impacting the user experience.
  */
 function loadDelayed() {
-  // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./delayed.js'), 3000);
+  // consent management (Usercentrics) and scripts requiring consent
+  import('./consent-check.js');
   // load anything that can be postponed to the latest here
 }
 

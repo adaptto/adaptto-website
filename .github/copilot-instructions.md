@@ -50,8 +50,10 @@ scripts/services/*  ──►  blocks/*/*.js  ──►  decorated DOM
 Three phases, mirroring the EDS pattern:
 1. **`loadEager`** – language, legacy-design detection, fullscreen handling, static header,
    template/theme auto-detection, `decorateMain`, render first section (LCP).
-2. **`loadLazy`** – header/footer, remaining sections, hash scroll, lazy CSS, consent management.
-3. **`loadDelayed`** – everything deferrable (loaded after 3s via `delayed.js`).
+2. **`loadLazy`** – header/footer, remaining sections, hash scroll, lazy CSS.
+3. **`loadDelayed`** – imports `consent-check.js`, which loads the Usercentrics consent
+   management (immediately if the user already interacted with it, otherwise after 3s) and
+   `consented.js` once all consents are accepted. Put analytics/martech in `consented.js`.
 
 `decorateMain` runs `buildAutoBlocks`, which **synthesises blocks** based on page type:
 - Speaker pages → `speaker-detail` block (see `isSpeakerDetailPath`).
@@ -62,6 +64,43 @@ Three phases, mirroring the EDS pattern:
 
 When adding page-type behaviour, prefer extending `buildAutoBlocks` + a dedicated block over
 inlining logic in `scripts.js`.
+
+## AEM boilerplate & `aem.js`
+
+- The project is derived from [adobe/aem-boilerplate](https://github.com/adobe/aem-boilerplate).
+  The last sync state and all **conscious deviations** are recorded in `AEM-BOILERPLATE-SYNC.md`
+  – read it before syncing again, and update it when deviating from the boilerplate.
+- `scripts/aem.js` is **vendored** from [aem-lib](https://github.com/adobe/aem-lib). Never edit
+  it; put helpers in `scripts/scripts.js` or `scripts/utils/` instead.
+- Button decoration is project code: `decorateButtons` in `scripts/utils/buttons.js` (classic
+  auto-buttonization, `.button-container`), not in `aem.js`.
+- Section metadata (`section-metadata` tables) is resolved server-side by EDS, not by `aem.js`.
+
+## Content Security Policy & consent
+
+- `head.html` defines a nonce-based CSP (`'nonce-aem' 'strict-dynamic'`). Scripts in
+  `head.html`/`404.html` need `nonce="aem"`; no other inline scripts. Scripts added dynamically by
+  our code (e.g. 3rd-party embeds via `document.createElement('script')`) are allowed through
+  `'strict-dynamic'`.
+- `scripts.js` registers a Trusted Types default policy for `innerHTML` & co. Keep HTML built via
+  the `html` template tag (escaping); don't rely on inline event handlers or `srcdoc`.
+- Embeds of 3rd-party services (YouTube, Google Maps, HubSpot, pretix) must be wrapped with
+  `decorateWithConsent(service, parent, decorator)` from `scripts/utils/usercentrics.js`.
+
+## EDS gotchas
+
+- Markup comes from the backend. Check the actual HTML first, e.g.
+  `curl http://localhost:3000/<path>.plain.html` while `aem up` is running.
+- `buildAutoBlocks` rewrites content before your block runs.
+- Authors omit and add table cells/rows. Decorate defensively.
+- Scope CSS to `.<blockname>`; `-wrapper`/`-container` suffixed classes are section classes.
+- `blocks/fragment/fragment.js` is the sanctioned cross-block import (`schedule-screen` also reuses
+  `schedule`); otherwise share code via `scripts/`.
+- All committed files are served by EDS – exclude non-web files via `.hlxignore`.
+- `fstab.yaml`, `helix-query.yaml`, `paths.json` are retired; site config lives at
+  [tools.aem.live](https://tools.aem.live/).
+- Merging to `main` ships code; content is published separately by authors.
+- Documentation: search `site:www.aem.live <terms>`.
 
 ## Conventions
 
@@ -83,14 +122,18 @@ npm install
 npm test          # web-test-runner, files: test/**/*.test.js (with coverage)
 npm run test:watch
 npm run lint      # lint:js (eslint) + lint:css (stylelint)
+npm run lint:fix  # auto-fix lint issues
 ```
 
-Local preview uses the AEM CLI: `npm install -g @adobe/aem-cli` then `aem up` (serves at
+Local preview uses the AEM CLI: `npm install -g @adobe/aem-cli` then `aem up` (or
+`npx -y @adobe/aem-cli up`; serves local code with previewed content at
 `http://localhost:3000`). CI runs build + tests and reports coverage to SonarCloud.
+PRs must include before/after test URLs (`https://<branch>--adaptto-website--adaptto.aem.page/<path>`).
 
 ## Where to look
 
 - Architecture / page lifecycle → `scripts/scripts.js`, this file.
+- Sync state & deviations from aem-boilerplate → `AEM-BOILERPLATE-SYNC.md`.
 - **Talk & speaker data model and business logic** → `.github/instructions/data-services.instructions.md`.
 - Authoring blocks and how they consume data → `.github/instructions/blocks.instructions.md`.
 - Tests → `.github/instructions/testing.instructions.md`.
