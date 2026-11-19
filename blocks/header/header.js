@@ -2,7 +2,7 @@ import { append, prepend } from '../../scripts/utils/dom.js';
 import { addArchiveLinks, getSiteRootPathAlsoForSpeakerPath } from '../../scripts/utils/site.js';
 import { decorateAnchors } from '../../scripts/services/LinkHandler.js';
 import { getFetchCacheOptions } from '../../scripts/utils/fetch.js';
-import { decorateButtons } from '../../scripts/aem.js';
+import { decorateButtons } from '../../scripts/utils/buttons.js';
 
 /**
  * @param {Element} nav

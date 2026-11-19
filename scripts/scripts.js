@@ -2,7 +2,6 @@ import {
   buildBlock,
   loadHeader,
   loadFooter,
-  decorateButtons,
   decorateIcons,
   decorateSections,
   decorateBlocks,
@@ -14,11 +13,48 @@ import {
   waitForFirstImage,
 } from './aem.js';
 import { decorateAnchors } from './services/LinkHandler.js';
+import { decorateButtons } from './utils/buttons.js';
 import { append } from './utils/dom.js';
 import { isFullscreen } from './utils/fullscreen.js';
 import { getYearFromPath } from './utils/path.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
-import { decorateConsentManagement } from './utils/usercentrics.js';
+
+/*
+ * Trusted Types default policy (taken from aem-boilerplate).
+ * Only takes effect if the CSP contains "require-trusted-types-for 'script'" - this directive is
+ * currently NOT set in head.html, as it breaks the HubSpot newsletter form (see
+ * AEM-BOILERPLATE-SYNC.md). When enforced, the browser routes all plain strings assigned to DOM
+ * sinks (innerHTML, script.src, eval etc.) through this policy, so existing code keeps working:
+ * - HTML is passed through, but iframe "srcdoc" attributes are removed, and scripts are stripped
+ *   for sinks that would execute them (createContextualFragment, document.write).
+ * - Script URLs and scripts are passed through - which scripts may load/run is controlled by
+ *   the CSP (nonce + 'strict-dynamic', 'unsafe-eval').
+ * The "tt-inner" policy is used to parse HTML inside the default policy without recursion.
+ */
+if (window.trustedTypes?.createPolicy) {
+  const innerTT = window.trustedTypes.createPolicy('tt-inner', {
+    createHTML: (s) => s, // avoid stack overflow
+  });
+
+  window.trustedTypes.createPolicy('default', {
+    createHTML: (input, type, sink) => {
+      let processedInput = input;
+      if (/srcdoc\s*=/i.test(processedInput)) {
+        const doc = new DOMParser().parseFromString(innerTT.createHTML(processedInput), 'text/html');
+        doc.querySelectorAll('iframe[srcdoc]').forEach((el) => el.removeAttribute('srcdoc'));
+        processedInput = doc.body.innerHTML;
+      }
+      if (sink.includes('createContextualFragment') || sink.includes('Document write')) {
+        const doc = new DOMParser().parseFromString(innerTT.createHTML(processedInput), 'text/html');
+        doc.querySelectorAll('script').forEach((el) => el.remove());
+        processedInput = doc.body.innerHTML;
+      }
+      return processedInput;
+    },
+    createScriptURL: (input) => input,
+    createScript: (input) => input,
+  });
+}
 
 /**
  * Extracts the stage header block and prepends a new section for it.
@@ -253,12 +289,6 @@ async function loadLazy(doc) {
   }
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
-
-  // enable UserCentrics consent management
-  // do this lazily (not delayed) if there already was a user interaction
-  if (localStorage.uc_user_interaction) {
-    decorateConsentManagement(document.head);
-  }
 }
 
 /**
@@ -266,8 +296,8 @@ async function loadLazy(doc) {
  * without impacting the user experience.
  */
 function loadDelayed() {
-  // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./delayed.js'), 3000);
+  // consent management (Usercentrics) and scripts requiring consent
+  import('./consent-check.js');
   // load anything that can be postponed to the latest here
 }
 

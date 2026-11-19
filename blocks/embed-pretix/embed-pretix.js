@@ -22,17 +22,21 @@ export default function decorate(block) {
     const div = append(block, 'div');
 
     decorateWithConsent('pretix', div, (parent) => {
-      // add pretix script to HTML head
-      const script = document.createElement('script');
-      script.src = scriptUrl;
-      script.type = 'text/javascript';
-      script.onload = () => {
-        parent.innerHTML = html`
-          <link rel="stylesheet" type="text/css" href="${shopCssUrl}">
-          <pretix-widget event="${shopUrl}"></pretix-widget>
-        `;
-      };
-      document.head.append(script);
+      // the widget element has to exist before the pretix script runs,
+      // as the script builds all widgets present in the DOM on execution
+      parent.innerHTML = html`
+        <link rel="stylesheet" type="text/css" href="${shopCssUrl}">
+        <pretix-widget event="${shopUrl}"></pretix-widget>
+      `;
+      if (window.PretixWidget) {
+        // script already loaded (e.g. re-rendered after consent change)
+        window.PretixWidget.buildWidgets();
+      } else {
+        const script = document.createElement('script');
+        script.src = scriptUrl;
+        script.type = 'text/javascript';
+        document.head.append(script);
+      }
     });
   }
 }

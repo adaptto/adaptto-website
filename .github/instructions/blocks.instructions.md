@@ -27,6 +27,13 @@ export default async function decorate(block) {
   (`block.textContent = ''` / `block.innerHTML = ...`) with the final markup.
 - Read block configuration (key/value rows) with `readBlockConfig(block)` from `aem.js`
   (e.g. `speaker-gallery` reads a `speakers` list this way).
+- Authors may omit or add rows/cells – decorate defensively (null-check queried elements).
+- To style authored links as buttons, use `decorateButtons(element)` from
+  `scripts/utils/buttons.js` (it is no longer part of `aem.js`; see `header`).
+- Embeds of 3rd-party services (scripts/iframes) must be rendered via
+  `decorateWithConsent(service, parent, decorator)` from `scripts/utils/usercentrics.js`
+  (see `embed-youtube`, `embed-google-maps`, `embed-newsletter`, `embed-pretix`). New services
+  need a Usercentrics service ID in `serviceIds`, and must work with the CSP in `head.html`.
 
 ## Data flow: always go through services
 
