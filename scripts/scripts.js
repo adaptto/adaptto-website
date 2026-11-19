@@ -19,6 +19,18 @@ import { isFullscreen } from './utils/fullscreen.js';
 import { getYearFromPath } from './utils/path.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
 
+/*
+ * Trusted Types default policy (taken from aem-boilerplate).
+ * Only takes effect if the CSP contains "require-trusted-types-for 'script'" - this directive is
+ * currently NOT set in head.html, as it breaks the HubSpot newsletter form (see
+ * AEM-BOILERPLATE-SYNC.md). When enforced, the browser routes all plain strings assigned to DOM
+ * sinks (innerHTML, script.src, eval etc.) through this policy, so existing code keeps working:
+ * - HTML is passed through, but iframe "srcdoc" attributes are removed, and scripts are stripped
+ *   for sinks that would execute them (createContextualFragment, document.write).
+ * - Script URLs and scripts are passed through - which scripts may load/run is controlled by
+ *   the CSP (nonce + 'strict-dynamic', 'unsafe-eval').
+ * The "tt-inner" policy is used to parse HTML inside the default policy without recursion.
+ */
 if (window.trustedTypes?.createPolicy) {
   const innerTT = window.trustedTypes.createPolicy('tt-inner', {
     createHTML: (s) => s, // avoid stack overflow
