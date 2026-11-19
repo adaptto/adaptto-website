@@ -71,12 +71,22 @@ default policy in `scripts.js`, with two deviations found while testing with `ae
 - **`require-trusted-types-for 'script'` removed** (`head.html`): the HubSpot forms script
   (`embed-newsletter` block) renders into an `about:blank` iframe, which inherits the CSP but not
   our default Trusted Types policy, so the form fails to render. The Trusted Types policy in
-  `scripts.js` is kept as in upstream (it is only enforced if the directive is present).
+  `scripts.js` is kept as in upstream (it is only enforced if the directive is present), only
+  using an optional chain for the feature check (SonarCloud rule S6582).
 
-Still to be verified: the pretix ticket shop widget (`embed-pretix` block) – the shop is not
-active at the time of the sync. With the CSP above the widget script loads without CSP errors
-(same behavior as on production), but the actual shop rendering could not be tested. Also verify
-the CSP headers on production behind the Cloudflare worker (`tools/cloudflare/helix-worker.js`).
+`'unsafe-inline'` is kept as in upstream: it is only a fallback for browsers without nonce
+support and ignored by current browsers, as the policy contains a nonce and `'strict-dynamic'`.
+SonarCloud reports rule `Web:S7039` ("CSP should be restrictive") for `'unsafe-inline'` and
+`'unsafe-eval'` in `head.html` and `404.html`. These issues are accepted manually in the
+SonarCloud UI (not suppressed in `sonar-project.properties`, to still get warnings for future CSP
+changes) – re-evaluate them when changing the CSP.
+
+The pretix ticket shop widget (`embed-pretix` block) works with this CSP – tested with an
+inactive shop, which renders the pretix "booking period is over" message. The block had to be
+fixed during the sync (also broken before): the `<pretix-widget>` element must be in the DOM
+before the pretix script executes, as the script builds all widgets on execution. Still to be
+verified: buying tickets in an active shop, and the CSP headers on production behind the
+Cloudflare worker (`tools/cloudflare/helix-worker.js`).
 
 ### Fragment block (`blocks/fragment/fragment.js`)
 

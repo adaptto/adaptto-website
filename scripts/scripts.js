@@ -19,7 +19,7 @@ import { isFullscreen } from './utils/fullscreen.js';
 import { getYearFromPath } from './utils/path.js';
 import { getSiteRootPath, isSpeakerDetailPath } from './utils/site.js';
 
-if (window.trustedTypes && window.trustedTypes.createPolicy) {
+if (window.trustedTypes?.createPolicy) {
   const innerTT = window.trustedTypes.createPolicy('tt-inner', {
     createHTML: (s) => s, // avoid stack overflow
   });
